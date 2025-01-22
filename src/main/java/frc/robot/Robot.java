@@ -90,6 +90,7 @@ public class Robot extends TimedRobot
     {
       m_robotContainer.setMotorBrake(false);
       disabledTimer.stop();
+      disabledTimer.reset();
     }
   }
 
@@ -131,7 +132,6 @@ public class Robot extends TimedRobot
     {
       CommandScheduler.getInstance().cancelAll();
     }
-    m_robotContainer.setDriveMode();
   }
 
   /**
@@ -147,7 +147,6 @@ public class Robot extends TimedRobot
   {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.setDriveMode();
   }
 
   /**
