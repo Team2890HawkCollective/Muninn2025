@@ -3,9 +3,9 @@
     "front": 11.875,
     "left": 11.875
   },
-  "absoluteEncoderOffset": 25.31248,
+  "absoluteEncoderOffset": 25.3125,
   "drive": {
-    "type": "sparkflex",
+    "type": "sparkflex_neo",
     "id": 13,
     "canbus": null
   },
@@ -14,7 +14,7 @@
     "angle": true
   },
   "angle": {
-    "type": "sparkflex",
+    "type": "sparkflex_neo",
     "id": 23,
     "canbus": null
   },
