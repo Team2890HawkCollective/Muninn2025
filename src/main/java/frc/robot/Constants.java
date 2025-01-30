@@ -48,4 +48,25 @@ public final class Constants
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
+
+
+  public final class Elevator
+  {
+    public static final int ELEVATOR_MOTOR_ID = 40;
+
+    public static final double START_STAGE_ENCODER_VALUE = 0;
+    public static final double BASE_STAGE_ENCODER_VALUE = 10;
+    public static final double FIRST_STAGE_ENCODER_VALUE = 20;
+    public static final double SECOND_STAGE_ENCODER_VALUE = 30;
+    public static final double THIRD_STAGE_ENCODER_VALUE = 40;
+
+    public static final double RAISE_SPEED = .5;
+    public static final double DROP_SPEED = .5;
+
+    public static final double PID_P = 0;
+    public static final double PID_I = 0;
+    public static final double PID_D = 0;
+    public static final double PID_IZ = 0;
+    public static final double PID_F = 0;
+  }
 }
