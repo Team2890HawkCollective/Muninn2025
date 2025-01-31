@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import javax.lang.model.type.NullType;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -25,8 +23,6 @@ public class Robot extends TimedRobot
   private        Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
-  private ShuffleboardDisplay m_shuffleboardDisplay;
 
   private Timer disabledTimer;
 
@@ -49,9 +45,6 @@ public class Robot extends TimedRobot
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
-    m_shuffleboardDisplay = new ShuffleboardDisplay();
-    m_shuffleboardDisplay.initiateDisplay();
 
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
@@ -101,6 +94,7 @@ public class Robot extends TimedRobot
       disabledTimer.stop();
       disabledTimer.reset();
     }
+    ShuffleboardDisplay.update();
   }
 
   /**
@@ -110,8 +104,7 @@ public class Robot extends TimedRobot
   public void autonomousInit()
   {
     m_robotContainer.setMotorBrake(true);
-    SmartDashboard.putString("Auto Mode",m_shuffleboardDisplay.getAutonomousCommand());
-    //m_autonomousCommand = m_shuffleboardDisplay.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null)

@@ -6,10 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj2.command.Command;
 import swervelib.math.Matter;
-
-import frc.robot.commands.swervedrive.auto.*;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This
@@ -51,16 +48,4 @@ public final class Constants
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
-
-  public static class ShuffleboardConstants {
-
-    //Shuffleboard Constants
-
-    //Might Use Lines 56-57, Depends on if I can get an objects list as well, make it easy to add/remove/change the Autonomous options. 
-    public static final String AUTONOMOUS_CHOOSER_DEFAULT_TEXT = "Default Auto"; //Default Option Text
-    public static final String AUTONOMOUS_CHOOSER_DEFAULT_OBJECT = "Default Auto"; //Default Option Object
-    public static final String[] AUTONOMOUS_CHOOSER_OPTIONS_TEXT = new String[] {"Simple Auto", "Complex Auto"}; //Pre-intialized string array. All the options in one place
-    public static final String[] AUTONOMOUS_CHOOSER_OPTIONS_OBJECTS = new String[] {"Simple Auto", "Complex Auto"}; //Objects corresponding to the above text options
-  }
-
 }
