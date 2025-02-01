@@ -5,6 +5,9 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,6 +21,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+import java.util.function.DoubleSupplier;
+
+import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
 
 /**
@@ -160,10 +166,24 @@ public class RobotContainer
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand()
+  public Command getAutonomousCommand(String choosenAutoText)
   {
+    switch (choosenAutoText) {
+      case "Default":
+        return drivebase.getAutonomousCommand("New Auto");
+      case "Simple":
+        return drivebase.getAutonomousCommand("Test Auto A");
+
+      default:
+        return drivebase.getAutonomousCommand("New Auto");
+    }
+
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    //return drivebase.getAutonomousCommand("New Auto");
+  }
+
+  public SwerveDrive getSwerveDriveInfo(){
+      return drivebase.getSwerveDrive();
   }
 
   public void setMotorBrake(boolean brake)

@@ -55,12 +55,6 @@ public final class Constants
   public static class ShuffleboardConstants {
 
     //Shuffleboard Constants
-
-    //Might Use Lines 56-57, Depends on if I can get an objects list as well, make it easy to add/remove/change the Autonomous options. 
-    public static final String AUTONOMOUS_CHOOSER_DEFAULT_TEXT = "Default Auto"; //Default Option Text
-    public static final String AUTONOMOUS_CHOOSER_DEFAULT_OBJECT = "Default Auto"; //Default Option Object
-    public static final String[] AUTONOMOUS_CHOOSER_OPTIONS_TEXT = new String[] {"Simple Auto", "Complex Auto"}; //Pre-intialized string array. All the options in one place
-    public static final String[] AUTONOMOUS_CHOOSER_OPTIONS_OBJECTS = new String[] {"Simple Auto", "Complex Auto"}; //Objects corresponding to the above text options
   }
 
 }

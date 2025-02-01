@@ -27,6 +27,7 @@ public class Robot extends TimedRobot
   private RobotContainer m_robotContainer;
 
   private ShuffleboardDisplay m_shuffleboardDisplay;
+  private String m_choosenAutoMode;
 
   private Timer disabledTimer;
 
@@ -110,7 +111,9 @@ public class Robot extends TimedRobot
   public void autonomousInit()
   {
     m_robotContainer.setMotorBrake(true);
-    SmartDashboard.putString("Auto Mode",m_shuffleboardDisplay.getAutonomousCommand());
+    String choosenAutoText = m_shuffleboardDisplay.getAutonomousChoice();
+    SmartDashboard.putString("Selected Auto Mode",choosenAutoText);
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand(choosenAutoText);
     //m_autonomousCommand = m_shuffleboardDisplay.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -157,6 +160,7 @@ public class Robot extends TimedRobot
   {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_shuffleboardDisplay.testingPIDTab(m_robotContainer.getSwerveDriveInfo());
   }
 
   /**

@@ -60,13 +60,63 @@
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/Pigeon 2 [13]": "Gyro",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/Shuffleboard/PID Tab/Back Left Module PID/Back Left Angle ": "PIDController",
+      "/Shuffleboard/PID Tab/Back Left Module PID/Back Left Angle PID": "PIDController",
+      "/Shuffleboard/PID Tab/Back Left Module PID/Back Left Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Back Left Module PID/Back Left Drive PID": "PIDController",
+      "/Shuffleboard/PID Tab/Back Left Module/Back Left Angle": "PIDController",
+      "/Shuffleboard/PID Tab/Back Left Module/Back Left Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Back Right Module PID/Back Right Angle ": "PIDController",
+      "/Shuffleboard/PID Tab/Back Right Module PID/Back Right Angle PID": "PIDController",
+      "/Shuffleboard/PID Tab/Back Right Module PID/Back Right Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Back Right Module PID/Back Right Drive PID": "PIDController",
+      "/Shuffleboard/PID Tab/Back Right Module/Back Right Angle": "PIDController",
+      "/Shuffleboard/PID Tab/Back Right Module/Back Right Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module PID/Front Left Angle ": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module PID/Front Left Angle PID": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module PID/Front Left Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module PID/Front Left Drive PID": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module PID/Front Right Angle ": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module/Back Left Angle": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module/Back Left Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module/Back Right Angle": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module/Back Right Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module/Front Left Angle": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module/Front Left Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module/Front Right Angle": "PIDController",
+      "/Shuffleboard/PID Tab/Front Left Module/Front Right Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Front Right Module PID/Front Right Angle PID": "PIDController",
+      "/Shuffleboard/PID Tab/Front Right Module PID/Front Right Drive": "PIDController",
+      "/Shuffleboard/PID Tab/Front Right Module PID/Front Right Drive PID": "PIDController",
+      "/Shuffleboard/PID Tab/Front Right Module/Front Right Angle": "PIDController",
+      "/Shuffleboard/PID Tab/Front Right Module/Front Right Drive": "PIDController",
+      "/Shuffleboard/PID_Tab/Back Left Module PID/Back Left Angle ": "PIDController",
+      "/Shuffleboard/PID_Tab/Back Left Module PID/Back Left Drive": "PIDController",
+      "/Shuffleboard/PID_Tab/Back Right Module PID/Back Right Angle ": "PIDController",
+      "/Shuffleboard/PID_Tab/Back Right Module PID/Back Right Drive": "PIDController",
+      "/Shuffleboard/PID_Tab/Front Left Module PID/Front Left Angle ": "PIDController",
+      "/Shuffleboard/PID_Tab/Front Left Module PID/Front Left Drive": "PIDController",
+      "/Shuffleboard/PID_Tab/Front Right Module PID/Front Right Angle ": "PIDController",
+      "/Shuffleboard/PID_Tab/Front Right Module PID/Front Right Drive": "PIDController",
+      "/SmartDashboard/Alerts": "Alerts",
+      "/SmartDashboard/Autonomous Choices": "String Chooser",
+      "/SmartDashboard/Autonomous choices": "String Chooser",
+      "/SmartDashboard/Back Left Angle": "PIDController",
+      "/SmartDashboard/Back Left Drive": "PIDController",
+      "/SmartDashboard/Back Right Angle": "PIDController",
+      "/SmartDashboard/Back Right Drive": "PIDController",
       "/SmartDashboard/Encoders": "Alerts",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Front Left Angle": "PIDController",
+      "/SmartDashboard/Front Left Drive": "PIDController",
+      "/SmartDashboard/Front Right Angle": "PIDController",
+      "/SmartDashboard/Front Right Drive": "PIDController",
       "/SmartDashboard/IMU": "Alerts",
       "/SmartDashboard/JSON": "Alerts",
       "/SmartDashboard/Motors": "Alerts",
       "/SmartDashboard/Pigeon 2 (v6) [13]": "Gyro",
       "/SmartDashboard/Pigeon 2 [13]": "Gyro",
+      "/SmartDashboard/SD BR ": "PIDController",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Swerve Drive": "Alerts",
       "/SmartDashboard/VisionSystemSim-Vision/Sim Field": "Field2d",
@@ -105,12 +155,13 @@
           "arrowWeight": 3.0,
           "style": "Hidden"
         },
-        "bottom": 1476,
-        "height": 8.210550308227539,
-        "left": 150,
-        "right": 2961,
-        "top": 79,
-        "width": 16.541748046875,
+        "bottom": 1638,
+        "builtin": "2025 Reefscape",
+        "height": 8.051901817321777,
+        "left": 534,
+        "right": 3466,
+        "top": 291,
+        "width": 17.54825210571289,
         "window": {
           "visible": true
         }
@@ -120,6 +171,18 @@
   "NetworkTables": {
     "transitory": {
       "FMSInfo": {
+        "open": true
+      },
+      "Shuffleboard": {
+        "PID Tab": {
+          "Back Left Module PID": {
+            "Back Left Angle PID": {
+              "open": true
+            },
+            "open": true
+          },
+          "open": true
+        },
         "open": true
       },
       "SmartDashboard": {
