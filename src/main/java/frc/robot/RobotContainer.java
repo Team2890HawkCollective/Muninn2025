@@ -5,9 +5,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
-import java.util.function.DoubleSupplier;
 
 import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
@@ -44,8 +40,8 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * -1,
-                                                                () -> driverXbox.getLeftX() * -1)
+                                                                () -> driverXbox.getLeftY() * 1,
+                                                                () -> driverXbox.getLeftX() * 1)
                                                             .withControllerRotationAxis(driverXbox::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
@@ -173,7 +169,10 @@ public class RobotContainer
         return drivebase.getAutonomousCommand("New Auto");
       case "Simple":
         return drivebase.getAutonomousCommand("Test Auto A");
-
+      case "OneMeter":
+        return drivebase.getAutonomousCommand("OneMeterTestAuto");
+      case "OmniTest":
+        return drivebase.getAutonomousCommand("TestingAuto");
       default:
         return drivebase.getAutonomousCommand("New Auto");
     }

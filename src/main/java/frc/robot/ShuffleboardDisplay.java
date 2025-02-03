@@ -35,6 +35,8 @@ public class ShuffleboardDisplay {
         SmartDashboard.putString("Selected Auto Mode", "None");
         autonomousChooser.setDefaultOption("Default Auto","Default");
         autonomousChooser.addOption("Simple Auto", "Simple");
+        autonomousChooser.addOption("One Meter Test Auto", "OneMeter");
+        autonomousChooser.addOption("Omni Test Auto", "OmniTest");
         SmartDashboard.putData("Autonomous Choices", autonomousChooser);
         genericEntryTest.setDouble(12.3);
 
