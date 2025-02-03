@@ -162,6 +162,8 @@ public class RobotContainer
    *
    * @return the command to run in autonomous
    */
+
+  /** No Longer Needed
   public Command getAutonomousCommand(String choosenAutoText)
   {
     switch (choosenAutoText) {
@@ -179,7 +181,8 @@ public class RobotContainer
 
     // An example command will be run in autonomous
     //return drivebase.getAutonomousCommand("New Auto");
-  }
+  } 
+  */
 
   public SwerveDrive getSwerveDriveInfo(){
       return drivebase.getSwerveDrive();

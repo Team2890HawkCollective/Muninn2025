@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.lang.model.type.NullType;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -27,25 +29,39 @@ public class ShuffleboardDisplay {
 
     private ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
     //private ShuffleboardTab PID_Tab = Shuffleboard.getTab("PID_Tab");
-    private final SendableChooser<String> autonomousChooser = new SendableChooser<>();
+    private final SendableChooser<String> universalModeChooser = new SendableChooser<>();
+    private SendableChooser<Command> autoChooser;
     private GenericEntry genericEntryTest = mainTab.add("Generic",0).getEntry();
 
 
     public void initiateDisplay(){
-        SmartDashboard.putString("Selected Auto Mode", "None");
-        autonomousChooser.setDefaultOption("Default Auto","Default");
-        autonomousChooser.addOption("Simple Auto", "Simple");
-        autonomousChooser.addOption("One Meter Test Auto", "OneMeter");
-        autonomousChooser.addOption("Omni Test Auto", "OmniTest");
-        SmartDashboard.putData("Autonomous Choices", autonomousChooser);
+        SmartDashboard.putData("Selected Auto Mode", null);
+        universalModeChooser.setDefaultOption("Competition Autos","competiton");
+        universalModeChooser.addOption("Testing: Test Autos", "testing");
+        universalModeChooser.addOption("Testing: All Autos", "allAutos");
+        SmartDashboard.putData("Universal Mode Chooser", universalModeChooser);
         genericEntryTest.setDouble(12.3);
 
         //SmartDashboard.putNumber("Test",1);
     }
 
-    public String getAutonomousChoice() {
-        return autonomousChooser.getSelected();
-        //String choosenAuto = autonomousChooser.getSelected();
+    public void initializeAutoChooser(){
+        switch (ShuffleboardConstants.UNIVERSAL_MODE_CHOICE) {
+            case "competition":
+                autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("comp")): stream);
+            case "testing":
+                autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("test")): stream);
+            case "allAutos":
+                autoChooser = AutoBuilder.buildAutoChooser();
+            default: //Default Puts All Commands. This is redundant because all the cases are hard coded.
+                autoChooser = AutoBuilder.buildAutoChooser();
+        }
+        SmartDashboard.putData("Autonomous Choices", autoChooser);
+    }
+
+    public Command getAutonomousChoice() {
+        return autoChooser.getSelected();
+        //String choosenAuto = universalModeChooser.getSelected();
     }
 
     public void testingPIDTab(SwerveDrive swerveDrive){
