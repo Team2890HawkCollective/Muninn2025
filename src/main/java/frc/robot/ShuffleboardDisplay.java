@@ -35,7 +35,6 @@ public class ShuffleboardDisplay {
 
 
     public void initiateDisplay(){
-        SmartDashboard.putData("Selected Auto Mode", null);
         universalModeChooser.setDefaultOption("Competition Autos","competiton");
         universalModeChooser.addOption("Testing: Test Autos", "testing");
         universalModeChooser.addOption("Testing: All Autos", "allAutos");
