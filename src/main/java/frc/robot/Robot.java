@@ -53,6 +53,7 @@ public class Robot extends TimedRobot
 
     m_shuffleboardDisplay = new ShuffleboardDisplay();
     m_shuffleboardDisplay.initiateDisplay();
+    m_shuffleboardDisplay.initializeAutoChooser();
 
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
@@ -80,7 +81,7 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-  }
+  } 
 
   /**
    * This function is called once each time the robot enters Disabled mode.
@@ -111,9 +112,9 @@ public class Robot extends TimedRobot
   public void autonomousInit()
   {
     m_robotContainer.setMotorBrake(true);
-    String choosenAutoText = m_shuffleboardDisplay.getAutonomousChoice();
-    SmartDashboard.putString("Selected Auto Mode",choosenAutoText);
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand(choosenAutoText);
+    Command choosenAutoMode = m_shuffleboardDisplay.getAutonomousChoice();
+    SmartDashboard.putData("Selected Auto Mode",choosenAutoMode);
+    m_autonomousCommand = choosenAutoMode;
     //m_autonomousCommand = m_shuffleboardDisplay.getAutonomousCommand();
 
     // schedule the autonomous command (example)
