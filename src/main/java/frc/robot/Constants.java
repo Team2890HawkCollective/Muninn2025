@@ -73,7 +73,7 @@ public final class Constants
 
   public final class Lift
   {
-    public static final int LIFT_MOTOR_ID = 11;
+    public static final int LIFT_MOTOR_ID = 41;
     public static final double LIFT_MOTOR_RAISE_SPEED = 0.1;
     public static final double LIFT_MOTOR_LOWER_SPEED = -0.1;
 

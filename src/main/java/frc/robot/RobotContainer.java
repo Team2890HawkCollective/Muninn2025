@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -20,6 +21,9 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+import java.util.function.DoubleSupplier;
+
+import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
 
 /**
@@ -32,6 +36,8 @@ public class RobotContainer
   private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
 
+  private final         CommandJoystick leftButtons = new CommandJoystick(3);
+  //private final         CommandJoystick rightButtons = new CommandJoystick(2);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverXbox = new CommandXboxController(0);
   private final CommandXboxController m_AssistantController = new CommandXboxController(1);
@@ -110,6 +116,8 @@ public class RobotContainer
    */
   private void configureBindings()
   {
+
+
     driverXbox.y().whileTrue(m_LiftSubsystem.raiseLiftCommand());
     driverXbox.a().whileTrue(m_LiftSubsystem.lowerLiftCommand());
 
@@ -129,6 +137,12 @@ public class RobotContainer
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
 
+    leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToFourthStageCommand());
+    leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToThirdStageCommand());
+    leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToSecondStageCommand());
+    leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToFirstStageCommand());
+    leftButtons.button(6).onTrue(m_ElevatorSubsystem.goToBaseStageCommand());
+
     if (RobotBase.isSimulation())
     {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
@@ -139,6 +153,7 @@ public class RobotContainer
 
     if (Robot.isSimulation())
     {
+
       driverXbox.start().onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
       driverXbox.button(1).whileTrue(drivebase.sysIdDriveMotorCommand());
 
