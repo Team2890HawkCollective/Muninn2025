@@ -12,7 +12,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class LiftSubsystem 
+public class LiftSubsystem extends SubsystemBase
 {
     private static SparkMax moduleLiftMotor = new SparkMax(Constants.Lift.LIFT_MOTOR_ID, MotorType.kBrushless);
   
@@ -22,13 +22,24 @@ public class LiftSubsystem
 
   }
 
+  public Command raiseLiftCommand()
+  {
+    return runOnce(()->startMotor());
+  }
+
+  public Command lowerLiftCommand()
+  {
+    return runOnce(()->reverseMotor());
+  }
+
   public void startMotor()
   {
-    moduleLiftMotor.set(.1);
+    moduleLiftMotor.set(Constants.Lift.LIFT_MOTOR_RAISE_SPEED);
   }
 
   public void reverseMotor()
   {
-    moduleLiftMotor.set(-0.1);
+    moduleLiftMotor.set(Constants.Lift.LIFT_MOTOR_LOWER_SPEED);
+
   }
 }

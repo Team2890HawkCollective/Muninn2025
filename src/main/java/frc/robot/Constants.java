@@ -54,11 +54,12 @@ public final class Constants
   {
     public static final int ELEVATOR_MOTOR_ID = 40;
 
-    public static final double START_STAGE_ENCODER_VALUE = 0;
-    public static final double BASE_STAGE_ENCODER_VALUE = 10;
-    public static final double FIRST_STAGE_ENCODER_VALUE = 20;
-    public static final double SECOND_STAGE_ENCODER_VALUE = 30;
-    public static final double THIRD_STAGE_ENCODER_VALUE = 40;
+   
+    public static final double BASE_STAGE_ENCODER_VALUE = 0;
+    public static final double FIRST_CORAL_STAGE_ENCODER_VALUE = 10;
+    public static final double SECOND_CORAL_STAGE_ENCODER_VALUE = 20;
+    public static final double THIRD_CORAL_STAGE_ENCODER_VALUE = 30;
+    public static final double FOURTH_CORAL_STAGE_ENCODER_VALUE = 40;
 
     public static final double RAISE_SPEED = .5;
     public static final double DROP_SPEED = .5;
@@ -68,5 +69,13 @@ public final class Constants
     public static final double PID_D = 0;
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
+  }
+
+  public final class Lift
+  {
+    public static final int LIFT_MOTOR_ID = 11;
+    public static final double LIFT_MOTOR_RAISE_SPEED = 0.1;
+    public static final double LIFT_MOTOR_LOWER_SPEED = -0.1;
+
   }
 }

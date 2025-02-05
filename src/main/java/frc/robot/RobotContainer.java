@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -27,9 +29,13 @@ import swervelib.SwerveInputStream;
  */
 public class RobotContainer
 {
+  private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
+  private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  final         CommandXboxController driverXbox = new CommandXboxController(0);
+  private final CommandXboxController driverXbox = new CommandXboxController(0);
+  private final CommandXboxController m_AssistantController = new CommandXboxController(1);
+
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
@@ -104,7 +110,15 @@ public class RobotContainer
    */
   private void configureBindings()
   {
+    driverXbox.y().whileTrue(m_LiftSubsystem.raiseLiftCommand());
+    driverXbox.a().whileTrue(m_LiftSubsystem.lowerLiftCommand());
 
+    driverXbox.povDown().onTrue(m_ElevatorSubsystem.goToFirstStageCommand());
+    driverXbox.povUp().onTrue(m_ElevatorSubsystem.goToFourthStageCommand());
+    driverXbox.povRight().onTrue(m_ElevatorSubsystem.goToSecondStageCommand());
+    driverXbox.povLeft().onTrue(m_ElevatorSubsystem.goToThirdStageCommand());
+    driverXbox.povCenter().onTrue(m_ElevatorSubsystem.goToBaseStageCommand());
+    
     Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveRobotOrientedAngularVelocity  = drivebase.driveFieldOriented(driveRobotOriented);
