@@ -36,8 +36,8 @@ public class RobotContainer
   private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
 
-  private final         CommandJoystick leftButtons = new CommandJoystick(3);
-  //private final         CommandJoystick rightButtons = new CommandJoystick(2);
+  private final         CommandJoystick leftButtons = new CommandJoystick(2);
+  private final         CommandJoystick rightButtons = new CommandJoystick(3);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverXbox = new CommandXboxController(0);
   private final CommandXboxController m_AssistantController = new CommandXboxController(1);
@@ -136,12 +136,15 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
-
+        
+    // Elevator Buttons
     leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToFourthStageCommand());
     leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToThirdStageCommand());
     leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToSecondStageCommand());
     leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToFirstStageCommand());
     leftButtons.button(6).onTrue(m_ElevatorSubsystem.goToBaseStageCommand());
+
+    // Lift Buttons
 
     if (RobotBase.isSimulation())
     {
