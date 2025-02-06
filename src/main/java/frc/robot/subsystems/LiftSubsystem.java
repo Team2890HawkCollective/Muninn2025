@@ -1,45 +1,55 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig;
 
 public class LiftSubsystem extends SubsystemBase
 {
-    private static SparkMax moduleLiftMotor = new SparkMax(Constants.Lift.LIFT_MOTOR_ID, MotorType.kBrushless);
-  
+    private static SparkMax liftMotor = new SparkMax(Constants.Lift.LIFT_MOTOR_ID, MotorType.kBrushless);
+    private static SparkClosedLoopController liftPIDController = liftMotor.getClosedLoopController();
+    private static SparkMaxConfig liftPIDConfig= new SparkMaxConfig();
   
   /** Creates a new AmpSubsystem. */
-  public LiftSubsystem() {    
+  public LiftSubsystem() 
+  {    
+    liftPIDConfig.closedLoop.pid(Constants.Lift.PID_P, Constants.Lift.PID_I, Constants.Lift.PID_D);
+  }
+
+  public Command goToStartStageCommand()
+  {
+    return runOnce(()->startStage());
+  }
+
+  public Command goToCatchStageCommand()
+  {
+    return runOnce(()->catchStage());
+  }
+
+  public Command goToLiftStageCommand()
+  {
+    return runOnce(()->liftStage());
+  }
+
+  public void startStage()
+  {
+    liftPIDController.setReference(Constants.Lift.START_STAGE_ENCODER_VALUE, SparkMax.ControlType.kPosition);
 
   }
 
-  public Command raiseLiftCommand()
+  public void catchStage()
   {
-    return runOnce(()->startMotor());
+    liftPIDController.setReference(Constants.Lift.CATCH_STAGE_ENCODER_VALUE, SparkMax.ControlType.kPosition);
   }
 
-  public Command lowerLiftCommand()
+  public void liftStage()
   {
-    return runOnce(()->reverseMotor());
-  }
-
-  public void startMotor()
-  {
-    moduleLiftMotor.set(Constants.Lift.LIFT_MOTOR_RAISE_SPEED);
-  }
-
-  public void reverseMotor()
-  {
-    moduleLiftMotor.set(Constants.Lift.LIFT_MOTOR_LOWER_SPEED);
+    liftPIDController.setReference(Constants.Lift.LIFT_STAGE_ENCODER_VALUE, SparkMax.ControlType.kPosition);
 
   }
 }
