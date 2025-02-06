@@ -35,6 +35,8 @@ public class RobotContainer
   private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
 
+  private final CommandJoystick leftButtons = new CommandJoystick(2);
+  private final CommandJoystick rightButtons = new CommandJoystick(3);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverXbox = new CommandXboxController(0);
   // The robot's subsystems and commands are defined here...
@@ -110,16 +112,7 @@ public class RobotContainer
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
   private void configureBindings()
-  {
-    driverXbox.y().onTrue(m_LiftSubsystem.raiseLiftCommand());
-    driverXbox.a().onTrue(m_LiftSubsystem.lowerLiftCommand());
-
-    driverXbox.povDown().onTrue(m_ElevatorSubsystem.goToFirstStageCommand());
-    driverXbox.povUp().onTrue(m_ElevatorSubsystem.goToFourthStageCommand());
-    driverXbox.povRight().onTrue(m_ElevatorSubsystem.goToSecondStageCommand());
-    driverXbox.povLeft().onTrue(m_ElevatorSubsystem.goToThirdStageCommand());
-    driverXbox.povCenter().onTrue(m_ElevatorSubsystem.goToBaseStageCommand());
-    
+  {    
     Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveRobotOrientedAngularVelocity  = drivebase.driveFieldOriented(driveRobotOriented);
@@ -129,6 +122,18 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
+        
+    // Elevator Buttons
+    leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToFourthStageCommand());
+    leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToThirdStageCommand());
+    leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToSecondStageCommand());
+    leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToFirstStageCommand());
+    leftButtons.button(6).onTrue(m_ElevatorSubsystem.goToBaseStageCommand());
+
+    // Lift Buttons
+    rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
+    rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
+    rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
 
     if (RobotBase.isSimulation())
     {
