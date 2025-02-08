@@ -81,4 +81,20 @@ public final class Constants
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
   }
+
+  public final class FIRST_CORAL_STAGE_ENCODER_VALUE
+  {
+    public static final int CORAL_MOTOR_ID = 60;
+    public static final double START_POSITION_ENCODER_VALUE = 25;
+    public static final double COLLECT_POSITION_ENCORDER_VALUE = 50;
+    public static final double SCORE_POSITION_ENCORDER_VALUE = 0;
+
+    public static final double PID_P = 0;
+    public static final double PID_I = 0;
+    public static final double PID_D = 0;
+    public static final double PID_IZ = 0;
+    public static final double PID_F = 0;
+  }
+
+  
 }
