@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -34,6 +35,7 @@ public class RobotContainer
 {
   private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
+  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
 
   private final CommandJoystick leftButtons = new CommandJoystick(2);
   private final CommandJoystick rightButtons = new CommandJoystick(3);
@@ -134,6 +136,11 @@ public class RobotContainer
     rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
     rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
     rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
+
+    // Coral Buttons
+    rightButtons.button(7).onTrue(m_CoralSubsystem.goToStartPositionCommand());
+    rightButtons.button(5).onTrue(m_CoralSubsystem.goToCatchPositionCommand());
+    rightButtons.button(4).onTrue(m_CoralSubsystem.goToScorePositionCommand());
 
     if (RobotBase.isSimulation())
     {
