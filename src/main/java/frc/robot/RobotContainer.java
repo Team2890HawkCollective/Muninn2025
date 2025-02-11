@@ -13,13 +13,19 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
-import swervelib.SwerveInputStream;
+import java.util.function.DoubleSupplier;
 
+import swervelib.SwerveDrive;
+import swervelib.SwerveInputStream;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very
@@ -28,10 +34,16 @@ import swervelib.SwerveInputStream;
  * Instead, the structure of the robot (including subsystems, commands, and
  * trigger mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer
+{
+  private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
+  private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
+  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
 
+  private final CommandJoystick leftButtons = new CommandJoystick(2);
+  private final CommandJoystick rightButtons = new CommandJoystick(3);
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  final CommandXboxController driverXbox = new CommandXboxController(0);
+  private final CommandXboxController driverXbox = new CommandXboxController(0);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "swerve"));
@@ -112,9 +124,10 @@ public class RobotContainer {
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
    * Flight joysticks}.
    */
-  private void configureBindings() {
 
-    Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
+  private void configureBindings()
+  {    
+    Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
     Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(
@@ -123,6 +136,33 @@ public class RobotContainer {
     Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
+        
+    // Elevator Buttons
+    leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE));
+    //leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE));
+
+    leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE));
+    //leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE));
+
+    leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE));
+    //leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE));
+
+    leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE));
+    //leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE));
+
+    leftButtons.button(6).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
+    //leftButtons.button(6).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
+
+
+    // Lift Buttons
+    rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
+    rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
+    rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
+
+    // Coral Buttons
+    rightButtons.button(7).onTrue(m_CoralSubsystem.rotateToStartPositionCommand());
+    rightButtons.button(5).onTrue(m_CoralSubsystem.rotateToCatchPositionCommand());
+    rightButtons.button(4).onTrue(m_CoralSubsystem.rotateToScorePositionCommand());
 
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
@@ -130,7 +170,9 @@ public class RobotContainer {
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
     }
 
-    if (Robot.isSimulation()) {
+    if (Robot.isSimulation())
+    {
+
       driverXbox.start().onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
       driverXbox.button(1).whileTrue(drivebase.sysIdDriveMotorCommand());
 
@@ -168,7 +210,14 @@ public class RobotContainer {
     return drivebase.getAutonomousCommand("New Auto");
   }
 
-  public void setMotorBrake(boolean brake) {
+  public Command getHomingCommand()
+  {
+    // An example command will be run in autonomous
+    return m_ElevatorSubsystem.goToHomeCommand();
+  }
+
+  public void setMotorBrake(boolean brake)
+  {
     drivebase.setMotorBrake(brake);
   }
 }
