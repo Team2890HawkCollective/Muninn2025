@@ -5,72 +5,78 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
+
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.revrobotics.spark.SparkClosedLoopController;
 
-
-public class ElevatorSubsystem extends SubsystemBase
+public class ElevatorSubsystem extends SubsystemBase 
 {
-    private static SparkFlex raiseMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
+    private static SparkFlex elevatorMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
     private static SparkClosedLoopController elevatorPIDController;
     public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
 
-    public ElevatorSubsystem()
-    {        
+    // TODO: Add limit switch
+    DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
+
+
+    // TODO: Add potentiometer
+    AnalogPotentiometer potentiometer = new AnalogPotentiometer(Constants.Elevator.Potentiometer.PWM_PORT,
+            Constants.Elevator.Potentiometer.UPPER_BOUND, Constants.Elevator.Potentiometer.LOWER_BOUND);
+
+    public ElevatorSubsystem() 
+    {
         elevatorPIDConfig.closedLoop.pid(Constants.Elevator.PID_P, Constants.Elevator.PID_I, Constants.Elevator.PID_D);
-        raiseMotor.configure(elevatorPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        elevatorPIDController = raiseMotor.getClosedLoopController();
+        elevatorMotor.configure(elevatorPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        elevatorPIDController = elevatorMotor.getClosedLoopController();
     }
 
-    public Command goToBaseStageCommand()
+    public Command goToStageEncoderCommand(double encoderValue) 
     {
-        return runOnce(()->goToBaseStage());
+        return runOnce(() -> goToStageEncoder(encoderValue));
     }
 
-    public Command goToFirstStageCommand()
+    public void goToStageEncoder(double encoderValue) 
     {
-        return runOnce(()->goToFirstStage());
+        elevatorPIDController.setReference(encoderValue, SparkFlex.ControlType.kPosition);
     }
 
-    public Command goToSecondStageCommand()
+    public Command goToStagePotentiometerCommand(double potentiometerValue) 
     {
-        return runOnce(()->goToSecondStage());
+        return runOnce(() -> goToStagePotentiometer(potentiometerValue));
     }
 
-    public Command goToThirdStageCommand()
+    public void goToStagePotentiometer(double potentiometerValue) 
     {
-        return runOnce(()->goToThirdStage());
+        double difference = potentiometer.get() - potentiometerValue;
+        while (Math.abs(difference) > Constants.Elevator.Potentiometer.MOVEMENT_TOLERATION) {
+            if (difference > 0)
+                elevatorMotor.set(Constants.Elevator.POTENTIOMETER_MOVEMENT_SPEED);
+            else
+                elevatorMotor.set(Constants.Elevator.POTENTIOMETER_MOVEMENT_SPEED * -1);
+
+            difference = potentiometer.get() - potentiometerValue;
+        }
+        elevatorMotor.set(0);
+
     }
 
-    public Command goToFourthStageCommand()
+    public Command goToHomeCommand()
     {
-        return runOnce(()->goToFourthStage());
+        return runOnce(()->homingSequence());
     }
 
-    public void goToBaseStage() 
+    public void homingSequence()
     {
-        elevatorPIDController.setReference(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, SparkFlex.ControlType.kPosition);
+       while(bottomlimitSwitch.get() == false) 
+       {
+        elevatorMotor.set(Constants.Elevator.HOMING_SPEED);
+       }
+       elevatorMotor.set(0);
+       elevatorMotor.getEncoder().setPosition(0);
     }
 
-    public void goToFirstStage() 
-    {
-        elevatorPIDController.setReference(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, SparkFlex.ControlType.kPosition);
-    }
-
-    public void goToSecondStage() 
-    {
-        elevatorPIDController.setReference(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, SparkFlex.ControlType.kPosition);
-    }
-
-    public void goToThirdStage() 
-    {
-        elevatorPIDController.setReference(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, SparkFlex.ControlType.kPosition);
-    }
-
-    public void goToFourthStage() 
-    {
-        elevatorPIDController.setReference(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, SparkFlex.ControlType.kPosition);
-    }
 }

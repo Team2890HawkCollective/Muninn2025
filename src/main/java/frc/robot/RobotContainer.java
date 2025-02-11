@@ -126,11 +126,21 @@ public class RobotContainer
         driveDirectAngleKeyboard);
         
     // Elevator Buttons
-    leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToFourthStageCommand());
-    leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToThirdStageCommand());
-    leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToSecondStageCommand());
-    leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToFirstStageCommand());
-    leftButtons.button(6).onTrue(m_ElevatorSubsystem.goToBaseStageCommand());
+    leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE));
+    //leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE));
+
+    leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE));
+    //leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE));
+
+    leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE));
+    //leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE));
+
+    leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE));
+    //leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE));
+
+    leftButtons.button(6).onTrue(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
+    //leftButtons.button(6).onTrue(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
+
 
     // Lift Buttons
     rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
@@ -138,9 +148,9 @@ public class RobotContainer
     rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
 
     // Coral Buttons
-    rightButtons.button(7).onTrue(m_CoralSubsystem.goToStartPositionCommand());
-    rightButtons.button(5).onTrue(m_CoralSubsystem.goToCatchPositionCommand());
-    rightButtons.button(4).onTrue(m_CoralSubsystem.goToScorePositionCommand());
+    rightButtons.button(7).onTrue(m_CoralSubsystem.rotateToStartPositionCommand());
+    rightButtons.button(5).onTrue(m_CoralSubsystem.rotateToCatchPositionCommand());
+    rightButtons.button(4).onTrue(m_CoralSubsystem.rotateToScorePositionCommand());
 
     if (RobotBase.isSimulation())
     {
@@ -192,6 +202,12 @@ public class RobotContainer
   {
     // An example command will be run in autonomous
     return drivebase.getAutonomousCommand("New Auto");
+  }
+
+  public Command getHomingCommand()
+  {
+    // An example command will be run in autonomous
+    return m_ElevatorSubsystem.goToHomeCommand();
   }
 
   public void setMotorBrake(boolean brake)

@@ -12,44 +12,44 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CoralSubsystem extends SubsystemBase
 {
-    private static SparkMax coralMotor = new SparkMax(Constants.Coral.CORAL_MOTOR_ID, MotorType.kBrushless);
-    private static SparkMaxConfig coralPIDConfig= new SparkMaxConfig();
-    private static SparkClosedLoopController coralPIDController;
+    private static SparkMax coralRotationalMotor = new SparkMax(Constants.Coral.RotationMotor.CORAL_MOTOR_ID, MotorType.kBrushless);
+    private static SparkMaxConfig coralRotationalPIDConfig= new SparkMaxConfig();
+    private static SparkClosedLoopController coralRotationalPIDController;
 
     public CoralSubsystem()
     {
-        coralPIDConfig.closedLoop.pid(Constants.Coral.PID_P, Constants.Coral.PID_I, Constants.Coral.PID_D);
-        coralMotor.configure(coralPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        coralPIDController = coralMotor.getClosedLoopController();
+        coralRotationalPIDConfig.closedLoop.pid(Constants.Coral.RotationMotor.PID_P, Constants.Coral.RotationMotor.PID_I, Constants.Coral.RotationMotor.PID_D);
+        coralRotationalMotor.configure(coralRotationalPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        coralRotationalPIDController = coralRotationalMotor.getClosedLoopController();
     }
 
-    public Command goToStartPositionCommand()
+    public Command rotateToStartPositionCommand()
     {
-        return runOnce(()->goToStartPosition());
+        return runOnce(()->rotateToStartPosition());
     }
 
-    public Command goToScorePositionCommand()
+    public Command rotateToScorePositionCommand()
     {
-        return runOnce(()->goToScorePosition());
+        return runOnce(()->rotateToScorePosition());
     }
 
-    public Command goToCatchPositionCommand()
+    public Command rotateToCatchPositionCommand()
     {
-        return runOnce(()->goToCatchPosition());
+        return runOnce(()->rotateToCatchPosition());
     }
 
-    public void goToStartPosition()
+    public void rotateToStartPosition()
     {
-        coralPIDController.setReference(Constants.Coral.START_POSITION_ENCODER_VALUE,SparkMax.ControlType.kPosition);
+        coralRotationalPIDController.setReference(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE,SparkMax.ControlType.kPosition);
     }
 
-    public void goToScorePosition()
+    public void rotateToScorePosition()
     {
-        coralPIDController.setReference(Constants.Coral.SCORE_POSITION_ENCODER_VALUE, SparkMax.ControlType.kPosition);
+        coralRotationalPIDController.setReference(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE, SparkMax.ControlType.kPosition);
     }
 
-    public void goToCatchPosition()
+    public void rotateToCatchPosition()
     {
-        coralPIDController.setReference(Constants.Coral.START_POSITION_ENCODER_VALUE,SparkMax.ControlType.kPosition);
+        coralRotationalPIDController.setReference(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE,SparkMax.ControlType.kPosition);
     }
 }

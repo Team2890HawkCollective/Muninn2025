@@ -66,6 +66,23 @@ public final class Constants
     public static final double PID_D = 0;
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
+    public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;
+    public static final double HOMING_SPEED = -.2;
+    public static final int LIMIT_SWITCH_PWM_PORT = 0;
+
+    public final class Potentiometer
+    {
+      public static final int PWM_PORT = 0;
+      public static final double LOWER_BOUND = 0.0;
+      public static final double UPPER_BOUND = 1.0;
+      public static final double MOVEMENT_TOLERATION = 0.05;
+
+      public static final double BASE_STAGE_POT_VALUE = 0.0;
+      public static final double FIRST_CORAL_STAGE_POT_VALUE = 0.0;
+      public static final double SECOND_CORAL_STAGE_POT_VALUE = 0.0;
+      public static final double THIRD_CORAL_STAGE_POT_VALUE = 0.0;
+      public static final double FOURTH_CORAL_STAGE_POT_VALUE = 0.0;
+    }
   }
 
   public final class Lift
@@ -84,16 +101,25 @@ public final class Constants
 
   public final class Coral
   {
-    public static final int CORAL_MOTOR_ID = 60;
-    public static final double START_POSITION_ENCODER_VALUE = 25;
-    public static final double COLLECT_POSITION_ENCODER_VALUE = 50;
-    public static final double SCORE_POSITION_ENCODER_VALUE = 0;
+    public final class RotationMotor {
+      public static final int CORAL_MOTOR_ID = 60;
+      public static final double START_POSITION_ENCODER_VALUE = 25;
+      public static final double COLLECT_POSITION_ENCODER_VALUE = 50;
+      public static final double SCORE_POSITION_ENCODER_VALUE = 0;
+      public static final double PID_P = 0;
+      public static final double PID_I = 0;
+      public static final double PID_D = 0;
+      public static final double PID_IZ = 0;
+      public static final double PID_F = 0;
+    }
+    //Wheel
+    //can id 61
+    //PIDs none?
 
-    public static final double PID_P = 0;
-    public static final double PID_I = 0;
-    public static final double PID_D = 0;
-    public static final double PID_IZ = 0;
-    public static final double PID_F = 0;
+    //Door
+    //channel id (PWM port)
+    //https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/servos.html
+    
   }
 
   

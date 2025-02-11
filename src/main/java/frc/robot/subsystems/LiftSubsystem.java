@@ -16,7 +16,7 @@ public class LiftSubsystem extends SubsystemBase
     private static SparkClosedLoopController liftPIDController;
     private static SparkMaxConfig liftPIDConfig= new SparkMaxConfig();
   
-  /** Creates a new AmpSubsystem. */
+  
   public LiftSubsystem() 
   {    
     liftPIDConfig.closedLoop.pid(Constants.Lift.PID_P, Constants.Lift.PID_I, Constants.Lift.PID_D);
