@@ -6,7 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 import swervelib.math.Matter;
+
+import frc.robot.commands.swervedrive.auto.*;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This
@@ -123,4 +126,11 @@ public final class Constants
   }
 
   
+
+  public static class ShuffleboardConstants {
+
+    //Shuffleboard Constants
+     public static final String UNIVERSAL_MODE_CHOICE = "allAutos";  //Choices for what Autos to load. Valid Choices: competiton, testing, allAutos
+  }
+
 }

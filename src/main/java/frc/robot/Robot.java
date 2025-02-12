@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import javax.lang.model.type.NullType;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -23,6 +26,9 @@ public class Robot extends TimedRobot
   private        Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private ShuffleboardDisplay m_shuffleboardDisplay;
+  private String m_choosenAutoMode;
 
   private Timer disabledTimer;
 
@@ -46,6 +52,10 @@ public class Robot extends TimedRobot
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+    m_shuffleboardDisplay = new ShuffleboardDisplay();
+    m_shuffleboardDisplay.initiateDisplay();
+    m_shuffleboardDisplay.initializeAutoChooser();
+
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
     disabledTimer = new Timer();
@@ -54,6 +64,7 @@ public class Robot extends TimedRobot
     {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
+
   }
 
   /**
@@ -71,7 +82,7 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-  }
+  } 
 
   /**
    * This function is called once each time the robot enters Disabled mode.
@@ -102,7 +113,10 @@ public class Robot extends TimedRobot
   public void autonomousInit()
   {
     m_robotContainer.setMotorBrake(true);
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    Command choosenAutoMode = m_shuffleboardDisplay.getAutonomousChoice();
+    SmartDashboard.putData("Selected Auto Mode",choosenAutoMode);
+    m_autonomousCommand = choosenAutoMode;
+    //m_autonomousCommand = m_shuffleboardDisplay.getAutonomousCommand();
     m_robotContainer.getHomingCommand().schedule();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null)
@@ -148,6 +162,7 @@ public class Robot extends TimedRobot
   {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    //m_shuffleboardDisplay.testingPIDTab(m_robotContainer.getSwerveDriveInfo());
   }
 
   /**
