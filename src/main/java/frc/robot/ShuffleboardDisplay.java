@@ -47,9 +47,9 @@ public class ShuffleboardDisplay {
     public void initializeAutoChooser(){
         switch (ShuffleboardConstants.UNIVERSAL_MODE_CHOICE) {
             case "competition":
-                autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("comp")): stream);
+                autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("comp_")): stream);
             case "testing":
-                autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("test")): stream);
+                autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("test_")): stream);
             case "allAutos":
                 autoChooser = AutoBuilder.buildAutoChooser();
             default: //Default Puts All Commands. This is redundant because all the cases are hard coded.

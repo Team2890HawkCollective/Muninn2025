@@ -63,6 +63,7 @@ public final class Constants
     public static final double SECOND_CORAL_STAGE_ENCODER_VALUE = 20;
     public static final double THIRD_CORAL_STAGE_ENCODER_VALUE = 30;
     public static final double FOURTH_CORAL_STAGE_ENCODER_VALUE = 40;
+    public static final double COLLECT_CORAL_STAGE_ENCODER_VALUE = 40;
 
     public static final double PID_P = 0;
     public static final double PID_I = 0;
@@ -85,6 +86,7 @@ public final class Constants
       public static final double SECOND_CORAL_STAGE_POT_VALUE = 0.0;
       public static final double THIRD_CORAL_STAGE_POT_VALUE = 0.0;
       public static final double FOURTH_CORAL_STAGE_POT_VALUE = 0.0;
+      public static final double COLLECT_CORAL_STAGE_POT_VALUE = 0.0;
     }
   }
 
@@ -104,24 +106,37 @@ public final class Constants
 
   public final class Coral
   {
-    public final class RotationMotor {
+    public final class RotationMotor 
+    {
       public static final int CORAL_MOTOR_ID = 60;
       public static final double START_POSITION_ENCODER_VALUE = 25;
       public static final double COLLECT_POSITION_ENCODER_VALUE = 50;
-      public static final double SCORE_POSITION_ENCODER_VALUE = 0;
+      public static final double SCORE_LOWER_POSITION_ENCODER_VALUE = 0;
+      public static final double SCORE_TOP_POSITION_ENCODER_VALUE = 0;
       public static final double PID_P = 0;
       public static final double PID_I = 0;
       public static final double PID_D = 0;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
     }
-    //Wheel
-    //can id 61
-    //PIDs none?
 
-    //Door
-    //channel id (PWM port)
-    //https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/servos.html
+    public final class Servo
+    {
+      public static final int SERVO_PWM_PORT = 1;
+      public static final double DOOR_CLOSED_ANGLE = 0.0;
+      public static final double DOOR_OPEN_ANGLE = 180.0;
+    }
+
+    public final class WheelMotor 
+    {
+      public static final int WHEEL_MOTOR_ID = 61;
+      public static final double INTAKE_SPEED = .1;
+      public static final double OUTPUT_SPEED = -.2;
+      public static final double OUTPUT_DELAY = 3; //In Seconds
+
+      public static final int TOF_SENSOR = 62;  //To change the ID for the TOF Sensor, drop the code and enable the bot, and then go to http://10.28.90.2:5812/ in a browser.
+      public static final int TOF_TRIGGER_DIST = 10; //In Millimeters
+    }
     
   }
 
