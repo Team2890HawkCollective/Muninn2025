@@ -58,13 +58,13 @@ public class TargetingSubsytem extends SubsystemBase
             SmartDashboard.putBoolean("Tracking AprilTag?", false);
         }
 
-        Pose2d limelightBotPose = LimelightHelpers.getBotPose2d(Constants.LimeLight.LIMELIGHT_NAME);
+        LimelightHelpers.PoseEstimate limelightBotPoseEstimate = LimelightHelpers.getBotPoseEstimate__wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
         Pose2d drivebaseEstimatedPose = drivebase.getPose();
 
         SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
         SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
-        drivebase.addVisionMeasurement(limelightBotPose);
+        drivebase.addVisionMeasurement(limelightBotPoseEstimate.pose,limelightBotPoseEstimate.timestampSeconds);
         //drivebase.updateEstimatedGlobalPose()
 
     }
