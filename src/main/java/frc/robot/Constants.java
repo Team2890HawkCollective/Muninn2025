@@ -159,12 +159,12 @@ public final class Constants
       public static final int LOWER_CORAL_STATION = 12;
 
       //Reef Tags, Labled As Clock Positions
-      public static final int REEF_ONE_POSITION = 20;
-      public static final int REEF_THREE_POSITION = 21;
-      public static final int REEF_FIVE_POSITION = 22;
-      public static final int REEF_SEVEN_POSITION = 17;
-      public static final int REEF_NINE_POSITION = 18;
-      public static final int REEF_ELEVEN_POSITION = 19;
+      public static final int REEF_ONE_POSITION = 20;    //Branches J & I
+      public static final int REEF_THREE_POSITION = 21;  //Branches H & G
+      public static final int REEF_FIVE_POSITION = 22;   //Branches F & E
+      public static final int REEF_SEVEN_POSITION = 17;  //Branches D & C
+      public static final int REEF_NINE_POSITION = 18;   //Branches B & A
+      public static final int REEF_ELEVEN_POSITION = 19; //Branches L & K
 
       //Barge Tags
       public static final int BLUE_BARGE = 14;
@@ -181,12 +181,12 @@ public final class Constants
       public static final int LOWER_CORAL_STATION = 1;
 
       //Reef Tags, Labled As Clock Positions
-      public static final int REEF_ONE_POSITION = 8;
-      public static final int REEF_THREE_POSITION = 7;
-      public static final int REEF_FIVE_POSITION = 6;
-      public static final int REEF_SEVEN_POSITION = 11;
-      public static final int REEF_NINE_POSITION = 10;
-      public static final int REEF_ELEVEN_POSITION = 9;
+      public static final int REEF_ONE_POSITION = 8;     //Branches D & C
+      public static final int REEF_THREE_POSITION = 7;   //Branches B & A
+      public static final int REEF_FIVE_POSITION = 6;    //Branches L & K
+      public static final int REEF_SEVEN_POSITION = 11;  //Branches J & I
+      public static final int REEF_NINE_POSITION = 10;   //Branches H & G
+      public static final int REEF_ELEVEN_POSITION = 9;  //Branches F & E
 
       //Barge Tags
       public static final int BLUE_BARGE = 4;
