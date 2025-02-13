@@ -43,7 +43,7 @@ public class TargetingSubsytem extends SubsystemBase
         this.drivebase = driveSystem;
         //Set initial bot orientation
         //Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
-        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME,drivebase.getYaw,0,drivebase.getPitch,0,drivebase.getRoll,0);
+        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME,drivebase.getYaw(),0,drivebase.getPitch(),0,drivebase.getRoll(),0);
     }
 
     public void updatePoseEstimation()
@@ -59,7 +59,7 @@ public class TargetingSubsytem extends SubsystemBase
         }
 
         Pose2d limelightBotPose = LimelightHelpers.getBotPose2d(Constants.LimeLight.LIMELIGHT_NAME);
-        Pose2d drivebaseEstimatedPose = drivebase.m_poseEstimator.getEstimatedPosition();
+        Pose2d drivebaseEstimatedPose = drivebase.getPose();
 
         SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
         SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
