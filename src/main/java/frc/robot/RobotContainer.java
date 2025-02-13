@@ -165,9 +165,9 @@ public class RobotContainer
     leftButtons.button(1).onTrue(collectCoralCommand());
 
     // Lift Buttons
-    rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
-    rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
-    rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
+    //rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
+    //rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
+    //rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
 
 
     if (RobotBase.isSimulation()) {
@@ -231,7 +231,7 @@ public class RobotContainer
   {
     return m_ElevatorSubsystem.goToStageEncoderCommand(elevatorPositionValue)
     //m_ElevatorSubsystem.goToStagePotentiometerCommand(positionValue)
-    .andThen(m_CoralSubsystem.coralOutputCommand(coralEncoderValue))
+    //.andThen(m_CoralSubsystem.coralOutputCommand(coralEncoderValue)) ADD BACK, TEMP COMMENT
     .andThen(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
     //.andThen(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
   }
@@ -240,7 +240,7 @@ public class RobotContainer
   {
     return m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.COLLECT_CORAL_STAGE_ENCODER_VALUE)
     //m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.COLLECT_CORAL_STAGE_POT_VALUE)
-    .andThen(m_CoralSubsystem.coralIntakeCommand())
+    //.andThen(m_CoralSubsystem.coralIntakeCommand()) ADD BACK, TEMP COMMENT
     .andThen(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
     //.andThen(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
   }

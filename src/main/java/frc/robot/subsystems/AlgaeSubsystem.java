@@ -12,7 +12,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AlgaeSubsystem extends SubsystemBase
-{
+{ /* 
     private static SparkMax algaeRotationMotor = new SparkMax(Constants.Algae.Rotation.ALGAE_ROTATION_MOTOR_ID, MotorType.kBrushless);
     private static SparkMaxConfig algaeRotationPIDConfig= new SparkMaxConfig();
     private static SparkClosedLoopController algaeRotationPIDController;
@@ -47,5 +47,5 @@ public class AlgaeSubsystem extends SubsystemBase
     {
         algaeWheelMotor.set(speed);
     }
-
+*/
 }

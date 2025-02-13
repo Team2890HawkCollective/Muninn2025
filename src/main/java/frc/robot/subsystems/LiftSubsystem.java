@@ -11,7 +11,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class LiftSubsystem extends SubsystemBase
-{
+{ /* 
     private static SparkMax liftMotor = new SparkMax(Constants.Lift.LIFT_MOTOR_ID, MotorType.kBrushless);
     private static SparkClosedLoopController liftPIDController;
     private static SparkMaxConfig liftPIDConfig= new SparkMaxConfig();
@@ -53,4 +53,5 @@ public class LiftSubsystem extends SubsystemBase
   {
     liftPIDController.setReference(Constants.Lift.LIFT_STAGE_ENCODER_VALUE, SparkMax.ControlType.kPosition);
   }
+    */
 }
