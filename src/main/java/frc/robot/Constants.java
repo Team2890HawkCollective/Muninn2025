@@ -140,6 +140,33 @@ public final class Constants
     
   }
 
+  public final class Algae
+  {
+    public final class Rotation
+    {
+      public static final int ALGAE_ROTATION_MOTOR_ID = 70;
+      public static final double START_POSITION_ENCODER_VALUE = 0;
+      public static final double COLLECT_ENCODER_VALUECAL_POS = 90;
+      public static final double PID_P = 0;
+      public static final double PID_I = 0;
+      public static final double PID_D = 0;
+      public static final double PID_IZ = 0;
+      public static final double PID_F = 0;
+
+
+
+    }
+    public final class Wheel
+    {
+      public static final int ALGAE_WHEEL_MOTOR_ID = 71;
+      public static final double WHEEL_INTAKE_SPEED = 0.1;
+      public static final double WHEEL_OUTPUT_SPEED = -0.1;
+
+
+    }
+
+  }
+
   
 
   public static class ShuffleboardConstants {
