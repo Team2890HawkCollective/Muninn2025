@@ -45,7 +45,7 @@ public class ShuffleboardDisplay {
     }
 
     public void initializeAutoChooser(){
-        switch (ShuffleboardConstants.UNIVERSAL_MODE_CHOICE) {
+        switch (Shuffleboard.UNIVERSAL_MODE_CHOICE) {
             case "competition":
                 autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("comp_")): stream);
             case "testing":

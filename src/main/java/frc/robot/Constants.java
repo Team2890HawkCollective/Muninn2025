@@ -142,10 +142,58 @@ public final class Constants
 
   
 
-  public static class ShuffleboardConstants {
+  public static class Shuffleboard {
 
     //Shuffleboard Constants
      public static final String UNIVERSAL_MODE_CHOICE = "allAutos";  //Choices for what Autos to load. Valid Choices: competiton, testing, allAutos
+  }
+
+  public static class LimeLight{
+
+    public static final String LIMELIGHT_NAME = "limelight";
+
+    //April Tag IDs
+    public static class BlueAprilTags{
+      //Coral Stations Tags
+      public static final int UPPER_CORAL_STATION = 13;
+      public static final int LOWER_CORAL_STATION = 12;
+
+      //Reef Tags, Labled As Clock Positions
+      public static final int REEF_ONE_POSITION = 20;
+      public static final int REEF_THREE_POSITION = 21;
+      public static final int REEF_FIVE_POSITION = 22;
+      public static final int REEF_SEVEN_POSITION = 17;
+      public static final int REEF_NINE_POSITION = 18;
+      public static final int REEF_ELEVEN_POSITION = 19;
+
+      //Barge Tags
+      public static final int BLUE_BARGE = 14;
+      public static final int RED_BARGE = 15;
+
+      //Processor Tags
+      public static final int PROCESSOR = 16;
+    }
+
+    public static class RedAprilTags{
+      //Coral Stations Tags
+      public static final int UPPER_CORAL_STATION = 2;
+      public static final int LOWER_CORAL_STATION = 1;
+
+      //Reef Tags, Labled As Clock Positions
+      public static final int REEF_ONE_POSITION = 8;
+      public static final int REEF_THREE_POSITION = 7;
+      public static final int REEF_FIVE_POSITION = 6;
+      public static final int REEF_SEVEN_POSITION = 11;
+      public static final int REEF_NINE_POSITION = 10;
+      public static final int REEF_ELEVEN_POSITION = 9;
+
+      //Barge Tags
+      public static final int BLUE_BARGE = 4;
+      public static final int RED_BARGE = 5;
+
+      //Processor Tags
+      public static final int PROCESSOR = 3;
+    }
   }
 
 }
