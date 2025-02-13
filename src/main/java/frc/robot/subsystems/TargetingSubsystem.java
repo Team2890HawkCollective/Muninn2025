@@ -26,7 +26,7 @@ public class TargetingSubsytem extends SubsystemBase
 
     public Command updatePoseEstimationCommand()
     {
-
+        return runOnce(()->updatePoseEstimation())
     }
 
     public void initializeLimelight()
