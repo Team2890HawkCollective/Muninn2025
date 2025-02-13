@@ -20,9 +20,9 @@ public class TargetingSubsytem extends SubsystemBase
 
     private SwerveDrive drivebase;
 
-    public TargetingSubsystem(SwerveDrive driveSystem)
+    public TargetingSubsystem()
     {
-        this.drivebase = driveSystem;
+
     }
 
     public Command updatePoseEstimationCommand()
@@ -30,8 +30,17 @@ public class TargetingSubsytem extends SubsystemBase
         return runOnce(()->updatePoseEstimation());
     }
 
-    public void initializeLimeLight()
+    public Command alignToReefCoralCommand(int aprilTagId){
+
+    }
+
+    public Command alignToReefAlgaeCommand(int aprilTagId){
+        
+    }
+
+    public void initializeLimeLight(SwerveDrive driveSystem)
     {
+        this.drivebase = driveSystem;
         //Set initial bot orientation
         //Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
         LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME,drivebase.getYaw,0,drivebase.getPitch,0,drivebase.getRoll,0);
@@ -57,6 +66,14 @@ public class TargetingSubsytem extends SubsystemBase
 
         drivebase.addVisionMeasurement(limelightBotPose);
         //drivebase.updateEstimatedGlobalPose()
+
+    }
+
+    public void alignToReefCoral(int aprilTagId){
+        
+    }
+
+    public void alignToReefAlgae(int aprilTagId){
 
     }
 
