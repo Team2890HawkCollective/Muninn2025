@@ -4,8 +4,9 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 // NetworkTables if needed, LimelightHelpers is less pain
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.networktables.NetworkTable;
 //import edu.wpi.first.networktables.NetworkTableEntry;
 //import edu.wpi.first.networktables.NetworkTableInstance;
@@ -35,6 +36,17 @@ public class TargetingSubsytem extends SubsystemBase
 
     public void updatePoseEstimation()
     {
+        double tagId =LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
+        SmartDashboard.putNumber("Visible AprilTag TID", tid);
+
+        Pose2d limelightBotPose = LimelightHelpers.getBotPose2d(Constants.LimeLight.LIMELIGHT_NAME);
+        Pose2d drivebaseEstimatedPose = drivebase.m_poseEstimator.getEstimatedPosition();
+
+        SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
+        SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
+
+        drivebase.addVisionMeasurement(limelightBotPose);
+        //drivebase.updateEstimatedGlobalPose()
 
     }
 

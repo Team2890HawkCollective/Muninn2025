@@ -152,7 +152,7 @@ public final class Constants
 
     public static final String LIMELIGHT_NAME = "limelight";
 
-    //April Tag IDs
+    //View For AprilTag Labeling: Red Barge Is On Bottom
     public static class BlueAprilTags{
       //Coral Stations Tags
       public static final int UPPER_CORAL_STATION = 13;
@@ -173,7 +173,8 @@ public final class Constants
       //Processor Tags
       public static final int PROCESSOR = 16;
     }
-
+    
+    //View For AprilTag Labeling: Red Barge Is On Bottom
     public static class RedAprilTags{
       //Coral Stations Tags
       public static final int UPPER_CORAL_STATION = 2;
