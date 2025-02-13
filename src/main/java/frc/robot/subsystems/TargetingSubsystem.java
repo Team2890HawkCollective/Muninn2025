@@ -37,7 +37,14 @@ public class TargetingSubsytem extends SubsystemBase
     public void updatePoseEstimation()
     {
         double tagId =LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
-        SmartDashboard.putNumber("Visible AprilTag TID", tid);
+
+        if (LimelightHelpers.getTV()){
+            SmartDashboard.putNumber("Visible AprilTag TID", tagId);
+            SmartDashboard.putBoolean("Tracking AprilTag?", true);
+        }else{
+            SmartDashboard.putNumber("Visible AprilTag TID", 0);
+            SmartDashboard.putBoolean("Tracking AprilTag?", false);
+        }
 
         Pose2d limelightBotPose = LimelightHelpers.getBotPose2d(Constants.LimeLight.LIMELIGHT_NAME);
         Pose2d drivebaseEstimatedPose = drivebase.m_poseEstimator.getEstimatedPosition();
