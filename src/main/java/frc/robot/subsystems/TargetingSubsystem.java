@@ -26,12 +26,14 @@ public class TargetingSubsytem extends SubsystemBase
 
     public Command updatePoseEstimationCommand()
     {
-        return runOnce(()->updatePoseEstimation())
+        return runOnce(()->updatePoseEstimation());
     }
 
-    public void initializeLimelight()
+    public void initializeLimeLight()
     {
-
+        //Set initial bot orientation
+        //Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
+        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME,drivebase.getYaw,0,drivebase.getPitch,0,drivebase.getRoll,0);
     }
 
     public void updatePoseEstimation()
