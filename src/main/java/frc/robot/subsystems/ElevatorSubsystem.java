@@ -24,8 +24,8 @@ public class ElevatorSubsystem extends SubsystemBase
 
 
     // TODO: Add potentiometer
-    AnalogPotentiometer potentiometer = new AnalogPotentiometer(Constants.Elevator.Potentiometer.PWM_PORT,
-            Constants.Elevator.Potentiometer.UPPER_BOUND, Constants.Elevator.Potentiometer.LOWER_BOUND);
+    //AnalogPotentiometer potentiometer = new AnalogPotentiometer(Constants.Elevator.Potentiometer.PWM_PORT,
+            //Constants.Elevator.Potentiometer.UPPER_BOUND, Constants.Elevator.Potentiometer.LOWER_BOUND);
 
     public ElevatorSubsystem() 
     {
@@ -44,6 +44,7 @@ public class ElevatorSubsystem extends SubsystemBase
         elevatorPIDController.setReference(encoderValue, SparkFlex.ControlType.kPosition);
     }
 
+    /*
     public Command goToStagePotentiometerCommand(double potentiometerValue) 
     {
         return runOnce(() -> goToStagePotentiometer(potentiometerValue));
@@ -63,10 +64,23 @@ public class ElevatorSubsystem extends SubsystemBase
         elevatorMotor.set(0);
 
     }
-
+*/
     public Command goToHomeCommand()
     {
         return runOnce(()->homingSequence());
+    }
+
+    public Command moveElevatorUpCommand()
+    {
+        return run(() -> moveElevatorUp());
+    }
+
+    public Command moveElevatorDownCommand()
+    {
+        return run(() -> moveElevatorDown())
+        .until(()-> {return bottomlimitSwitch.get() == true;})
+        .andThen(stopElevatorMotorCommand());
+
     }
 
     public void homingSequence()
@@ -79,4 +93,26 @@ public class ElevatorSubsystem extends SubsystemBase
        elevatorMotor.getEncoder().setPosition(0);
     }
 
+
+    public void moveElevatorUp()
+    {
+        elevatorMotor.set(0.1);
+    }
+
+    public void moveElevatorDown()
+    {
+        elevatorMotor.set(-0.1);
+    }
+
+    public void stopElevatorMotor()
+    {
+        elevatorMotor.set(0);
+    }
+
+    public Command stopElevatorMotorCommand()
+    {
+        return runOnce(()-> stopElevatorMotor());
+    }
+
+     
 }

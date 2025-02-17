@@ -65,7 +65,7 @@ public final class Constants
     public static final double FOURTH_CORAL_STAGE_ENCODER_VALUE = 50;
     public static final double COLLECT_CORAL_STAGE_ENCODER_VALUE = 30;
 
-    public static final double PID_P = 0;
+    public static final double PID_P = 0.01;
     public static final double PID_I = 0;
     public static final double PID_D = 0;
     public static final double PID_IZ = 0;
