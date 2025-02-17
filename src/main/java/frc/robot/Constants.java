@@ -50,6 +50,13 @@ public final class Constants
     public static final double LEFT_Y_DEADBAND = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
+
+    public static final int JOYSTICK_X_CHANNEL = 0;
+    public static final int JOYSTICK_Y_CHANNEL = 1;
+    public static final double JOYSTICK_IS_LEFT = 1.00;
+    public static final double JOYSTICK_IS_RIGHT = -1.00;
+    public static final double JOYSTICK_IS_UP = 1.00;
+    public static final double JOYSTICK_IS_DOWN = -1.00;
   }
 
 

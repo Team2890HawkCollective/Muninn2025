@@ -41,6 +41,7 @@ public class RobotContainer
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
 
   private final CommandJoystick leftButtons = new CommandJoystick(2);
+  private final CommandJoystick joystick = new CommandJoystick(2);
   private final CommandJoystick rightButtons = new CommandJoystick(3);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverXbox = new CommandXboxController(0);
@@ -152,18 +153,25 @@ public class RobotContainer
         
 
     //Scoring Buttons
-    //leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-    //leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-    //leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
-    //leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
-    //leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    //leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    //leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    //leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    //leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    //leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    //leftButtons.button(1).onTrue(collectCoralCommand());
-
+    if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_RIGHT)
+    { 
+      leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+      leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+      leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
+      leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
+      leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(1).onTrue(collectCoralCommand());
+  }
+   
+  if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_LEFT)
+  { 
+    //TODO: add algae scoring button commands
+  }
     rightButtons.button(3).onTrue(getHomingCommand());
 
 
@@ -171,11 +179,15 @@ public class RobotContainer
     leftButtons.button(2).onTrue(m_ElevatorSubsystem.moveElevatorDownCommand());
     leftButtons.button(3).onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
 
+
+
     // Lift Buttons
     //rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
     //rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
     //rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
 
+    joystick.setXChannel(Constants.OperatorConstants.JOYSTICK_X_CHANNEL); //Horizonal axis, algae/coral buttons
+    joystick.setYChannel(Constants.OperatorConstants.JOYSTICK_Y_CHANNEL); //vertical axis, not in use
 
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
