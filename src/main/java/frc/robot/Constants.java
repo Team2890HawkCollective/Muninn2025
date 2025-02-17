@@ -106,6 +106,9 @@ public final class Constants
 
   public final class Coral
   {
+
+    public static final double DISTANCE_FROM_CENTER = 0.6; //In Meters
+
     public final class RotationMotor 
     {
       public static final int CORAL_MOTOR_ID = 60;
@@ -142,7 +145,7 @@ public final class Constants
 
   
 
-  public static class Shuffleboard {
+  public static class ShuffleboardConstants {
 
     //Shuffleboard Constants
      public static final String UNIVERSAL_MODE_CHOICE = "allAutos";  //Choices for what Autos to load. Valid Choices: competiton, testing, allAutos
@@ -165,6 +168,7 @@ public final class Constants
       public static final int REEF_SEVEN_POSITION = 17;  //Branches D & C
       public static final int REEF_NINE_POSITION = 18;   //Branches B & A
       public static final int REEF_ELEVEN_POSITION = 19; //Branches L & K
+      public static final int[] REEF_APRILTAGS = {17,18,19,20,21,22};
 
       //Barge Tags
       public static final int BLUE_BARGE = 14;
@@ -187,6 +191,7 @@ public final class Constants
       public static final int REEF_SEVEN_POSITION = 11;  //Branches J & I
       public static final int REEF_NINE_POSITION = 10;   //Branches H & G
       public static final int REEF_ELEVEN_POSITION = 9;  //Branches F & E
+      public static final int[] REEF_APRILTAGS = {7,8,9,10,11};
 
       //Barge Tags
       public static final int BLUE_BARGE = 4;
