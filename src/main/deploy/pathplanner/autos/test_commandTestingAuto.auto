@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "commandTestPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "To_Base_Pot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "commandTestPath2"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Test_Autos",
+  "choreoAuto": false
+}
