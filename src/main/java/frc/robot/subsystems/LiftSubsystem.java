@@ -9,49 +9,30 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 
 public class LiftSubsystem extends SubsystemBase
-{ /* 
-    private static SparkMax liftMotor = new SparkMax(Constants.Lift.LIFT_MOTOR_ID, MotorType.kBrushless);
-    private static SparkClosedLoopController liftPIDController;
-    private static SparkMaxConfig liftPIDConfig= new SparkMaxConfig();
-  
-  
-  public LiftSubsystem() 
-  {    
-    liftPIDConfig.closedLoop.pid(Constants.Lift.PID_P, Constants.Lift.PID_I, Constants.Lift.PID_D);
-    liftMotor.configure(liftPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-    liftPIDController = liftMotor.getClosedLoopController();
+{ 
+  private static TalonFX liftMotor = new TalonFX(Constants.Lift.LIFT_MOTOR_ID);
+
+public Command runLiftMotorCommand()
+{
+  return run(()->runLiftMotor());
+}
+
+public Command stopLiftMotorCommand()
+{
+  return run(()->stopLiftMotor());
+}
+
+  public void runLiftMotor()
+  {
+    liftMotor.set(.1);
   }
 
-  public Command goToStartStageCommand()
+  public void stopLiftMotor()
   {
-    return runOnce(()->startStage());
+    liftMotor.set(0);
   }
-
-  public Command goToCatchStageCommand()
-  {
-    return runOnce(()->catchStage());
-  }
-
-  public Command goToLiftStageCommand()
-  {
-    return runOnce(()->liftStage());
-  }
-
-  public void startStage()
-  {
-    liftPIDController.setReference(Constants.Lift.START_STAGE_ENCODER_VALUE, SparkMax.ControlType.kPosition);
-  }
-
-  public void catchStage()
-  {
-    liftPIDController.setReference(Constants.Lift.CATCH_STAGE_ENCODER_VALUE, SparkMax.ControlType.kPosition);
-  }
-
-  public void liftStage()
-  {
-    liftPIDController.setReference(Constants.Lift.LIFT_STAGE_ENCODER_VALUE, SparkMax.ControlType.kPosition);
-  }
-    */
 }

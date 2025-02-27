@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
@@ -39,12 +40,16 @@ public class RobotContainer
   private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
+  private final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
 
+  private final CommandXboxController driverXbox = new CommandXboxController(0);
+  private final CommandXboxController driverAssistantXbox = new CommandXboxController(4);
   private final CommandJoystick leftButtons = new CommandJoystick(2);
-  private final CommandJoystick joystick = new CommandJoystick(2);
+  //private final CommandJoystick joystick = new CommandJoystick(2);
   private final CommandJoystick rightButtons = new CommandJoystick(3);
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driverXbox = new CommandXboxController(0);
+  
+
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "swerve"));
@@ -153,9 +158,9 @@ public class RobotContainer
         
 
     //Scoring Buttons
-    if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_RIGHT)
-    { 
-      leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    //if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_RIGHT)
+    //{ 
+     /* */ leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
       //leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
       leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
      // leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
@@ -166,13 +171,28 @@ public class RobotContainer
       leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
       //leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
       leftButtons.button(1).onTrue(collectCoralCommand());
-  }
+  //}
    
-  if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_LEFT)
-  { 
+  //if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_LEFT)
+ // { 
     //TODO: add algae scoring button commands
-  }
+ // }
     rightButtons.button(3).onTrue(getHomingCommand());
+
+    driverAssistantXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand());
+    driverAssistantXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand());
+    driverAssistantXbox.b().onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
+    driverAssistantXbox.povDown().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    driverAssistantXbox.povRight().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    driverAssistantXbox.povUp().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
+    driverAssistantXbox.povLeft().onTrue(m_AlgaeSubsystem.rotateTestCommand());
+    driverAssistantXbox.leftBumper().onTrue(m_AlgaeSubsystem.stopMotorCommand());
+    driverAssistantXbox.leftTrigger().onTrue(m_LiftSubsystem.runLiftMotorCommand());
+    driverAssistantXbox.rightTrigger().onTrue(m_LiftSubsystem.stopLiftMotorCommand());
+
+   // driverAssistantXbox.rightBumper().onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ENCODER_VALUE_POS));
+
+
 
 /* 
     leftButtons.button(1).onTrue(m_ElevatorSubsystem.moveElevatorUpCommand());
@@ -196,7 +216,7 @@ public class RobotContainer
 
     joystick.setXChannel(Constants.OperatorConstants.JOYSTICK_X_CHANNEL); //Horizonal axis, algae/coral buttons
     joystick.setYChannel(Constants.OperatorConstants.JOYSTICK_Y_CHANNEL); //vertical axis, not in use
-
+*/
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
     } else {
@@ -229,7 +249,7 @@ public class RobotContainer
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.rightBumper().onTrue(Commands.none());
-    }*/
+    }
 
   }
 

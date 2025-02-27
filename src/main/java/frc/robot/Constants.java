@@ -116,11 +116,10 @@ public final class Constants
     public final class RotationMotor 
     {
       public static final int CORAL_MOTOR_ID = 60;
-      public static final double START_POSITION_ENCODER_VALUE = 25;
-      public static final double COLLECT_POSITION_ENCODER_VALUE = 50;
-      public static final double SCORE_LOWER_POSITION_ENCODER_VALUE = 0;
-      public static final double SCORE_TOP_POSITION_ENCODER_VALUE = 0;
-      public static final double PID_P = 0;
+      public static final double START_POSITION_ENCODER_VALUE = -1.03;
+      public static final double SCORE_LOWER_POSITION_ENCODER_VALUE = -20.97;
+      public static final double SCORE_TOP_POSITION_ENCODER_VALUE = -23.40;
+      public static final double PID_P = 0.2;
       public static final double PID_I = 0;
       public static final double PID_D = 0;
       public static final double PID_IZ = 0;
@@ -136,7 +135,7 @@ public final class Constants
 
     public final class WheelMotor 
     {
-      public static final int WHEEL_MOTOR_ID = 61;
+      public static final int WHEEL_MOTOR_ID = 2;
       public static final double INTAKE_SPEED = .1;
       public static final double OUTPUT_SPEED = -.2;
       public static final double OUTPUT_DELAY = 3; //In Seconds
@@ -151,10 +150,10 @@ public final class Constants
   {
     public final class Rotation
     {
-      public static final int ALGAE_ROTATION_MOTOR_ID = 70;
-      public static final double START_POSITION_ENCODER_VALUE = 0;
-      public static final double COLLECT_ENCODER_VALUECAL_POS = 90;
-      public static final double PID_P = 0;
+      public static final int ALGAE_ROTATION_MOTOR_ID = 61;
+      public static final double START_POSITION_ENCODER_VALUE = 339.7335;
+      public static final double COLLECT_ENCODER_VALUE_POS = 379.9807;
+      public static final double PID_P = 0.1;
       public static final double PID_I = 0;
       public static final double PID_D = 0;
       public static final double PID_IZ = 0;
