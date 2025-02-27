@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -107,7 +108,7 @@ public final class Constants
   public final class Coral
   {
 
-    public static final double DISTANCE_FROM_CENTER = 0.6; //In Meters
+    public static final double DISTANCE_FROM_CENTER = 0.2794; //In Meters
 
     public final class RotationMotor 
     {
@@ -200,6 +201,60 @@ public final class Constants
       //Processor Tags
       public static final int PROCESSOR = 3;
     }
-  }
 
+    public static class BlueReefPositions{
+      public static class CoralPoses{
+        // FMS Branch Names
+        public static final Pose2d A = new Pose2d();
+        public static final Pose2d B = new Pose2d();
+        public static final Pose2d C = new Pose2d();
+        public static final Pose2d D = new Pose2d();
+        public static final Pose2d E = new Pose2d();
+        public static final Pose2d F = new Pose2d();
+        public static final Pose2d G = new Pose2d();
+        public static final Pose2d H = new Pose2d();
+        public static final Pose2d I = new Pose2d();
+        public static final Pose2d J = new Pose2d();
+        public static final Pose2d K = new Pose2d();
+        public static final Pose2d L = new Pose2d();
+      }
+      public static class AlgaePoses{
+        // Clock Positions Relative To Scoring Table (6 o'clock)
+        public static final Pose2d ONE = new Pose2d();
+        public static final Pose2d THREE = new Pose2d();
+        public static final Pose2d FIVE = new Pose2d();
+        public static final Pose2d SEVEN = new Pose2d();
+        public static final Pose2d NINE = new Pose2d();
+        public static final Pose2d ELEVEN = new Pose2d();
+      }
+    }
+
+    public static class RedReefPositions{
+      public static class CoralPoses{
+        // FMS Branch Names
+        public static final Pose2d A = new Pose2d();
+        public static final Pose2d B = new Pose2d();
+        public static final Pose2d C = new Pose2d();
+        public static final Pose2d D = new Pose2d();
+        public static final Pose2d E = new Pose2d();
+        public static final Pose2d F = new Pose2d();
+        public static final Pose2d G = new Pose2d();
+        public static final Pose2d H = new Pose2d();
+        public static final Pose2d I = new Pose2d();
+        public static final Pose2d J = new Pose2d();
+        public static final Pose2d K = new Pose2d();
+        public static final Pose2d L = new Pose2d();
+      }
+      public static class AlgaePoses{
+        // Clock Positions Relative To Scoring Table (6 o'clock)
+        public static final Pose2d ONE = new Pose2d();
+        public static final Pose2d THREE = new Pose2d();
+        public static final Pose2d FIVE = new Pose2d();
+        public static final Pose2d SEVEN = new Pose2d();
+        public static final Pose2d NINE = new Pose2d();
+        public static final Pose2d ELEVEN = new Pose2d();
+      }
+    }
+
+  }
 }

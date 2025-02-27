@@ -30,45 +30,19 @@ public class TargetingSubsystem extends SubsystemBase
     {
     }
 
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        updatePoseEstimation();
+    }
+
     public Command updatePoseEstimationCommand()
     {
         return runOnce(()->updatePoseEstimation());
     }
 
-    /**
-     * Aligns the bot for coral delivery based on the given AprilTag
-     * @param aprilTagId Target AprilTag
-     * @return Command
-     */
-    public Command alignToReefCoralCommand(int aprilTagId){
-        return runOnce(()-> alignToReefCoral(aprilTagId));
-    }
-
-    /**
-     * Aligns the bot for algae pickup based on the given AprilTag
-     * @param aprilTagId Target AprilTag
-     * @return Command
-     */
-    public Command alignToReefAlgaeCommand(int aprilTagId){
-        return runOnce(()-> alignToReefAlgae(aprilTagId));
-    }
-
-    /**
-     * Aligns the bot for coral delivery relative to the closest visible Reef AprilTag
-     * @param aprilTagId Target AprilTag
-     * @return Command
-     */
-    public Command alignToClosestReefCoralCommand(){
-        return runOnce(()-> alignToClosestReefCoral());
-    }
-
-    /**
-     * Aligns the bot for algae pickup relative to the closest visible Reef AprilTag
-     * @param aprilTagId Target AprilTag
-     * @return Command
-     */
-    public Command alignToClosestReefAlgaeCommand(){
-        return runOnce(()-> alignToClosestReefAlgae());
+    public Command pathfindToCoralBranchCommand(String branch){
+        return runOnce(()->pathfindToCoralBranch(branch));
     }
 
     public void initializeLimeLight(SwerveDrive driveSystem)
@@ -103,44 +77,7 @@ public class TargetingSubsystem extends SubsystemBase
         }
     }
 
-    public void alignToReefCoral(int aprilTagId){
+    public void pathfindToCoralBranch(String branch){
         
-    }
-
-    public void alignToReefAlgae(int aprilTagId){
-
-    }
-
-    public void alignToClosestReefCoral(){
-        double tagId =LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
-        Optional<Alliance> alliance = DriverStation.getAlliance();
-
-        if(tagId !=0){
-            Pose2d tagPose = LimelightHelpers.getTargetPose3d_RobotSpace(Constants.LimeLight.LIMELIGHT_NAME).toPose2d();
-            Pose2d targetPose = new Pose2d((tagPose.getX()-Constants.Coral.DISTANCE_FROM_CENTER),tagPose.getY(),tagPose.getRotation());
-            /*
-            if(alliance.isPresent()){
-                if(alliance.get() == Alliance.Blue){
-                    for(int tag : Constants.LimeLight.BlueAprilTags.REEF_APRILTAGS){
-                        if(tag == tagId){
-
-                        }
-                    }
-                }
-            }
-            if(alliance.isPresent()){
-                if(alliance.get() == Alliance.Blue){
-                    for(int tag : Constants.LimeLight.BlueAprilTags.REEF_APRILTAGS){
-                        if(tag == tagId){
-
-                        }
-                    }
-                }
-            }*/
-        }
-    }
-
-    public void alignToClosestReefAlgae(){
-
-    }
+    } 
 }
