@@ -9,8 +9,13 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 import java.util.Optional;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // NetworkTables if needed, LimelightHelpers is less pain
@@ -43,6 +48,23 @@ public class TargetingSubsystem extends SubsystemBase
 
     public Command pathfindToCoralBranchCommand(String branch){
         return runOnce(()->pathfindToCoralBranch(branch));
+    }
+
+    public Command pathfindTest(){
+        PathConstraints constraints = new PathConstraints(
+                3.0, 4.0,
+                Units.degreesToRadians(540), Units.degreesToRadians(720));
+
+        // Since AutoBuilder is configured, we can use it to build pathfinding commands
+        return AutoBuilder.pathfindToPose(
+                Constants.LimeLight.BlueReefPositions.CoralPoses.G,
+                constraints,
+                0.0 // Goal end velocity in meters/sec
+        ).andThen(AutoBuilder.pathfindToPose(
+            Constants.LimeLight.RedReefPositions.CoralPoses.A,
+                constraints,
+                0.0 // Goal end velocity in meters/sec
+        ));
     }
 
     public void initializeLimeLight(SwerveDrive driveSystem)
@@ -78,6 +100,6 @@ public class TargetingSubsystem extends SubsystemBase
     }
 
     public void pathfindToCoralBranch(String branch){
-        
+
     } 
 }

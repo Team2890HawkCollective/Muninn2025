@@ -212,7 +212,7 @@ public final class Constants
         public static final Pose2d D = new Pose2d(3.751,2.949,Rotation2d.fromDegrees(60));
         public static final Pose2d E = new Pose2d(4.714,2.679,Rotation2d.fromDegrees(120));
         public static final Pose2d F = new Pose2d(5.020,2.841,Rotation2d.fromDegrees(120));
-        public static final Pose2d G = new Pose2d(5.776,3.561,Rotation2d.fromDegrees(180));
+        public static final Pose2d G = new Pose2d(5.800,3.561,Rotation2d.fromDegrees(180));
         public static final Pose2d H = new Pose2d(5.785,3.885,Rotation2d.fromDegrees(180));
         public static final Pose2d I = new Pose2d(5.533,4.901,Rotation2d.fromDegrees(240));
         public static final Pose2d J = new Pose2d(5.240,5.063,Rotation2d.fromDegrees(240));
