@@ -119,13 +119,13 @@ public class RobotContainer
     //Autonomous Command Registration
     NamedCommands.registerCommand("To_Base_Encoder",scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     //NamedCommands.registerCommand("To_Base_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Score_Coral_Fourth_Encoder",scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Score_Coral_Fourth_Encoder",scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
     //NamedCommands.registerCommand("Score_Coral_Fourth_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Score_Coral_Third_Encoder",scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Score_Coral_Third_Encoder",scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
     //NamedCommands.registerCommand("Score_Coral_Third_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Score_Coral_Second_Encoder",scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Score_Coral_Second_Encoder",scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
     //NamedCommands.registerCommand("Score_Second_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Score_Coral_First_Encoder",scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Score_Coral_First_Encoder",scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
     //NamedCommands.registerCommand("Score_Coral_First_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
     NamedCommands.registerCommand("Collect_Coral",collectCoralCommand());
   }
@@ -162,13 +162,13 @@ public class RobotContainer
     //{ 
      /* */ leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
       //leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-      leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
+      leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
      // leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
-      leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
       //leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-      leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
      // leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-      leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+      leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
       //leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
       leftButtons.button(1).onTrue(collectCoralCommand());
   //}
@@ -183,13 +183,13 @@ public class RobotContainer
     driverAssistantXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand());
     driverAssistantXbox.b().onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
     driverAssistantXbox.povDown().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-    driverAssistantXbox.povRight().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    driverAssistantXbox.povUp().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
+    //driverAssistantXbox.povRight().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    driverAssistantXbox.povUp().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
     driverAssistantXbox.povLeft().onTrue(m_AlgaeSubsystem.rotateTestCommand());
     driverAssistantXbox.leftBumper().onTrue(m_AlgaeSubsystem.stopMotorCommand());
     driverAssistantXbox.leftTrigger().onTrue(m_LiftSubsystem.runLiftMotorCommand());
     driverAssistantXbox.rightTrigger().onTrue(m_LiftSubsystem.stopLiftMotorCommand());
-
+    driverAssistantXbox.x().onTrue(m_CoralSubsystem.coralOutputCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
    // driverAssistantXbox.rightBumper().onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ENCODER_VALUE_POS));
 
 

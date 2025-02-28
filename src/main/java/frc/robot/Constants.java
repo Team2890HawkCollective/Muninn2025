@@ -67,8 +67,8 @@ public final class Constants
    
     public static final double BASE_STAGE_ENCODER_VALUE = 0;
     public static final double FIRST_CORAL_STAGE_ENCODER_VALUE = 10;
-    public static final double SECOND_CORAL_STAGE_ENCODER_VALUE = 20;
-    public static final double THIRD_CORAL_STAGE_ENCODER_VALUE = 40;
+    public static final double SECOND_CORAL_STAGE_ENCODER_VALUE = 0.251623213291168; //-2.058275461196899
+    public static final double THIRD_CORAL_STAGE_ENCODER_VALUE = -4.001606464385986;
     public static final double FOURTH_CORAL_STAGE_ENCODER_VALUE = 50;
     public static final double COLLECT_CORAL_STAGE_ENCODER_VALUE = 30;
 
@@ -79,7 +79,7 @@ public final class Constants
     public static final double PID_F = 0;
     public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;
     public static final double HOMING_SPEED = -.2;
-    public static final int LIMIT_SWITCH_PWM_PORT = 0;
+    public static final int LIMIT_SWITCH_PWM_PORT = 1;
 
     public final class Potentiometer
     {
@@ -96,7 +96,7 @@ public final class Constants
       public static final double COLLECT_CORAL_STAGE_POT_VALUE = 0.0;
     }
   }
-
+ 
   public final class Lift
   {
     public static final int LIFT_MOTOR_ID = 50;
@@ -116,19 +116,19 @@ public final class Constants
     public final class RotationMotor 
     {
       public static final int CORAL_MOTOR_ID = 60;
-      public static final double START_POSITION_ENCODER_VALUE = -1.03;
-      public static final double SCORE_LOWER_POSITION_ENCODER_VALUE = -20.97;
-      public static final double SCORE_TOP_POSITION_ENCODER_VALUE = -23.40;
-      public static final double PID_P = 0.2;
+      public static final double START_POSITION_ENCODER_VALUE = 1;
+      public static final double SCORE_POSITION_ENCODER_VALUE = -15.214284896850586;
+      //public static final double SCORE_POSITION_ENCODER_VALUE = -17.214284896850586;
+      public static final double PID_P = 0.075;
       public static final double PID_I = 0;
-      public static final double PID_D = 0;
+      public static final double PID_D = 0.01;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
     }
 
     public final class Servo
     {
-      public static final int SERVO_PWM_PORT = 1;
+      public static final int SERVO_PWM_PORT = 9;
       public static final double DOOR_CLOSED_ANGLE = 0.0;
       public static final double DOOR_OPEN_ANGLE = 180.0;
     }
