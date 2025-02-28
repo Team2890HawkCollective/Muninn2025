@@ -27,6 +27,7 @@ import java.util.function.DoubleSupplier;
 
 import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very
@@ -35,8 +36,7 @@ import swervelib.SwerveInputStream;
  * Instead, the structure of the robot (including subsystems, commands, and
  * trigger mappings) should be declared here.
  */
-public class RobotContainer
-{
+public class RobotContainer {
   private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
@@ -45,10 +45,9 @@ public class RobotContainer
   private final CommandXboxController driverXbox = new CommandXboxController(0);
   private final CommandXboxController driverAssistantXbox = new CommandXboxController(4);
   private final CommandJoystick leftButtons = new CommandJoystick(2);
-  //private final CommandJoystick joystick = new CommandJoystick(2);
+  // private final CommandJoystick joystick = new CommandJoystick(2);
   private final CommandJoystick rightButtons = new CommandJoystick(3);
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -116,18 +115,32 @@ public class RobotContainer
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
 
-    //Autonomous Command Registration
-    NamedCommands.registerCommand("To_Base_Encoder",scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-    //NamedCommands.registerCommand("To_Base_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Score_Coral_Fourth_Encoder",scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    //NamedCommands.registerCommand("Score_Coral_Fourth_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Score_Coral_Third_Encoder",scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    //NamedCommands.registerCommand("Score_Coral_Third_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Score_Coral_Second_Encoder",scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    //NamedCommands.registerCommand("Score_Second_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Score_Coral_First_Encoder",scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    //NamedCommands.registerCommand("Score_Coral_First_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-    NamedCommands.registerCommand("Collect_Coral",collectCoralCommand());
+    // Autonomous Command Registration
+    NamedCommands.registerCommand("To_Base_Encoder", scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+        Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    // NamedCommands.registerCommand("To_Base_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Score_Coral_Fourth_Encoder",
+        scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE,
+            Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    // NamedCommands.registerCommand("Score_Coral_Fourth_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Score_Coral_Third_Encoder",
+        scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE,
+            Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    // NamedCommands.registerCommand("Score_Coral_Third_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Score_Coral_Second_Encoder",
+        scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE,
+            Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    // NamedCommands.registerCommand("Score_Second_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Score_Coral_First_Encoder",
+        scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE,
+            Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    // NamedCommands.registerCommand("Score_Coral_First_Pot",scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    NamedCommands.registerCommand("Collect_Coral", collectCoralCommand());
   }
 
   /**
@@ -144,9 +157,8 @@ public class RobotContainer
    * Flight joysticks}.
    */
 
-  private void configureBindings()
-  {    
-    Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
+  private void configureBindings() {
+    Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
     Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(
@@ -155,76 +167,86 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
-        
 
-    //Scoring Buttons
-    //if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_RIGHT)
-    //{ 
-     /* */ leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-      //leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE, Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-      leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-     // leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
-      leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-      //leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-      leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-     // leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-      leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE, Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-      //leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE, Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
-      leftButtons.button(1).onTrue(collectCoralCommand());
-  //}
-   
-  //if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_LEFT)
- // { 
-    //TODO: add algae scoring button commands
- // }
+    // Scoring Buttons
+    // if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_RIGHT)
+    // {
+    /* */ leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+        Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    // leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE,
+        Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    // leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
+    leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.THIRD_CORAL_STAGE_ENCODER_VALUE,
+        Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    // leftButtons.button(3).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.THIRD_CORAL_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.SECOND_CORAL_STAGE_ENCODER_VALUE,
+        Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    // leftButtons.button(4).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.SECOND_CORAL_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.FIRST_CORAL_STAGE_ENCODER_VALUE,
+        Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    // leftButtons.button(5).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FIRST_CORAL_STAGE_POT_VALUE,
+    // Constants.Coral.RotationMotor.SCORE_LOWER_POSITION_ENCODER_VALUE));
+    leftButtons.button(1).onTrue(collectCoralCommand());
+    // }
+
+    // if(joystick.getX() == Constants.OperatorConstants.JOYSTICK_IS_LEFT)
+    // {
+    // TODO: add algae scoring button commands
+    // }
     rightButtons.button(3).onTrue(getHomingCommand());
 
     driverAssistantXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand());
     driverAssistantXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand());
     driverAssistantXbox.b().onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
-    driverAssistantXbox.povDown().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-    //driverAssistantXbox.povRight().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    driverAssistantXbox.povUp().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    driverAssistantXbox.povDown()
+        .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    // driverAssistantXbox.povRight().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    driverAssistantXbox.povUp()
+        .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
     driverAssistantXbox.povLeft().onTrue(m_AlgaeSubsystem.rotateTestCommand());
     driverAssistantXbox.leftBumper().onTrue(m_AlgaeSubsystem.stopMotorCommand());
     driverAssistantXbox.leftTrigger().onTrue(m_LiftSubsystem.runLiftMotorCommand());
     driverAssistantXbox.rightTrigger().onTrue(m_LiftSubsystem.stopLiftMotorCommand());
-    driverAssistantXbox.x().onTrue(m_CoralSubsystem.coralOutputCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-   // driverAssistantXbox.rightBumper().onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ENCODER_VALUE_POS));
+    driverAssistantXbox.x().onTrue(m_CoralSubsystem.coralOutputCommand());
+    // driverAssistantXbox.rightBumper().onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ENCODER_VALUE_POS));
 
-
-
-/* 
-    leftButtons.button(1).onTrue(m_ElevatorSubsystem.moveElevatorUpCommand());
-    leftButtons.button(2).onTrue(m_ElevatorSubsystem.moveElevatorDownCommand());
-    leftButtons.button(3).onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
-
-    if(joystick.getY() == Constants.OperatorConstants.JOYSTICK_IS_UP)
-    {
-      moveElevatorUpCommand()
-    }
-
-    if(joystick.getY() == Constants.OperatorConstants.JOYSTICK_IS_DOWN)
-    {
-      moveElevatorDownCommand()
-    }
-
-    // Lift Buttons
-    //rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
-    //rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
-    //rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
-
-    joystick.setXChannel(Constants.OperatorConstants.JOYSTICK_X_CHANNEL); //Horizonal axis, algae/coral buttons
-    joystick.setYChannel(Constants.OperatorConstants.JOYSTICK_Y_CHANNEL); //vertical axis, not in use
-*/
+    /*
+     * leftButtons.button(1).onTrue(m_ElevatorSubsystem.moveElevatorUpCommand());
+     * leftButtons.button(2).onTrue(m_ElevatorSubsystem.moveElevatorDownCommand());
+     * leftButtons.button(3).onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
+     * 
+     * if(joystick.getY() == Constants.OperatorConstants.JOYSTICK_IS_UP)
+     * {
+     * moveElevatorUpCommand()
+     * }
+     * 
+     * if(joystick.getY() == Constants.OperatorConstants.JOYSTICK_IS_DOWN)
+     * {
+     * moveElevatorDownCommand()
+     * }
+     * 
+     * // Lift Buttons
+     * //rightButtons.button(3).onTrue(m_LiftSubsystem.goToStartStageCommand());
+     * //rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
+     * //rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
+     * 
+     * joystick.setXChannel(Constants.OperatorConstants.JOYSTICK_X_CHANNEL);
+     * //Horizonal axis, algae/coral buttons
+     * joystick.setYChannel(Constants.OperatorConstants.JOYSTICK_Y_CHANNEL);
+     * //vertical axis, not in use
+     */
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
     } else {
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
     }
 
-    if (Robot.isSimulation())
-    {
+    if (Robot.isSimulation()) {
 
       driverXbox.start().onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
       driverXbox.button(1).whileTrue(drivebase.sysIdDriveMotorCommand());
@@ -263,33 +285,30 @@ public class RobotContainer
     return drivebase.getAutonomousCommand("New Auto");
   }
 
-  public Command getHomingCommand()
-  {
+  public Command getHomingCommand() {
     // An example command will be run in autonomous
     return m_ElevatorSubsystem.goToHomeCommand();
   }
 
-  public void setMotorBrake(boolean brake)
-  {
+  public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
 
-  public Command scoreCoralCommand(double elevatorPositionValue, double coralEncoderValue)
-  {
+  public Command scoreCoralCommand(double elevatorPositionValue, double coralEncoderValue) {
     return m_ElevatorSubsystem.goToStageEncoderCommand(elevatorPositionValue)
-    //m_ElevatorSubsystem.goToStagePotentiometerCommand(positionValue)
-    //.andThen(m_CoralSubsystem.coralOutputCommand(coralEncoderValue)) ADD BACK, TEMP COMMENT
-    .andThen(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
-    //.andThen(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
+        // m_ElevatorSubsystem.goToStagePotentiometerCommand(positionValue)
+        // .andThen(m_CoralSubsystem.coralOutputCommand(coralEncoderValue)) ADD BACK,
+        // TEMP COMMENT
+        .andThen(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
+    // .andThen(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
   }
 
-  public Command collectCoralCommand()
-  {
+  public Command collectCoralCommand() {
     return m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.COLLECT_CORAL_STAGE_ENCODER_VALUE)
-    //m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.COLLECT_CORAL_STAGE_POT_VALUE)
-    //.andThen(m_CoralSubsystem.coralIntakeCommand()) ADD BACK, TEMP COMMENT
-    .andThen(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
-    //.andThen(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
+        // m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.COLLECT_CORAL_STAGE_POT_VALUE)
+        // .andThen(m_CoralSubsystem.coralIntakeCommand()) ADD BACK, TEMP COMMENT
+        .andThen(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
+    // .andThen(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
   }
 
 }

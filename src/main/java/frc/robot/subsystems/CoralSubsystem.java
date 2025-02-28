@@ -15,91 +15,72 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.playingwithfusion.TimeOfFlight;
 
-public class CoralSubsystem extends SubsystemBase
-{
-    private static SparkMax coralRotationalMotor = new SparkMax(Constants.Coral.RotationMotor.CORAL_MOTOR_ID, MotorType.kBrushless);
-    private static SparkMaxConfig coralRotationalPIDConfig= new SparkMaxConfig();
+public class CoralSubsystem extends SubsystemBase {
+    private static SparkMax coralRotationalMotor = new SparkMax(Constants.Coral.RotationMotor.CORAL_MOTOR_ID,
+            MotorType.kBrushless);
+    private static SparkMaxConfig coralRotationalPIDConfig = new SparkMaxConfig();
     private static SparkClosedLoopController coralRotationalPIDController;
-    //private static SparkPIDController coralRotationalPIDController = coralRotationalMotor.
+    // private static SparkPIDController coralRotationalPIDController =
+    // coralRotationalMotor.
 
-//    private static SparkMax coralWheelMotor = new SparkMax(Constants.Coral.WheelMotor.WHEEL_MOTOR_ID, MotorType.kBrushless);
+    // private static SparkMax coralWheelMotor = new
+    // SparkMax(Constants.Coral.WheelMotor.WHEEL_MOTOR_ID, MotorType.kBrushless);
 
     public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Coral.WheelMotor.TOF_SENSOR);
     private static Servo doorServo = new Servo(Constants.Coral.Servo.SERVO_PWM_PORT);
 
-    public CoralSubsystem()
-    {
-       // coralRotationalPIDConfig.closedLoop.pid(Constants.Coral.RotationMotor.PID_P, Constants.Coral.RotationMotor.PID_I, Constants.Coral.RotationMotor.PID_D);
-       coralRotationalPIDConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            // Set PID values for position control. We don't need to pass a closed loop
-            // slot, as it will default to slot 0.
-        .p(Constants.Coral.RotationMotor.PID_P)
-        .i(Constants.Coral.RotationMotor.PID_I)
-        .d(Constants.Coral.RotationMotor.PID_D)
-        .outputRange(-1, 1)
-        // Set PID values for velocity control in slot 1
-        .p(0.0001, ClosedLoopSlot.kSlot1)
-        .i(0, ClosedLoopSlot.kSlot1)
-        .d(0, ClosedLoopSlot.kSlot1)
-        .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
-        .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+    public CoralSubsystem() {
+        // coralRotationalPIDConfig.closedLoop.pid(Constants.Coral.RotationMotor.PID_P,
+        // Constants.Coral.RotationMotor.PID_I, Constants.Coral.RotationMotor.PID_D);
+        coralRotationalPIDConfig.closedLoop
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                // Set PID values for position control. We don't need to pass a closed loop
+                // slot, as it will default to slot 0.
+                .p(Constants.Coral.RotationMotor.PID_P)
+                .i(Constants.Coral.RotationMotor.PID_I)
+                .d(Constants.Coral.RotationMotor.PID_D)
+                .outputRange(-1, 1)
+                // Set PID values for velocity control in slot 1
+                .p(0.0001, ClosedLoopSlot.kSlot1)
+                .i(0, ClosedLoopSlot.kSlot1)
+                .d(0, ClosedLoopSlot.kSlot1)
+                .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
+                .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
 
-       coralRotationalMotor.configure(coralRotationalPIDConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    coralRotationalPIDController = coralRotationalMotor.getClosedLoopController();
+        coralRotationalMotor.configure(coralRotationalPIDConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kNoPersistParameters);
+        coralRotationalPIDController = coralRotationalMotor.getClosedLoopController();
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler 
+        // This method will be called once per scheduler
         SmartDashboard.putNumber("Coral Absolute Encoder", coralRotationalMotor.getAbsoluteEncoder().getPosition());
         SmartDashboard.putNumber("Coral Relative Encoder", coralRotationalMotor.getEncoder().getPosition());
     }
 
-    public Command rotateToPositionCommand(double encoderValue)
-    {
-        return runOnce(()->rotateToPosition(encoderValue));
+    public Command rotateToPositionCommand(double encoderValue) {
+        return runOnce(() -> rotateToPosition(encoderValue));
     }
 
-    public Command coralIntakeCommand()
-    {
+    public Command coralIntakeCommand() {
         return rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)
-        .andThen(runOnce(()->doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE)))
-        //.andThen(runOnce(()->intakeCoral()))
-        //.until(() ->{return (TOFSensor.getRange() < Constants.Coral.WheelMotor.TOF_TRIGGER_DIST);})
-        //.andThen(()->stopWheels())
-        .andThen(runOnce(()->doorServo.setAngle(Constants.Coral.Servo.DOOR_CLOSED_ANGLE)))
-        .andThen(()-> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE)))
+                // .andThen(runOnce(()->intakeCoral()))
+                // .until(() ->{return (TOFSensor.getRange() <
+                // Constants.Coral.WheelMotor.TOF_TRIGGER_DIST);})
+                // .andThen(()->stopWheels())
+                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_CLOSED_ANGLE)));
     }
 
-    public Command coralOutputCommand(double encoderValue)
-    {
-        return rotateToPositionCommand(encoderValue)
-        .andThen(runOnce(()->doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE)));
-        //.andThen(runOnce(()->outputCoral()))
-        //.withTimeout(Constants.Coral.WheelMotor.OUTPUT_DELAY)
-        //.andThen(()->stopWheels())
-        //.andThen(runOnce(()->doorServo.setAngle(Constants.Coral.Servo.DOOR_CLOSED_ANGLE)))
-        //.andThen(()-> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    public Command coralOutputCommand() {
+        return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE)
+                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE)))
+                .withTimeout(Constants.Coral.WheelMotor.OUTPUT_DELAY)
+                .andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     }
 
-    public void rotateToPosition(double encoderValue)
-    {
-        coralRotationalPIDController.setReference(encoderValue,SparkMax.ControlType.kPosition);
-    }
-
-    public void intakeCoral()
-    {
-       // coralWheelMotor.set(Constants.Coral.WheelMotor.INTAKE_SPEED);
-    }
-
-    public void outputCoral()
-    {
-        //coralWheelMotor.set(Constants.Coral.WheelMotor.OUTPUT_SPEED);
-    }
-
-    public void stopWheels()
-    {
-        //coralWheelMotor.set(0);
+    public void rotateToPosition(double encoderValue) {
+        coralRotationalPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
     }
 }
