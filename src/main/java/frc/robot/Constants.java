@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -205,18 +206,18 @@ public final class Constants
     public static class BlueReefPositions{
       public static class CoralPoses{
         // FMS Branch Names
-        public static final Pose2d A = new Pose2d();
-        public static final Pose2d B = new Pose2d();
-        public static final Pose2d C = new Pose2d();
-        public static final Pose2d D = new Pose2d();
-        public static final Pose2d E = new Pose2d();
-        public static final Pose2d F = new Pose2d();
-        public static final Pose2d G = new Pose2d();
-        public static final Pose2d H = new Pose2d();
-        public static final Pose2d I = new Pose2d();
-        public static final Pose2d J = new Pose2d();
-        public static final Pose2d K = new Pose2d();
-        public static final Pose2d L = new Pose2d();
+        public static final Pose2d A = new Pose2d(3.215,4.446,Rotation2d.fromDegrees(0));
+        public static final Pose2d B = new Pose2d(3.215,4.160,Rotation2d.fromDegrees(0));
+        public static final Pose2d C = new Pose2d(3.455,3.129,Rotation2d.fromDegrees(60));
+        public static final Pose2d D = new Pose2d(3.751,2.949,Rotation2d.fromDegrees(60));
+        public static final Pose2d E = new Pose2d(4.714,2.679,Rotation2d.fromDegrees(120));
+        public static final Pose2d F = new Pose2d(5.020,2.841,Rotation2d.fromDegrees(120));
+        public static final Pose2d G = new Pose2d(5.776,3.561,Rotation2d.fromDegrees(180));
+        public static final Pose2d H = new Pose2d(5.785,3.885,Rotation2d.fromDegrees(180));
+        public static final Pose2d I = new Pose2d(5.533,4.901,Rotation2d.fromDegrees(240));
+        public static final Pose2d J = new Pose2d(5.240,5.063,Rotation2d.fromDegrees(240));
+        public static final Pose2d K = new Pose2d(4.255,5.369,Rotation2d.fromDegrees(300));
+        public static final Pose2d L = new Pose2d(3.967,5.198,Rotation2d.fromDegrees(300));
       }
       public static class AlgaePoses{
         // Clock Positions Relative To Scoring Table (6 o'clock)
@@ -232,18 +233,18 @@ public final class Constants
     public static class RedReefPositions{
       public static class CoralPoses{
         // FMS Branch Names
-        public static final Pose2d A = new Pose2d();
-        public static final Pose2d B = new Pose2d();
-        public static final Pose2d C = new Pose2d();
-        public static final Pose2d D = new Pose2d();
-        public static final Pose2d E = new Pose2d();
-        public static final Pose2d F = new Pose2d();
-        public static final Pose2d G = new Pose2d();
-        public static final Pose2d H = new Pose2d();
-        public static final Pose2d I = new Pose2d();
-        public static final Pose2d J = new Pose2d();
-        public static final Pose2d K = new Pose2d();
-        public static final Pose2d L = new Pose2d();
+        public static final Pose2d A = new Pose2d(14.337,3.571,Rotation2d.fromDegrees(180));
+        public static final Pose2d B = new Pose2d(14.337,3.872,Rotation2d.fromDegrees(180));
+        public static final Pose2d C = new Pose2d(14.109,4.912,Rotation2d.fromDegrees(240));
+        public static final Pose2d D = new Pose2d(13.817,5.068,Rotation2d.fromDegrees(240));
+        public static final Pose2d E = new Pose2d(12.813,5.360,Rotation2d.fromDegrees(300));
+        public static final Pose2d F = new Pose2d(12.521,5.195,Rotation2d.fromDegrees(300));
+        public static final Pose2d G = new Pose2d(11.791,4.465,Rotation2d.fromDegrees(0));
+        public static final Pose2d H = new Pose2d(11.791,4.146,Rotation2d.fromDegrees(0));
+        public static final Pose2d I = new Pose2d(12.037,3.142,Rotation2d.fromDegrees(60));
+        public static final Pose2d J = new Pose2d(12.320,2.978,Rotation2d.fromDegrees(60));
+        public static final Pose2d K = new Pose2d(13.306,2.686,Rotation2d.fromDegrees(120));
+        public static final Pose2d L = new Pose2d(13.580,2.850,Rotation2d.fromDegrees(120));
       }
       public static class AlgaePoses{
         // Clock Positions Relative To Scoring Table (6 o'clock)
