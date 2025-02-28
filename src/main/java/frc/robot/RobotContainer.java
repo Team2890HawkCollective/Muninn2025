@@ -43,7 +43,7 @@ public class RobotContainer {
   private final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
 
   private final CommandXboxController driverXbox = new CommandXboxController(0);
-  private final CommandXboxController driverAssistantXbox = new CommandXboxController(4);
+  private final CommandXboxController driverAssistantXbox = new CommandXboxController(1);
   private final CommandJoystick leftButtons = new CommandJoystick(2);
   // private final CommandJoystick joystick = new CommandJoystick(2);
   private final CommandJoystick rightButtons = new CommandJoystick(3);
