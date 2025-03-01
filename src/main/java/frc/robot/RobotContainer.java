@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -175,7 +176,7 @@ public class RobotContainer {
         Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     // leftButtons.button(6).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE,
     // Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
-    leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.FOURTH_CORAL_STAGE_ENCODER_VALUE,
+    leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.L4_CORAL_STAGE_ENCODER_VALUE,
         Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
     // leftButtons.button(2).onTrue(scoreCoralCommand(Constants.Elevator.Potentiometer.FOURTH_CORAL_STAGE_POT_VALUE,
     // Constants.Coral.RotationMotor.SCORE_TOP_POSITION_ENCODER_VALUE));
@@ -202,6 +203,17 @@ public class RobotContainer {
 
     driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen());
     driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed());
+    
+    driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand());
+    driverXbox.rightTrigger().whileTrue(m_AlgaeSubsystem.moveOutputAlgaeWheelsCommand());
+    driverXbox.x().onTrue(m_AlgaeSubsystem.stopAlgaeWheelsCommand());
+    driverXbox.y().onTrue(m_AlgaeSubsystem.AlgaeCarryCommand());
+    driverXbox.a().onTrue(m_AlgaeSubsystem.AlgaeOutputCommand());
+    driverXbox.b().onTrue(m_AlgaeSubsystem.AlgaeStartCommand());
+    driverXbox.povDown().onTrue(m_LiftSubsystem.lockRatchetCommand());
+    driverXbox.povUp().onTrue(m_LiftSubsystem.retractRatchetCommand());
+    
+   // driverXbox.a().onTrue(m_LiftSubsystem.);
 
     driverAssistantXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand());
     driverAssistantXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand());
@@ -211,11 +223,16 @@ public class RobotContainer {
     // driverAssistantXbox.povRight().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
     driverAssistantXbox.povUp()
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    driverAssistantXbox.povLeft().onTrue(m_AlgaeSubsystem.rotateTestCommand());
-    driverAssistantXbox.leftBumper().onTrue(m_AlgaeSubsystem.stopMotorCommand());
+    //driverAssistantXbox.leftBumper().onTrue(m_AlgaeSubsystem.joystickRotateAlgaeCommand());
     driverAssistantXbox.leftTrigger().onTrue(m_LiftSubsystem.runLiftMotorCommand());
     driverAssistantXbox.rightTrigger().onTrue(m_LiftSubsystem.stopLiftMotorCommand());
     driverAssistantXbox.x().onTrue(m_CoralSubsystem.coralOutputCommand());
+    EventLoop elevatorJoystickLoop = new EventLoop();
+    elevatorJoystickLoop.bind(()->m_ElevatorSubsystem.joystickMoveElevatorCommand(driverAssistantXbox.getRightY()).until(m_ElevatorSubsystem.bottomlimitSwitch::get).handleInterrupt(()->m_ElevatorSubsystem.stopElevatorMotorCommand()));
+    driverAssistantXbox.rightStick(elevatorJoystickLoop);
+    EventLoop algaeJoystickLoop = new EventLoop();
+    algaeJoystickLoop.bind(()->m_AlgaeSubsystem.joystickRotateAlgaeCommand(driverAssistantXbox.getLeftY()));
+    driverAssistantXbox.leftStick(algaeJoystickLoop);
     // driverAssistantXbox.rightBumper().onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ENCODER_VALUE_POS));
 
     /*
@@ -265,15 +282,16 @@ public class RobotContainer {
       driverXbox.leftBumper().onTrue(Commands.none());
       driverXbox.rightBumper().onTrue(Commands.none());
     } else {
-      driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
-      driverXbox.b().whileTrue(
+      //driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      //driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+     /*  driverXbox.b().whileTrue(
           drivebase.driveToPose(
               new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
-      driverXbox.start().whileTrue(Commands.none());
-      driverXbox.back().whileTrue(Commands.none());
-      driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      driverXbox.rightBumper().onTrue(Commands.none());
+              */
+      //driverXbox.start().whileTrue(Commands.none());
+      //driverXbox.back().whileTrue(Commands.none());
+      //driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+      //driverXbox.rightBumper().onTrue(Commands.none());
     }
 
   }
@@ -297,20 +315,19 @@ public class RobotContainer {
     drivebase.setMotorBrake(brake);
   }
 
-  public Command scoreCoralCommand(double elevatorPositionValue, double coralEncoderValue) {
-    return m_ElevatorSubsystem.goToStageEncoderCommand(elevatorPositionValue)
+  public Command scoreCoralCommand(int elevatorStageValue, double coralEncoderValue) {
+    return m_ElevatorSubsystem.goToElevatorStageCommand(elevatorStageValue)
         // m_ElevatorSubsystem.goToStagePotentiometerCommand(positionValue)
         // .andThen(m_CoralSubsystem.coralOutputCommand(coralEncoderValue)) ADD BACK,
         // TEMP COMMENT
-        .andThen(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
+        .andThen(m_ElevatorSubsystem.goToElevatorStageCommand(Constants.Elevator.CORAL_STAGE_BASE));
     // .andThen(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
   }
 
   public Command collectCoralCommand() {
-    return m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.COLLECT_CORAL_STAGE_ENCODER_VALUE)
+    return m_ElevatorSubsystem.goToElevatorStageCommand(Constants.Elevator.CORAL_STAGE_BASE)
         // m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.COLLECT_CORAL_STAGE_POT_VALUE)
         // .andThen(m_CoralSubsystem.coralIntakeCommand()) ADD BACK, TEMP COMMENT
-        .andThen(m_ElevatorSubsystem.goToStageEncoderCommand(Constants.Elevator.BASE_STAGE_ENCODER_VALUE));
     // .andThen(m_ElevatorSubsystem.goToStagePotentiometerCommand(Constants.Elevator.Potentiometer.BASE_STAGE_POT_VALUE));
   }
 

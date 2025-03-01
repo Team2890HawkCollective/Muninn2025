@@ -64,12 +64,19 @@ public final class Constants {
   public final class Elevator {
     public static final int ELEVATOR_MOTOR_ID = 40;
 
-    public static final double BASE_STAGE_ENCODER_VALUE = 0;
-    public static final double FIRST_CORAL_STAGE_ENCODER_VALUE = 10;
-    public static final double SECOND_CORAL_STAGE_ENCODER_VALUE = 0.251623213291168; // -2.058275461196899
-    public static final double THIRD_CORAL_STAGE_ENCODER_VALUE = -4.001606464385986;
-    public static final double FOURTH_CORAL_STAGE_ENCODER_VALUE = 50;
-    public static final double COLLECT_CORAL_STAGE_ENCODER_VALUE = 30;
+    public static final double DEADZONE = 0.1;
+    
+    public static final int CORAL_STAGE_BASE = 0;
+    public static final int CORAL_STAGE_L1 = 1;
+    public static final int CORAL_STAGE_L2 = 2;
+    public static final int CORAL_STAGE_L3 = 3;
+    public static final int CORAL_STAGE_L4 = 4;
+
+    public static double BASE_STAGE_ENCODER_VALUE = 0;
+    public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = 0.251623213291168; // -2.058275461196899
+    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -4.001606464385986;
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = 50;
 
     public static final double PID_P = 0.05;
     public static final double PID_I = 0;
@@ -106,6 +113,13 @@ public final class Constants {
     public static final double PID_D = 0;
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
+
+    public final class LIFT_SERVO {
+      //public static final int SERVO_PWN_PORT = ;
+      public static final double R_UNLOCK_ANGLE = 0.3;
+      public static final double R_LOCK_ANGLE = 0.15;
+    }
+   
   }
 
   public final class Coral {
@@ -122,7 +136,7 @@ public final class Constants {
       public static final double PID_F = 0;
     }
 
-    public final class Servo {
+    public final class CoralServo {
       public static final int SERVO_PWM_PORT = 9;
       public static final double DOOR_CLOSED_ANGLE = 40.0;
       public static final double DOOR_OPEN_ANGLE = 100.0;
@@ -138,20 +152,23 @@ public final class Constants {
   public final class Algae {
     public final class Rotation {
       public static final int ALGAE_ROTATION_MOTOR_ID = 61;
-      public static final double START_POSITION_ENCODER_VALUE = 339.7335;
-      public static final double COLLECT_ENCODER_VALUE_POS = 379.9807;
+      public static final double START_POSITION_ENCODER_VALUE = -22;
+      public static final double COLLECT_ENCODER_VALUE_POS = 60.31047821044922;
+      public static final double CARRY_ENCODER_VALUE = 4;
       public static final double PID_P = 0.1;
       public static final double PID_I = 0;
       public static final double PID_D = 0;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
 
+      public static final double DEADZONE = 0.1;
+
     }
 
     public final class Wheel {
-      public static final int ALGAE_WHEEL_MOTOR_ID = 71;
-      public static final double WHEEL_INTAKE_SPEED = 0.1;
-      public static final double WHEEL_OUTPUT_SPEED = -0.1;
+      public static final int ALGAE_WHEEL_MOTOR_ID = 62;
+      public static final double WHEEL_INTAKE_SPEED = -0.5;
+      public static final double WHEEL_OUTPUT_SPEED = 0.2;
 
     }
 

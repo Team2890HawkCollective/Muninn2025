@@ -20,8 +20,9 @@ public class AlgaeSubsystem extends SubsystemBase {
     private static SparkMaxConfig algaeRotationPIDConfig = new SparkMaxConfig();
     private static SparkClosedLoopController algaeRotationPIDController;
 
-    // private static SparkMax algaeWheelMotor = new
-    // SparkMax(Constants.Algae.Wheel.ALGAE_WHEEL_MOTOR_ID, MotorType.kBrushless);
+    private static SparkMax algaeWheelMotor = new SparkMax(Constants.Algae.Wheel.ALGAE_WHEEL_MOTOR_ID,
+            MotorType.kBrushless);
+
 
     public AlgaeSubsystem() {
         algaeRotationPIDConfig.closedLoop
@@ -51,35 +52,67 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public Command rotateToPositionCommand(double encoderValue) {
-        return runOnce(() -> rotateToStartPosition(encoderValue));
+        return runOnce(() -> rotateToPosition(encoderValue));
     }
 
-    public Command moveAlgaeWheelsCommand(double speed) {
-        return runOnce(() -> moveAlgaeWheels(speed));
-    }
-
-    public void rotateTest() {
-        algaeRotationMotor.set(.7);
-    }
-
-    public Command rotateTestCommand() {
-        return run(() -> rotateTest());
-    }
-
-    public void rotateToStartPosition(double encoderValue) {
+    
+    public void rotateToPosition(double encoderValue) {
         algaeRotationPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
     }
 
-    public void stopMotor() {
+    public Command AlgaeCarryCommand() {
+        return rotateToPositionCommand(Constants.Algae.Rotation.CARRY_ENCODER_VALUE);
+
+    }
+    public Command AlgaeOutputCommand() {
+        return rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ENCODER_VALUE_POS);
+    }
+    
+    public Command AlgaeStartCommand(){
+        return rotateToPositionCommand(Constants.Algae.Rotation.START_POSITION_ENCODER_VALUE);
+    }
+
+    public Command moveInputAlgaeWheelsCommand(){
+        return runOnce(() -> moveInputAlgaeWheels());
+    }
+
+    public Command moveOutputAlgaeWheelsCommand(){
+        return runOnce(() -> moveOutputAlgaeWheels());
+    }
+
+    public Command stopAlgaeWheelsCommand(){
+        return runOnce(() -> stopWheels());
+    }
+
+
+    public void stopRotationMotor() {
         algaeRotationMotor.set(0);
     }
 
-    public Command stopMotorCommand() {
-        return runOnce(() -> stopMotor());
+    public Command stopRotationMotorCommand() {
+        return runOnce(() -> stopRotationMotor());
     }
 
-    public void moveAlgaeWheels(double speed) {
-        // algaeWheelMotor.set(speed);
+    public void moveInputAlgaeWheels() {
+        algaeWheelMotor.set(Constants.Algae.Wheel.WHEEL_INTAKE_SPEED);
+    }
+
+    public void moveOutputAlgaeWheels() {
+        algaeWheelMotor.set(Constants.Algae.Wheel.WHEEL_OUTPUT_SPEED);
+    }
+
+    public void stopWheels() {
+        algaeWheelMotor.set(0);
+    }
+
+    public Command joystickRotateAlgaeCommand(double joystickY) {
+        return run(() -> joystickRotateAlgae(joystickY))
+            .onlyWhile(() -> (Math.abs(joystickY)>Constants.Algae.Rotation.DEADZONE))
+            .andThen(() -> stopRotationMotor());
+    }
+
+    public void joystickRotateAlgae(double speed){
+        algaeWheelMotor.set(speed);
     }
 
 }

@@ -27,7 +27,7 @@ public class CoralSubsystem extends SubsystemBase {
     // SparkMax(Constants.Coral.WheelMotor.WHEEL_MOTOR_ID, MotorType.kBrushless);
 
     public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Coral.TOF_SENSOR);
-    private static Servo doorServo = new Servo(Constants.Coral.Servo.SERVO_PWM_PORT);
+    private static Servo doorServo = new Servo(Constants.Coral.CoralServo.SERVO_PWM_PORT);
 
     public CoralSubsystem() {
         // coralRotationalPIDConfig.closedLoop.pid(Constants.Coral.RotationMotor.PID_P,
@@ -64,27 +64,27 @@ public class CoralSubsystem extends SubsystemBase {
 
     public Command coralIntakeCommand() {
         return rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)
-                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE)))
+                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)))
                 // .andThen(runOnce(()->intakeCoral()))
                 // .until(() ->{return (TOFSensor.getRange() <
                 // Constants.Coral.WheelMotor.TOF_TRIGGER_DIST);})
                 // .andThen(()->stopWheels())
-                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_CLOSED_ANGLE)));
+                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE)));
     }
 
     public Command coralOutputCommand() {
         return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE)
-                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE)))
+                .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)))
                 //.wait(3000)
                 .andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     }
 
     public Command servoRotateToOpen(){
-        return runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE));
+        return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE));
     }
 
     public Command servoRotateToClosed(){
-        return runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_CLOSED_ANGLE));
+        return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE));
     }
 
     public void rotateToPosition(double encoderValue) {

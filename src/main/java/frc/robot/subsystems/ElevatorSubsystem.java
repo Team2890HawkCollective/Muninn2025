@@ -22,7 +22,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
 
     // TODO: Add limit switch
-    DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
+    public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
 
     // TODO: Add potentiometer
     // AnalogPotentiometer potentiometer = new
@@ -57,12 +57,39 @@ public class ElevatorSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Limit Switch State", bottomlimitSwitch.get());
     }
 
-    public Command goToStageEncoderCommand(double encoderValue) {
-        return runOnce(() -> goToStageEncoder(encoderValue));
+    public Command goToElevatorStageCommand(int elevatorStageValue) {
+        return runOnce(() -> goToElevatorStage(elevatorStageValue));
     }
 
-    public void goToStageEncoder(double encoderValue) {
-        elevatorPIDController.setReference(encoderValue, SparkFlex.ControlType.kPosition);
+    public void goToElevatorStage(int elevatorStageValue) {
+        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_BASE) {
+            elevatorPIDController.setReference(Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+                    SparkFlex.ControlType.kPosition);
+        }
+
+        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_L1) {
+            elevatorPIDController.setReference(
+                    Constants.Elevator.L1_CORAL_STAGE_ENCODER_DIFFERENCE + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+                    SparkFlex.ControlType.kPosition);
+        }
+
+        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_L2) {
+            elevatorPIDController.setReference(
+                    Constants.Elevator.L2_CORAL_STAGE_ENCODER_DIFFERENCE + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+                    SparkFlex.ControlType.kPosition);
+        }
+
+        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_L3) {
+            elevatorPIDController.setReference(
+                    Constants.Elevator.L3_CORAL_STAGE_ENCODER_DIFFERENCE + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+                    SparkFlex.ControlType.kPosition);
+        }
+
+        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_L4) {
+            elevatorPIDController.setReference(
+                    Constants.Elevator.L4_CORAL_STAGE_ENCODER_DIFFERENCE + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+                    SparkFlex.ControlType.kPosition);
+        }
     }
 
     /*
@@ -88,7 +115,7 @@ public class ElevatorSubsystem extends SubsystemBase {
      * }
      */
     public Command goToHomeCommand() {
-        return runOnce(() -> homingSequence());
+        return runOnce(() -> moveElevatorDown());
     }
 
     public Command moveElevatorUpCommand() {
@@ -96,26 +123,31 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public Command moveElevatorDownCommand() {
-        return run(() -> moveElevatorDown())
-        .until(()-> {return bottomlimitSwitch.get() == true;})
-        .andThen(stopElevatorMotorCommand());
+        return runOnce(() -> moveElevatorDown());
 
     }
 
-    public void homingSequence() {
-        while (bottomlimitSwitch.get() == false) {
-            elevatorMotor.set(Constants.Elevator.HOMING_SPEED);
-        }
-        elevatorMotor.set(0);
-        elevatorMotor.getEncoder().setPosition(0);
+    public Command joystickMoveElevatorCommand(double joystickY) {
+        return run(() -> joysticMoveElevatorUp(joystickY))
+                .onlyWhile(() -> (Math.abs(joystickY) > Constants.Elevator.DEADZONE || !bottomlimitSwitch.get()))
+                .andThen(() -> stopElevatorMotorCommand());
     }
 
     public void moveElevatorUp() {
-        elevatorMotor.set(0.2);
+        elevatorMotor.set(0.75);
+    }
+
+    public void joysticMoveElevatorUp(double speed) {
+        elevatorMotor.set(speed);
     }
 
     public void moveElevatorDown() {
-        elevatorMotor.set(-0.2);
+        if (bottomlimitSwitch.get() == false) {
+            elevatorMotor.set(-.25);
+        } else {
+            elevatorMotor.set(0);
+            Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition();
+        }
     }
 
     public void stopElevatorMotor() {
