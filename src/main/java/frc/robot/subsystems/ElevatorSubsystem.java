@@ -96,9 +96,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public Command moveElevatorDownCommand() {
-        return run(() -> moveElevatorDown());
-        // .until(()-> {return bottomlimitSwitch.get() == true;})
-        // .andThen(stopElevatorMotorCommand());
+        return run(() -> moveElevatorDown())
+        .until(()-> {return bottomlimitSwitch.get() == true;})
+        .andThen(stopElevatorMotorCommand());
 
     }
 
@@ -111,11 +111,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorUp() {
-        elevatorMotor.set(-0.3);
+        elevatorMotor.set(0.2);
     }
 
     public void moveElevatorDown() {
-        elevatorMotor.set(0.3);
+        elevatorMotor.set(-0.2);
     }
 
     public void stopElevatorMotor() {

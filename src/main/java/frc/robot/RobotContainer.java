@@ -200,6 +200,9 @@ public class RobotContainer {
     // }
     rightButtons.button(3).onTrue(getHomingCommand());
 
+    driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen());
+    driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed());
+
     driverAssistantXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand());
     driverAssistantXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand());
     driverAssistantXbox.b().onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());

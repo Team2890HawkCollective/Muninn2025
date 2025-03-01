@@ -111,8 +111,8 @@ public final class Constants {
   public final class Coral {
     public final class RotationMotor {
       public static final int CORAL_MOTOR_ID = 60;
-      public static final double START_POSITION_ENCODER_VALUE = 1;
-      public static final double SCORE_POSITION_ENCODER_VALUE = -15.214284896850586;
+      public static final double START_POSITION_ENCODER_VALUE = 0.0;
+      public static final double SCORE_POSITION_ENCODER_VALUE = -19.618974685668945;
       // public static final double SCORE_POSITION_ENCODER_VALUE =
       // -17.214284896850586;
       public static final double PID_P = 0.075;
@@ -124,20 +124,14 @@ public final class Constants {
 
     public final class Servo {
       public static final int SERVO_PWM_PORT = 9;
-      public static final double DOOR_CLOSED_ANGLE = 0.0;
-      public static final double DOOR_OPEN_ANGLE = 180.0;
+      public static final double DOOR_CLOSED_ANGLE = 40.0;
+      public static final double DOOR_OPEN_ANGLE = 100.0;
+      public static final long OUTPUT_DELAY = 3000;
     }
 
-    public final class WheelMotor {
-      public static final int WHEEL_MOTOR_ID = 2;
-      public static final double INTAKE_SPEED = .1;
-      public static final double OUTPUT_SPEED = -.2;
-      public static final double OUTPUT_DELAY = 3; // In Seconds
-
-      public static final int TOF_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
+    public static final int TOF_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
                                                // and then go to http://10.28.90.2:5812/ in a browser.
-      public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
-    }
+    public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
 
   }
 

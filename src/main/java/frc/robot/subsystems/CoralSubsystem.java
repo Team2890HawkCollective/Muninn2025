@@ -26,7 +26,7 @@ public class CoralSubsystem extends SubsystemBase {
     // private static SparkMax coralWheelMotor = new
     // SparkMax(Constants.Coral.WheelMotor.WHEEL_MOTOR_ID, MotorType.kBrushless);
 
-    public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Coral.WheelMotor.TOF_SENSOR);
+    public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Coral.TOF_SENSOR);
     private static Servo doorServo = new Servo(Constants.Coral.Servo.SERVO_PWM_PORT);
 
     public CoralSubsystem() {
@@ -55,7 +55,6 @@ public class CoralSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler
-        SmartDashboard.putNumber("Coral Absolute Encoder", coralRotationalMotor.getAbsoluteEncoder().getPosition());
         SmartDashboard.putNumber("Coral Relative Encoder", coralRotationalMotor.getEncoder().getPosition());
     }
 
@@ -76,8 +75,16 @@ public class CoralSubsystem extends SubsystemBase {
     public Command coralOutputCommand() {
         return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE)
                 .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE)))
-                .withTimeout(Constants.Coral.WheelMotor.OUTPUT_DELAY)
+                //.wait(3000)
                 .andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    }
+
+    public Command servoRotateToOpen(){
+        return runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_OPEN_ANGLE));
+    }
+
+    public Command servoRotateToClosed(){
+        return runOnce(() -> doorServo.setAngle(Constants.Coral.Servo.DOOR_CLOSED_ANGLE));
     }
 
     public void rotateToPosition(double encoderValue) {
