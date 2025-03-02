@@ -173,61 +173,61 @@ public class TargetingSubsystem extends SubsystemBase {
             if (tagId == 18) {
                 switch (location.toLowerCase()) {
                     case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.A;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.A;
                     case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.THREE;
+                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.THREE;
                     case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.B;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.B;
                 }
             }
             if (tagId == 17) {
                 switch (location.toLowerCase()) {
                     case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.C;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.C;
                     case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ONE;
+                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.ONE;
                     case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.D;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.D;
                 }
             }
             if (tagId ==22) {
                 switch (location.toLowerCase()) {
                     case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.E;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.E;
                     case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ELEVEN;
+                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.ELEVEN;
                     case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.F;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.F;
                 }
             }
             if (tagId == 21) {
                 switch (location.toLowerCase()) {
                     case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.G;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.G;
                     case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.NINE;
+                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.NINE;
                     case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.H;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.H;
                 }
             }
             if(tagId == 20){
                 switch (location.toLowerCase()) {
                     case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.I;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.I;
                     case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.SEVEN;
+                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.SEVEN;
                     case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.J;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.J;
                 }
             }
-            if(tagId == 6){
+            if(tagId == 19){
                 switch (location.toLowerCase()) {
                     case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.K;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.K;
                     case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.FIVE;
+                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.FIVE;
                     case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.L;
+                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.L;
                 }
             }
         return AutoBuilder.pathfindToPose(
