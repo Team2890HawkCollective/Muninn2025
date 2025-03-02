@@ -38,9 +38,9 @@ public class ShuffleboardDisplay {
     
         public void initiateDisplay(){
             
-            controlChooser.setDefaultOption("Button Board Control","buttonBoard");
-            controlChooser.addOption("Manual Control", "manual");
-            SmartDashboard.putData("Control Mode Chooser", controlChooser);
+            //controlChooser.setDefaultOption("Button Board Control","buttonBoard");
+            //controlChooser.addOption("Manual Control", "manual");
+            //SmartDashboard.putData("Control Mode Chooser", controlChooser);
     
             universalModeChooser.setDefaultOption("Competition Autos","competiton");
             universalModeChooser.addOption("Testing: Test Autos", "testing");

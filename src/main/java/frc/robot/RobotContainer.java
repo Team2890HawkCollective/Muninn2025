@@ -51,7 +51,7 @@ public class RobotContainer
   private final CommandXboxController driverXbox = new CommandXboxController(0);
   private final CommandXboxController assistantDriverXbox = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+  public final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "swerve"));
 
   /**
@@ -145,8 +145,8 @@ public class RobotContainer
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
         
-
-    if(ShuffleboardDisplay.getControlModeChoice().equalsIgnoreCase("manual")){
+    if(Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")){
+    //if(ShuffleboardDisplay.getControlModeChoice().equalsIgnoreCase("manual")){
         // Assistant Driver Manual Control
         assistantDriverXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand()).onChange(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Up
         assistantDriverXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand()).onChange(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Down

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.TargetingSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot
   private RobotContainer m_robotContainer;
 
   private ShuffleboardDisplay m_shuffleboardDisplay;
+  private TargetingSubsystem m_TargetingSubsystem;
   private String m_choosenAutoMode;
 
   private Timer disabledTimer;
@@ -54,6 +56,9 @@ public class Robot extends TimedRobot
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    m_TargetingSubsystem = new TargetingSubsystem();
+    m_TargetingSubsystem.initializeLimeLight(m_robotContainer.drivebase.getSwerveDrive());
 
     m_shuffleboardDisplay = new ShuffleboardDisplay();
     m_shuffleboardDisplay.initiateDisplay();

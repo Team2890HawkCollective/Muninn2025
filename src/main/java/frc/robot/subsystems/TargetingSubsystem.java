@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -26,13 +27,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
 
-public class TargetingSubsystem extends SubsystemBase
-{
+public class TargetingSubsystem extends SubsystemBase {
 
     private SwerveDrive drivebase;
 
-    public TargetingSubsystem()
-    {
+    public TargetingSubsystem() {
     }
 
     @Override
@@ -41,16 +40,15 @@ public class TargetingSubsystem extends SubsystemBase
         updatePoseEstimation();
     }
 
-    public Command updatePoseEstimationCommand()
-    {
-        return runOnce(()->updatePoseEstimation());
+    public Command updatePoseEstimationCommand() {
+        return runOnce(() -> updatePoseEstimation());
     }
 
-    public Command pathfindToCoralBranchCommand(String branch){
-        return runOnce(()->pathfindToCoralBranch(branch));
+    public Command autoAlignmentCommand(String location) {
+        return autoAlignment(location);
     }
 
-    public Command pathfindTest(){
+    public Command pathfindTest() {
         PathConstraints constraints = new PathConstraints(
                 3.0, 4.0,
                 Units.degreesToRadians(540), Units.degreesToRadians(720));
@@ -61,45 +59,197 @@ public class TargetingSubsystem extends SubsystemBase
                 constraints,
                 0.0 // Goal end velocity in meters/sec
         ).andThen(AutoBuilder.pathfindToPose(
-            Constants.LimeLight.RedReefPositions.CoralPoses.A,
+                Constants.LimeLight.RedReefPositions.CoralPoses.A,
                 constraints,
                 0.0 // Goal end velocity in meters/sec
         ));
     }
 
-    public void initializeLimeLight(SwerveDrive driveSystem)
-    {
+    public void initializeLimeLight(SwerveDrive driveSystem) {
         this.drivebase = driveSystem;
-        //Set initial bot orientation
-        //Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
-        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME,drivebase.getYaw().getDegrees(),0,drivebase.getPitch().getDegrees(),0,drivebase.getRoll().getDegrees(),0);
+        // Set initial bot orientation
+        // Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
+        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,
+                drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
     }
 
-    public void updatePoseEstimation()
-    {
-        double tagId =LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
+    public void updatePoseEstimation() {
+        double tagId = LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
 
-        if(tagId != 0){
-            if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)){
+        if (tagId != 0) {
+            if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
                 SmartDashboard.putNumber("Visible AprilTag TID", tagId);
                 SmartDashboard.putBoolean("Tracking AprilTag?", true);
-            }else{
+            } else {
                 SmartDashboard.putNumber("Visible AprilTag TID", 0);
                 SmartDashboard.putBoolean("Tracking AprilTag?", false);
             }
 
-            LimelightHelpers.PoseEstimate limelightBotPoseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
+            LimelightHelpers.PoseEstimate limelightBotPoseEstimate = LimelightHelpers
+                    .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
             Pose2d drivebaseEstimatedPose = drivebase.getPose();
 
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
-            drivebase.addVisionMeasurement(limelightBotPoseEstimate.pose,limelightBotPoseEstimate.timestampSeconds);
-            //drivebase.updateEstimatedGlobalPose()
+            drivebase.addVisionMeasurement(limelightBotPoseEstimate.pose, limelightBotPoseEstimate.timestampSeconds);
+            // drivebase.updateEstimatedGlobalPose()
         }
     }
 
-    public void pathfindToCoralBranch(String branch){
+    public Command autoAlignment(String location) {
+        PathConstraints constraints = new PathConstraints(
+                3.0, 4.0,
+                Units.degreesToRadians(540), Units.degreesToRadians(720));
 
-    } 
+        int tagId = (int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
+
+        Pose2d targetPose = new Pose2d();
+
+        if (tagId != 0) {
+            // Red Reef Tags
+            if (tagId == 7) {
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.A;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.THREE;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.B;
+                }
+            }
+            if (tagId == 8) {
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.C;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ONE;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.D;
+                }
+            }
+            if (tagId == 9) {
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.E;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ELEVEN;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.F;
+                }
+            }
+            if (tagId == 10) {
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.G;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.NINE;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.H;
+                }
+            }
+            if(tagId == 11){
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.I;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.SEVEN;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.J;
+                }
+            }
+            if(tagId == 6){
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.K;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.FIVE;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.L;
+                }
+            }
+
+            // Blue Reef Tags
+            if (tagId == 18) {
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.A;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.THREE;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.B;
+                }
+            }
+            if (tagId == 17) {
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.C;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ONE;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.D;
+                }
+            }
+            if (tagId ==22) {
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.E;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ELEVEN;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.F;
+                }
+            }
+            if (tagId == 21) {
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.G;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.NINE;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.H;
+                }
+            }
+            if(tagId == 20){
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.I;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.SEVEN;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.J;
+                }
+            }
+            if(tagId == 6){
+                switch (location.toLowerCase()) {
+                    case "left":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.K;
+                    case "center":
+                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.FIVE;
+                    case "right":
+                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.L;
+                }
+            }
+        return AutoBuilder.pathfindToPose(
+                targetPose,
+                constraints,
+                0.0 // Goal end velocity in meters/sec
+        );
+    }else{
+        return null;
+    }
+    }
+
+    // Function return true if given element
+    // found in array
+    private static boolean check(Integer[] arr, int toCheckValue) {
+        // check if the specified element
+        // is present in the array or not
+        // using contains() method
+        boolean test = Arrays.asList(arr)
+                .contains(toCheckValue);
+
+        // Print the result
+        return test;
+    }
 }
