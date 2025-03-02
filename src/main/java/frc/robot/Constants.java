@@ -191,7 +191,7 @@ public final class Constants {
     // Shuffleboard Constants
     public static final String UNIVERSAL_MODE_CHOICE = "allAutos"; // Choices for what Autos to load. Valid Choices:
                                                                    // competiton, testing, allAutos
-    public static final String CONTROL_MODE = "manual"; // manual of buttonboard
+    public static final String CONTROL_MODE = "manual"; // manual or buttonboard
   }
 
   public static class LimeLight {

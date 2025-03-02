@@ -150,6 +150,7 @@ public class RobotContainer
         // Assistant Driver Manual Control
         assistantDriverXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand()).onChange(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Up
         assistantDriverXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand()).onChange(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Down
+        assistantDriverXbox.b().onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
         assistantDriverXbox.povLeft().onTrue(m_AlgaeSubsystem.AlgaeStartCommand()); // Algae Start Position
         assistantDriverXbox.povUp().onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()); // Algae Carry Position
         assistantDriverXbox.povRight().onTrue(m_AlgaeSubsystem.AlgaeOutputCommand()); // Algae Output Position
