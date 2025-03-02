@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -61,7 +62,7 @@ public class RobotContainer
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
       () -> driverXbox.getLeftY() * -1,
       () -> driverXbox.getLeftX() * -1)
-      .withControllerRotationAxis(driverXbox::getRightX)
+      .withControllerRotationAxis(() -> driverXbox.getRightX() * -1)
       .deadband(OperatorConstants.DEADBAND)
       .scaleTranslation(0.8)
       .allianceRelativeControl(true);
@@ -70,7 +71,7 @@ public class RobotContainer
    * Clone's the angular velocity input stream and converts it to a fieldRelative
    * input stream.
    */
-  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(driverXbox::getRightX,
+  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(() -> driverXbox.getRightX() * -1,
       driverXbox::getRightY)
       .headingWhile(true);
 
@@ -144,31 +145,35 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
-        
-    if(Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")){
+         
+    //if(Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")){
     //if(ShuffleboardDisplay.getControlModeChoice().equalsIgnoreCase("manual")){
         // Assistant Driver Manual Control
-        assistantDriverXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand()).onChange(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Up
-        assistantDriverXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand()).onChange(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Down
+        assistantDriverXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand()).onFalse(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Up
+        assistantDriverXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand()).onFalse(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Down
         assistantDriverXbox.b().onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
         assistantDriverXbox.povLeft().onTrue(m_AlgaeSubsystem.AlgaeStartCommand()); // Algae Start Position
         assistantDriverXbox.povUp().onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()); // Algae Carry Position
         assistantDriverXbox.povRight().onTrue(m_AlgaeSubsystem.AlgaeOutputCommand()); // Algae Output Position
-    } else {
+        assistantDriverXbox.leftBumper().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+        assistantDriverXbox.rightBumper().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+
+    //} else {
         // Elevator Stage Buttons
-        leftButtons.button(1).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6).andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
-        leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5).andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
-        leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L4
-        leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(3).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L3
-        leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(2).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L2; Skips Coral L1
-        leftButtons.button(6).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)).andThen(m_ElevatorSubsystem.goToElevatorStageCommand(0))); // Elevator All The Way Down
-    }
+        leftButtons.button(1).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6).andThen(new WaitCommand(1)).andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
+        leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5).andThen(new WaitCommand(1)).andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
+        leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4).andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L4
+        leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(3).andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L3
+        leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(2).andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L2; Skips Coral L1
+        leftButtons.button(6).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)).andThen(m_ElevatorSubsystem.goToHomeCommand())); // Elevator All The Way Down
+    //}
     // Driver Controls
     driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToOpen()); // Open Coral Servo
     driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Close Coral Servo
 
-    driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).onChange(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
-    driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveOutputAlgaeWheelsCommand()).onChange(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Output Algae
+    driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
+    driverXbox.rightTrigger().whileTrue(m_AlgaeSubsystem.moveOutputAlgaeWheelsCommand()).onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Output Algae
+    driverXbox.b().onTrue(m_AlgaeSubsystem.stopAlgaeWheelsCommand());
 
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);

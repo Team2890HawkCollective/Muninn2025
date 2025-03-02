@@ -78,13 +78,13 @@ public final class Constants {
     public static final int ALGAE_STAGE_L2 = 5;
     public static final int ALGAE_STAGE_L3 = 6;
 
-    public static double BASE_STAGE_ENCODER_VALUE = 0;
+    public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
-    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = 0.251623213291168; // -2.058275461196899
-    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -4.001606464385986;
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = 50;
-    public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 0.251623213291168; // Get Values
-    public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = -4.001606464385986; // Get Values
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = 4.2342; // -2.058275461196899
+    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = 6.352;
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = 10.1144;
+    public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
+    public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
 
     public static final double[] STAGE_ENCODER_DIFFERENCES = {
         BASE_STAGE_ENCODER_VALUE,
@@ -96,9 +96,9 @@ public final class Constants {
         L3_ALGAE_STAGE_ENCODER_DIFFERENCE
     };
 
-    public static final double PID_P = 0.05;
+    public static final double PID_P = 0.8;
     public static final double PID_I = 0;
-    public static final double PID_D = 0;
+    public static final double PID_D = 0.05;
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
     public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;
@@ -142,6 +142,7 @@ public final class Constants {
       public static final double PID_D = 0.01;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
+      public static final long ROTATE_DELAY = 1000L;
     }
 
     public final class CoralServo {
@@ -160,9 +161,10 @@ public final class Constants {
   public final class Algae {
     public final class Rotation {
       public static final int ALGAE_ROTATION_MOTOR_ID = 61;
-      public static final double START_POSITION_ENCODER_VALUE = -22;
-      public static final double COLLECT_ENCODER_VALUE_POS = 60.31047821044922;
-      public static final double CARRY_ENCODER_VALUE = 4;
+      public static final double START_POSITION_ENCODER_VALUE = -28.618825912475586;
+      public static final double COLLECT_ENCODER_VALUE_POS = 58.31028366088867;
+      public static final double CARRY_ENCODER_VALUE = 0.500002503395081;
+      public static final double STRAIGHT_DOWN_ENCODER_VALUE = 85.64627838134766;
       public static final double PID_P = 0.1;
       public static final double PID_I = 0;
       public static final double PID_D = 0;
@@ -176,7 +178,7 @@ public final class Constants {
     public final class Wheel {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
       public static final double WHEEL_INTAKE_SPEED = -0.35;
-      public static final double WHEEL_OUTPUT_SPEED = 0.5;
+      public static final double WHEEL_OUTPUT_SPEED = 0.8;
 
       // public static final int LIMIT_SWITCH_PORT = 3;
       public static final int TOF_SENSOR = 61;

@@ -20,15 +20,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static SparkFlex elevatorMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
     private static SparkClosedLoopController elevatorPIDController;
     public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
-
-    // TODO: Add limit switch
     public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
-
-    // TODO: Add potentiometer
-    // AnalogPotentiometer potentiometer = new
-    // AnalogPotentiometer(Constants.Elevator.Potentiometer.PWM_PORT,
-    // Constants.Elevator.Potentiometer.UPPER_BOUND,
-    // Constants.Elevator.Potentiometer.LOWER_BOUND);
 
     public ElevatorSubsystem() {
         elevatorPIDConfig.closedLoop
@@ -57,16 +49,24 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public Command goToElevatorStageCommand(int elevatorStageValue) {
-        return runOnce(() -> goToElevatorStage(elevatorStageValue));
+        if (elevatorStageValue == 0) {
+            return runOnce(() -> moveElevatorDownCommand());
+        } else {
+            return runOnce(() -> goToElevatorStage(elevatorStageValue));
+        }
     }
 
     public void goToElevatorStage(int elevatorStageValue) {
-        elevatorPIDController.setReference(Constants.Elevator.STAGE_ENCODER_DIFFERENCES[elevatorStageValue] + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+        elevatorPIDController.setReference(
+                Constants.Elevator.STAGE_ENCODER_DIFFERENCES[elevatorStageValue]
+                        + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
                 SparkFlex.ControlType.kPosition);
     }
 
     public Command goToHomeCommand() {
-        return runOnce(() -> moveElevatorDown());
+        return run(() -> moveElevatorDown()).until(() -> bottomlimitSwitch.get() == true)
+                .andThen(() -> stopElevatorMotor())
+                .andThen(() -> Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition());
     }
 
     public Command moveElevatorUpCommand() {
@@ -74,8 +74,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public Command moveElevatorDownCommand() {
-        return runOnce(() -> moveElevatorDown());
-
+        return run(() -> moveElevatorDown()).until(() -> bottomlimitSwitch.get() == true)
+                .andThen(() -> stopElevatorMotor())
+                .andThen(() -> zeroEncoder());
     }
 
     public Command joystickMoveElevatorCommand(double joystickY) {
@@ -93,12 +94,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorDown() {
-        if (bottomlimitSwitch.get() == false) {
-            elevatorMotor.set(Constants.Elevator.HOMING_SPEED);
-        } else {
-            elevatorMotor.set(0);
-            Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition();
-        }
+        elevatorMotor.set(Constants.Elevator.HOMING_SPEED);
     }
 
     public void stopElevatorMotor() {
@@ -107,6 +103,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public Command stopElevatorMotorCommand() {
         return runOnce(() -> stopElevatorMotor());
+    }
+
+    public void zeroEncoder() {
+        if (bottomlimitSwitch.get() == true)
+            Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition();
     }
 
 }
