@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -73,12 +75,26 @@ public final class Constants {
     public static final int CORAL_STAGE_L2 = 2;
     public static final int CORAL_STAGE_L3 = 3;
     public static final int CORAL_STAGE_L4 = 4;
+    public static final int ALGAE_STAGE_L2 = 5;
+    public static final int ALGAE_STAGE_L3 = 6;
 
     public static double BASE_STAGE_ENCODER_VALUE = 0;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
     public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = 0.251623213291168; // -2.058275461196899
     public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -4.001606464385986;
     public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = 50;
+    public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 0.251623213291168; // Get Values
+    public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = -4.001606464385986; // Get Values
+
+    public static final double[] STAGE_ENCODER_DIFFERENCES = {
+      BASE_STAGE_ENCODER_VALUE,
+      L1_CORAL_STAGE_ENCODER_DIFFERENCE,
+      L2_CORAL_STAGE_ENCODER_DIFFERENCE,
+      L3_CORAL_STAGE_ENCODER_DIFFERENCE,
+      L4_CORAL_STAGE_ENCODER_DIFFERENCE,
+      L2_ALGAE_STAGE_ENCODER_DIFFERENCE,
+      L3_ALGAE_STAGE_ENCODER_DIFFERENCE
+    };
 
     public static final double PID_P = 0.05;
     public static final double PID_I = 0;
@@ -89,19 +105,6 @@ public final class Constants {
     public static final double HOMING_SPEED = -0.25;
     public static final int LIMIT_SWITCH_PWM_PORT = 1;
 
-    public final class Potentiometer {
-      public static final int PWM_PORT = 0;
-      public static final double LOWER_BOUND = 0.0;
-      public static final double UPPER_BOUND = 1.0;
-      public static final double MOVEMENT_TOLERATION = 0.05;
-
-      public static final double BASE_STAGE_POT_VALUE = 0.0;
-      public static final double FIRST_CORAL_STAGE_POT_VALUE = 0.0;
-      public static final double SECOND_CORAL_STAGE_POT_VALUE = 0.0;
-      public static final double THIRD_CORAL_STAGE_POT_VALUE = 0.0;
-      public static final double FOURTH_CORAL_STAGE_POT_VALUE = 0.0;
-      public static final double COLLECT_CORAL_STAGE_POT_VALUE = 0.0;
-    }
   }
 
   public final class Lift {
@@ -171,6 +174,7 @@ public final class Constants {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
       public static final double WHEEL_INTAKE_SPEED = -0.5;
       public static final double WHEEL_OUTPUT_SPEED = 0.2;
+
 
     }
 

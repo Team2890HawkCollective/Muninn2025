@@ -62,58 +62,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void goToElevatorStage(int elevatorStageValue) {
-        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_BASE) {
-            elevatorPIDController.setReference(Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
-                    SparkFlex.ControlType.kPosition);
-        }
-
-        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_L1) {
-            elevatorPIDController.setReference(
-                    Constants.Elevator.L1_CORAL_STAGE_ENCODER_DIFFERENCE + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
-                    SparkFlex.ControlType.kPosition);
-        }
-
-        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_L2) {
-            elevatorPIDController.setReference(
-                    Constants.Elevator.L2_CORAL_STAGE_ENCODER_DIFFERENCE + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
-                    SparkFlex.ControlType.kPosition);
-        }
-
-        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_L3) {
-            elevatorPIDController.setReference(
-                    Constants.Elevator.L3_CORAL_STAGE_ENCODER_DIFFERENCE + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
-                    SparkFlex.ControlType.kPosition);
-        }
-
-        if (elevatorStageValue == Constants.Elevator.CORAL_STAGE_L4) {
-            elevatorPIDController.setReference(
-                    Constants.Elevator.L4_CORAL_STAGE_ENCODER_DIFFERENCE + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
-                    SparkFlex.ControlType.kPosition);
-        }
+        elevatorPIDController.setReference(Constants.Elevator.STAGE_ENCODER_DIFFERENCES[elevatorStageValue] + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
+                SparkFlex.ControlType.kPosition);
     }
 
-    /*
-     * public Command goToStagePotentiometerCommand(double potentiometerValue)
-     * {
-     * return runOnce(() -> goToStagePotentiometer(potentiometerValue));
-     * }
-     * 
-     * public void goToStagePotentiometer(double potentiometerValue)
-     * {
-     * double difference = potentiometer.get() - potentiometerValue;
-     * while (Math.abs(difference) >
-     * Constants.Elevator.Potentiometer.MOVEMENT_TOLERATION) {
-     * if (difference > 0)
-     * elevatorMotor.set(Constants.Elevator.POTENTIOMETER_MOVEMENT_SPEED);
-     * else
-     * elevatorMotor.set(Constants.Elevator.POTENTIOMETER_MOVEMENT_SPEED * -1);
-     * 
-     * difference = potentiometer.get() - potentiometerValue;
-     * }
-     * elevatorMotor.set(0);
-     * 
-     * }
-     */
     public Command goToHomeCommand() {
         return runOnce(() -> moveElevatorDown());
     }
