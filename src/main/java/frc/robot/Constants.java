@@ -65,6 +65,8 @@ public final class Constants {
     public static final int ELEVATOR_MOTOR_ID = 40;
 
     public static final double DEADZONE = 0.1;
+
+    public static final double ELEVATOR_UP_SPEED = 0.75;
     
     public static final int CORAL_STAGE_BASE = 0;
     public static final int CORAL_STAGE_L1 = 1;
@@ -84,7 +86,7 @@ public final class Constants {
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
     public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;
-    public static final double HOMING_SPEED = -.2;
+    public static final double HOMING_SPEED = -0.25;
     public static final int LIMIT_SWITCH_PWM_PORT = 1;
 
     public final class Potentiometer {

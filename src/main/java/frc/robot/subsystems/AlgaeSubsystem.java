@@ -47,6 +47,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler
+        algaeWheelMotor.getOutputCurrent();
         SmartDashboard.putNumber("Algae Absolute Encoder", algaeRotationMotor.getAbsoluteEncoder().getPosition());
         SmartDashboard.putNumber("Algae Relative Encoder", algaeRotationMotor.getEncoder().getPosition());
     }

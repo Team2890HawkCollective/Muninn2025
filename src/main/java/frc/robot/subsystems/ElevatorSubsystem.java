@@ -134,7 +134,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorUp() {
-        elevatorMotor.set(0.75);
+        elevatorMotor.set(Constants.Elevator.ELEVATOR_UP_SPEED);
     }
 
     public void joysticMoveElevatorUp(double speed) {
@@ -143,7 +143,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void moveElevatorDown() {
         if (bottomlimitSwitch.get() == false) {
-            elevatorMotor.set(-.25);
+            elevatorMotor.set(Constants.Elevator.HOMING_SPEED);
         } else {
             elevatorMotor.set(0);
             Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition();
