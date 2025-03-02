@@ -172,9 +172,12 @@ public final class Constants {
 
     public final class Wheel {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
-      public static final double WHEEL_INTAKE_SPEED = -0.5;
-      public static final double WHEEL_OUTPUT_SPEED = 0.2;
+      public static final double WHEEL_INTAKE_SPEED = -0.35;
+      public static final double WHEEL_OUTPUT_SPEED = 0.5;
 
+      //public static final int LIMIT_SWITCH_PORT = 3;
+      public static final int TOF_SENSOR = 61;
+      public static final int TOF_DISTANCE = 200; // In Millimeters
 
     }
 
@@ -185,6 +188,11 @@ public final class Constants {
     // Shuffleboard Constants
     public static final String UNIVERSAL_MODE_CHOICE = "allAutos"; // Choices for what Autos to load. Valid Choices:
                                                                    // competiton, testing, allAutos
+  }
+
+  public static class LED {
+    public static final int SIGNAL_LIGHTS_PORT = 4;
+    public static final int SIGNAL_LIGHTS_LENGTH = 20;
   }
 
 }

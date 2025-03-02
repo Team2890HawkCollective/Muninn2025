@@ -1,10 +1,12 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.spark.SparkMax;
+import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -22,6 +24,9 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     private static SparkMax algaeWheelMotor = new SparkMax(Constants.Algae.Wheel.ALGAE_WHEEL_MOTOR_ID,
             MotorType.kBrushless);
+
+    //public DigitalInput algaeLimitSwitch = new DigitalInput(Constants.Algae.Wheel.LIMIT_SWITCH_PORT);
+    //public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Algae.Wheel.TOF_SENSOR);
 
 
     public AlgaeSubsystem() {
@@ -48,8 +53,8 @@ public class AlgaeSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler
         algaeWheelMotor.getOutputCurrent();
-        SmartDashboard.putNumber("Algae Absolute Encoder", algaeRotationMotor.getAbsoluteEncoder().getPosition());
         SmartDashboard.putNumber("Algae Relative Encoder", algaeRotationMotor.getEncoder().getPosition());
+        //SmartDashboard.putNumber("Algae TOF Distance", TOFSensor.getRange());
     }
 
     public Command rotateToPositionCommand(double encoderValue) {
@@ -95,7 +100,11 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public void moveInputAlgaeWheels() {
+        //if (algaeLimitSwitch.getRange() > Constants.Algae.Wheel.TOF_DISTANCE) {
         algaeWheelMotor.set(Constants.Algae.Wheel.WHEEL_INTAKE_SPEED);
+        //} else {
+            //algaeWheelMotor.set(0);
+        //}
     }
 
     public void moveOutputAlgaeWheels() {

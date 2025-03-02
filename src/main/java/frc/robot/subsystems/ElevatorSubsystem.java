@@ -52,9 +52,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler
-        SmartDashboard.putNumber("Elevator Absolute Encoder", elevatorMotor.getAbsoluteEncoder().getPosition());
         SmartDashboard.putNumber("Elevator Relative Encoder", elevatorMotor.getEncoder().getPosition());
-        SmartDashboard.putBoolean("Limit Switch State", bottomlimitSwitch.get());
+        SmartDashboard.putBoolean("Elevator Limit Switch State", bottomlimitSwitch.get());
     }
 
     public Command goToElevatorStageCommand(int elevatorStageValue) {

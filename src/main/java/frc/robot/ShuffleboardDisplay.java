@@ -9,6 +9,7 @@ import swervelib.parser.SwerveModuleConfiguration;
 import java.util.Map;
 
 import javax.lang.model.type.NullType;
+import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -30,36 +31,48 @@ public class ShuffleboardDisplay {
     private ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
     //private ShuffleboardTab PID_Tab = Shuffleboard.getTab("PID_Tab");
     private final SendableChooser<String> universalModeChooser = new SendableChooser<>();
-    private SendableChooser<Command> autoChooser;
-    private GenericEntry genericEntryTest = mainTab.add("Generic",0).getEntry();
-
-
-    public void initiateDisplay(){
-        universalModeChooser.setDefaultOption("Competition Autos","competiton");
-        universalModeChooser.addOption("Testing: Test Autos", "testing");
-        universalModeChooser.addOption("Testing: All Autos", "allAutos");
-        SmartDashboard.putData("Universal Mode Chooser", universalModeChooser);
-        genericEntryTest.setDouble(12.3);
-
-        //SmartDashboard.putNumber("Test",1);
-    }
-
-    public void initializeAutoChooser(){
-        switch (ShuffleboardConstants.UNIVERSAL_MODE_CHOICE) {
-            case "competition":
-                autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("comp_")): stream);
-            case "testing":
-                autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("test_")): stream);
-            case "allAutos":
-                autoChooser = AutoBuilder.buildAutoChooser();
-            default: //Default Puts All Commands. This is redundant because all the cases are hard coded.
-                autoChooser = AutoBuilder.buildAutoChooser();
+    private final static SendableChooser<String> controlChooser = new SendableChooser<>();
+        private SendableChooser<Command> autoChooser;
+        private GenericEntry genericEntryTest = mainTab.add("Generic",0).getEntry();
+    
+    
+        public void initiateDisplay(){
+            
+            controlChooser.setDefaultOption("Button Board Control","buttonBoard");
+            controlChooser.addOption("Manual Control", "manual");
+            SmartDashboard.putData("Control Mode Chooser", controlChooser);
+    
+            universalModeChooser.setDefaultOption("Competition Autos","competiton");
+            universalModeChooser.addOption("Testing: Test Autos", "testing");
+            universalModeChooser.addOption("Testing: All Autos", "allAutos");
+            SmartDashboard.putData("Universal Mode Chooser", universalModeChooser);
+            genericEntryTest.setDouble(12.3);
+    
+            //SmartDashboard.putNumber("Test",1);
         }
-        SmartDashboard.putData("Autonomous Choices", autoChooser);
-    }
-
-    public Command getAutonomousChoice() {
-        return autoChooser.getSelected();
+    
+    
+        public void initializeAutoChooser(){
+            switch (ShuffleboardConstants.UNIVERSAL_MODE_CHOICE) {
+                case "competition":
+                    autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("comp_")): stream);
+                case "testing":
+                    autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("test_")): stream);
+                case "allAutos":
+                    autoChooser = AutoBuilder.buildAutoChooser();
+                default: //Default Puts All Commands. This is redundant because all the cases are hard coded.
+                    autoChooser = AutoBuilder.buildAutoChooser();
+            }
+            SmartDashboard.putData("Autonomous Choices", autoChooser);
+        }
+    
+        public Command getAutonomousChoice() {
+            return autoChooser.getSelected();
+            //String choosenAuto = universalModeChooser.getSelected();
+        }
+    
+        public static String getControlModeChoice() {
+            return controlChooser.getSelected();
         //String choosenAuto = universalModeChooser.getSelected();
     }
 
