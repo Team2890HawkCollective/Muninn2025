@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "PositionFinder"
+            "pathName": "Station_1_DriveToReef_Coral_Upper"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": []
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Test_Autos",
+  "folder": "Comp_Autos",
   "choreoAuto": false
 }

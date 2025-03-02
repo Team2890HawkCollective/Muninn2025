@@ -26,43 +26,63 @@
   "Window": {
     "###/FMSInfo": {
       "Collapsed": "0",
-      "Pos": "74,703",
-      "Size": "169,167"
+      "Pos": "1,615",
+      "Size": "175,167"
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "166,24",
+      "Pos": "214,21",
       "Size": "740,373"
+    },
+    "###Analog Inputs": {
+      "Collapsed": "0",
+      "Pos": "640,20",
+      "Size": "260,71"
+    },
+    "###DIO": {
+      "Collapsed": "0",
+      "Pos": "470,20",
+      "Size": "162,54"
     },
     "###FMS": {
       "Collapsed": "0",
-      "Pos": "4,414",
+      "Pos": "3,414",
       "Size": "175,184"
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "254,444",
+      "Pos": "225,423",
       "Size": "796,234"
     },
     "###Keyboard 0 Settings": {
       "Collapsed": "0",
-      "Pos": "1439,439",
+      "Pos": "1416,304",
+      "Size": "300,560"
+    },
+    "###Keyboard 1 Settings": {
+      "Collapsed": "0",
+      "Pos": "320,50",
       "Size": "300,560"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "283,686",
-      "Size": "750,236"
+      "Pos": "168,732",
+      "Size": "750,249"
     },
     "###NetworkTables Info": {
       "Collapsed": "1",
-      "Pos": "1288,131",
+      "Pos": "1327,172",
       "Size": "750,145"
     },
     "###Other Devices": {
       "Collapsed": "0",
       "Pos": "1025,20",
       "Size": "250,695"
+    },
+    "###RoboRIO": {
+      "Collapsed": "0",
+      "Pos": "5,125",
+      "Size": "119,146"
     },
     "###System Joysticks": {
       "Collapsed": "0",

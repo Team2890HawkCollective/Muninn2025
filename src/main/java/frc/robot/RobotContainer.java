@@ -21,6 +21,7 @@ import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.subsystems.TargetingSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import java.security.CodeSigner;
@@ -42,6 +43,7 @@ public class RobotContainer
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
   private final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
+  private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem();
 
   private final CommandJoystick leftButtons = new CommandJoystick(2);
   private final CommandJoystick rightButtons = new CommandJoystick(3);
@@ -178,6 +180,7 @@ public class RobotContainer
 
       driverXbox.start().onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
       driverXbox.button(1).whileTrue(drivebase.sysIdDriveMotorCommand());
+
 
     }
     if (DriverStation.isTest()) {
