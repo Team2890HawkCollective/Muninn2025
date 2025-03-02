@@ -198,7 +198,7 @@ public final class Constants {
 
     public static final String LIMELIGHT_NAME = "limelight";
 
-    public static final Integer[] ALL_REEF_APRILTAGS = { 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22 };
+    public static final int[] ALL_REEF_APRILTAGS = { 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22 };
 
     // View For AprilTag Labeling: Red Barge Is On Bottom
     public static class BlueAprilTags {

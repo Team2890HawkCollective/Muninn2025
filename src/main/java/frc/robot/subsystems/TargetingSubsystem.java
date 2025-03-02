@@ -67,6 +67,7 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public void initializeLimeLight(SwerveDrive driveSystem) {
         this.drivebase = driveSystem;
+        LimelightHelpers.SetFiducialIDFiltersOverride(Constants.LimeLight.LIMELIGHT_NAME, Constants.LimeLight.ALL_REEF_APRILTAGS); // Filter Out Non-Reef tags
         // Set initial bot orientation
         // Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
         LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,
