@@ -160,11 +160,11 @@ public class RobotContainer
 
     //} else {
         // Elevator Stage Buttons
-        leftButtons.button(1).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6).andThen(new WaitCommand(1)).andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
-        leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5).andThen(new WaitCommand(1)).andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
-        leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4).andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L4
-        leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(3).andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L3
-        leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(2).andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L2; Skips Coral L1
+        leftButtons.button(1).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY)).andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
+        leftButtons.button(2).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY)).andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
+        leftButtons.button(3).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L4
+        leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(3).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L3
+        leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(2).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L2; Skips Coral L1
         leftButtons.button(6).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)).andThen(m_ElevatorSubsystem.goToHomeCommand())); // Elevator All The Way Down
 
         // Assistant Driver Alignment Buttons
