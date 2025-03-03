@@ -166,6 +166,11 @@ public class RobotContainer
         leftButtons.button(4).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(3).andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L3
         leftButtons.button(5).onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(2).andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L2; Skips Coral L1
         leftButtons.button(6).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)).andThen(m_ElevatorSubsystem.goToHomeCommand())); // Elevator All The Way Down
+
+        // Assistant Driver Alignment Buttons
+        rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+        rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+        rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
     //}
     // Driver Controls
     driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToOpen()); // Open Coral Servo
@@ -174,6 +179,11 @@ public class RobotContainer
     driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
     driverXbox.rightTrigger().whileTrue(m_AlgaeSubsystem.moveOutputAlgaeWheelsCommand()).onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Output Algae
     driverXbox.b().onTrue(m_AlgaeSubsystem.stopAlgaeWheelsCommand());
+
+    // Driver Alignment Controls
+    driverXbox.povLeft().onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+    driverXbox.povUp().onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+    driverXbox.povRight().onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
 
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);

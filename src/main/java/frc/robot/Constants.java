@@ -102,7 +102,7 @@ public final class Constants {
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
     public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;
-    public static final double HOMING_SPEED = -0.25;
+    public static final double HOMING_SPEED = -0.35;
     public static final int LIMIT_SWITCH_PWM_PORT = 1;
 
   }
