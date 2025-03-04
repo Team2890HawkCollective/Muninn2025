@@ -57,9 +57,6 @@ public class Robot extends TimedRobot
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    m_TargetingSubsystem = new TargetingSubsystem();
-    m_TargetingSubsystem.initializeLimeLight(m_robotContainer.drivebase.getSwerveDrive());
-
     m_shuffleboardDisplay = new ShuffleboardDisplay();
     m_shuffleboardDisplay.initiateDisplay();
     m_shuffleboardDisplay.initializeAutoChooser();

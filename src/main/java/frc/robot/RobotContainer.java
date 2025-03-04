@@ -28,8 +28,11 @@ import java.io.File;
 import java.security.CodeSigner;
 import java.util.function.DoubleSupplier;
 
+import org.ejml.dense.block.MatrixOps_MT_DDRB;
+
 import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very
@@ -44,7 +47,6 @@ public class RobotContainer
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
   private final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
-  private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem();
 
     private final static CommandJoystick leftButtons = new CommandJoystick(2);
     private final static CommandJoystick rightButtons = new CommandJoystick(3);
@@ -55,6 +57,8 @@ public class RobotContainer
     public final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
         "swerve"));
   
+    private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase.getSwerveDrive());
+    //m_TargetingSubsystem.initializeLimeLight();
     /**
      * Converts driver input into a field-relative ChassisSpeeds that is controlled
      * by angular velocity.
@@ -172,6 +176,8 @@ public class RobotContainer
           rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
           rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
       //}
+
+      rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
       // Driver Controls
       driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToOpen()); // Open Coral Servo
       driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Close Coral Servo

@@ -173,6 +173,7 @@ public final class Constants {
 
       public static final double DEADZONE = 0.1;
 
+      public static final double MANUAL_SPEED = 0.3;
     }
 
     public final class Wheel {

@@ -45,23 +45,28 @@ public class AlgaeSubsystem extends SubsystemBase {
                 .d(0, ClosedLoopSlot.kSlot1)
                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
-        algaeRotationMotor.configure(algaeRotationPIDConfig, ResetMode.kNoResetSafeParameters,
-                PersistMode.kNoPersistParameters);
+        algaeRotationMotor.configure(algaeRotationPIDConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
         algaeRotationPIDController = algaeRotationMotor.getClosedLoopController();
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler
-        algaeWheelMotor.getOutputCurrent();
+        //algaeWheelMotor.getOutputCurrent();
         SmartDashboard.putNumber("Algae Relative Encoder", algaeRotationMotor.getEncoder().getPosition());
         //SmartDashboard.putNumber("Algae TOF Distance", TOFSensor.getRange());
+        manualAlgaeRotation();
     }
 
     public void manualAlgaeRotation(){
         double leftButtonsJoystickY = RobotContainer.getLeftButtons().getY();
         if (leftButtonsJoystickY == -1.00){
-            
+            algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*-1);
+        }else if (leftButtonsJoystickY == 1.00){
+            algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED);
+        }else{
+            algaeRotationMotor.set(0);
         }
     }
 

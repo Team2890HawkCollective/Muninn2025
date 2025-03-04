@@ -31,7 +31,15 @@ public class TargetingSubsystem extends SubsystemBase {
 
     private SwerveDrive drivebase;
 
-    public TargetingSubsystem() {
+    public TargetingSubsystem(SwerveDrive driveSystem) {
+        this.drivebase = driveSystem;
+        LimelightHelpers.SetFiducialIDFiltersOverride(Constants.LimeLight.LIMELIGHT_NAME,
+                Constants.LimeLight.ALL_REEF_APRILTAGS); // Filter Out Non-Reef tags
+        // Set initial bot orientation
+        // Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
+        // LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME,
+        // drivebase.getYaw().getDegrees(), 0,
+        // drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
     }
 
     @Override
@@ -65,9 +73,9 @@ public class TargetingSubsystem extends SubsystemBase {
         ));
     }
 
-    public void initializeLimeLight(SwerveDrive driveSystem) {
-        this.drivebase = driveSystem;
-        LimelightHelpers.SetFiducialIDFiltersOverride(Constants.LimeLight.LIMELIGHT_NAME, Constants.LimeLight.ALL_REEF_APRILTAGS); // Filter Out Non-Reef tags
+    public void initializeLimeLight() {
+        LimelightHelpers.SetFiducialIDFiltersOverride(Constants.LimeLight.LIMELIGHT_NAME,
+                Constants.LimeLight.ALL_REEF_APRILTAGS); // Filter Out Non-Reef tags
         // Set initial bot orientation
         // Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
         LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,
@@ -76,6 +84,8 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public void updatePoseEstimation() {
         double tagId = LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
+        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,
+                drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
 
         if (tagId != 0) {
             if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
@@ -88,19 +98,23 @@ public class TargetingSubsystem extends SubsystemBase {
 
             LimelightHelpers.PoseEstimate limelightBotPoseEstimate = LimelightHelpers
                     .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
-            Pose2d drivebaseEstimatedPose = drivebase.getPose();
+            Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
 
+            SmartDashboard.putNumber("Limelight Bot Pose Estimation X", limelightBotPoseEstimate.pose.getX());
+            SmartDashboard.putNumber("Limelight Bot Pose Estimation Y", limelightBotPoseEstimate.pose.getY()); 
+            SmartDashboard.putNumber("Limelight Target Pose Estimation X", LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME));
+            SmartDashboard.putNumber("Limelight Target Pose Estimation Y", LimelightHelpers.getTY(Constants.LimeLight.LIMELIGHT_NAME));           
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
             drivebase.addVisionMeasurement(limelightBotPoseEstimate.pose, limelightBotPoseEstimate.timestampSeconds);
-            // drivebase.updateEstimatedGlobalPose()
+            drivebase.swerveDrivePoseEstimator.addVisionMeasurement(limelightBotPoseEstimate.pose, limelightBotPoseEstimate.timestampSeconds);
         }
     }
 
     public Command autoAlignment(String location) {
         PathConstraints constraints = new PathConstraints(
-                3.0, 4.0,
+                0.05, 0.1, // Default MaxVelocity: 3.0; Max Acceleration: 4.0
                 Units.degreesToRadians(540), Units.degreesToRadians(720));
 
         int tagId = (int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
@@ -149,7 +163,7 @@ public class TargetingSubsystem extends SubsystemBase {
                         targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.H;
                 }
             }
-            if(tagId == 11){
+            if (tagId == 11) {
                 switch (location.toLowerCase()) {
                     case "left":
                         targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.I;
@@ -159,7 +173,7 @@ public class TargetingSubsystem extends SubsystemBase {
                         targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.J;
                 }
             }
-            if(tagId == 6){
+            if (tagId == 6) {
                 switch (location.toLowerCase()) {
                     case "left":
                         targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.K;
@@ -191,7 +205,7 @@ public class TargetingSubsystem extends SubsystemBase {
                         targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.D;
                 }
             }
-            if (tagId ==22) {
+            if (tagId == 22) {
                 switch (location.toLowerCase()) {
                     case "left":
                         targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.E;
@@ -211,7 +225,7 @@ public class TargetingSubsystem extends SubsystemBase {
                         targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.H;
                 }
             }
-            if(tagId == 20){
+            if (tagId == 20) {
                 switch (location.toLowerCase()) {
                     case "left":
                         targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.I;
@@ -221,7 +235,7 @@ public class TargetingSubsystem extends SubsystemBase {
                         targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.J;
                 }
             }
-            if(tagId == 19){
+            if (tagId == 19) {
                 switch (location.toLowerCase()) {
                     case "left":
                         targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.K;
@@ -231,14 +245,14 @@ public class TargetingSubsystem extends SubsystemBase {
                         targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.L;
                 }
             }
-        return AutoBuilder.pathfindToPose(
-                targetPose,
-                constraints,
-                0.0 // Goal end velocity in meters/sec
-        );
-    }else{
-        return null;
-    }
+            return AutoBuilder.pathfindToPose(
+                    targetPose,
+                    constraints,
+                    0.0 // Goal end velocity in meters/sec
+            );
+        } else {
+            return null;
+        }
     }
 
     // Function return true if given element
