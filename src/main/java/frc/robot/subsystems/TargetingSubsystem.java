@@ -146,10 +146,11 @@ public class TargetingSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
             
+            drivebase.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
+            m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
             drivebase.addVisionMeasurement(estimatedFieldPose, limelightBotPoseEstimateMT2.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
-            drivebase.swerveDrivePoseEstimator.addVisionMeasurement(estimatedFieldPose, limelightBotPoseEstimateMT2.timestampSeconds);
+            m_poseEstimator.addVisionMeasurement(estimatedFieldPose, limelightBotPoseEstimateMT2.timestampSeconds);
             //drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
-            //drivebase.swerveDrivePoseEstimator.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
         }
     }
 
