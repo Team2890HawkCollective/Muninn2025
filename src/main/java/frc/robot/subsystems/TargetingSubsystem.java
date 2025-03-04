@@ -131,6 +131,7 @@ public class TargetingSubsystem extends SubsystemBase {
             LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT = LimelightHelpers
                     .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
             LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightTarget_Fiducial();
+            //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightResutls.LimelightTarget_Fiducial[0]; // It's one of these two
             Pose2d estimatedFieldPose = jsonData.getRobotPose_TargetSpace2D();
             m_field.setRobotPose(estimatedFieldPose);
 
