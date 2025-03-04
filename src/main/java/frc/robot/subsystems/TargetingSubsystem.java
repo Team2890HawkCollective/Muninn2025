@@ -129,9 +129,9 @@ public class TargetingSubsystem extends SubsystemBase {
             LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT2 = LimelightHelpers
                     .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
             LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT = LimelightHelpers
-                    .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
-            LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightTarget_Fiducial();
-            //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightResutls.LimelightTarget_Fiducial[0]; // It's one of these two
+                    .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME
+            //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightTarget_Fiducial();
+            LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightResults.targets_Fiducials[0]; // It should be one of these two calls
             Pose2d estimatedFieldPose = jsonData.getRobotPose_TargetSpace2D();
             m_field.setRobotPose(estimatedFieldPose);
 
