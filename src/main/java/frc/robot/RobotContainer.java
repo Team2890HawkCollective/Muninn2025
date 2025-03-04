@@ -20,6 +20,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.subsystems.TargetingSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import java.util.function.DoubleSupplier;
@@ -39,6 +40,7 @@ public class RobotContainer
   private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
+  private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem();
 
   private final CommandJoystick leftButtons = new CommandJoystick(2);
   private final CommandJoystick rightButtons = new CommandJoystick(3);
@@ -169,6 +171,8 @@ public class RobotContainer
     rightButtons.button(2).onTrue(m_LiftSubsystem.goToCatchStageCommand());
     rightButtons.button(1).onTrue(m_LiftSubsystem.goToLiftStageCommand());
 
+    rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
+
 
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
@@ -181,6 +185,7 @@ public class RobotContainer
 
       driverXbox.start().onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
       driverXbox.button(1).whileTrue(drivebase.sysIdDriveMotorCommand());
+
 
     }
     if (DriverStation.isTest()) {
