@@ -3,7 +3,11 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "Algae",
     "Comp_Paths",
+    "Coral",
+    "Processor",
+    "Source",
     "Test_Paths"
   ],
   "autoFolders": [
