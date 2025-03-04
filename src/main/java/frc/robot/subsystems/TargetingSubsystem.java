@@ -145,9 +145,11 @@ public class TargetingSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation Y", estimatedFieldPose.getY());          
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
-
-            drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
-            drivebase.swerveDrivePoseEstimator.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
+            
+            drivebase.addVisionMeasurement(estimatedFieldPose, limelightBotPoseEstimateMT2.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
+            drivebase.swerveDrivePoseEstimator.addVisionMeasurement(estimatedFieldPose, limelightBotPoseEstimateMT2.timestampSeconds);
+            //drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
+            //drivebase.swerveDrivePoseEstimator.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
         }
     }
 
