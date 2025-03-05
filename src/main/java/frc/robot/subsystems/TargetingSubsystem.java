@@ -100,11 +100,11 @@ public class TargetingSubsystem extends SubsystemBase {
 
         // Since AutoBuilder is configured, we can use it to build pathfinding commands
         return AutoBuilder.pathfindToPose(
-                Constants.LimeLight.BlueReefPositions.CoralPoses.G,
+                Constants.LimeLight.RedReefPositions.CoralPoses.A,
                 constraints,
                 0.0 // Goal end velocity in meters/sec
         ).andThen(AutoBuilder.pathfindToPose(
-                Constants.LimeLight.RedReefPositions.CoralPoses.A,
+                Constants.LimeLight.RedReefPositions.CoralPoses.L,
                 constraints,
                 0.0 // Goal end velocity in meters/sec
         ));

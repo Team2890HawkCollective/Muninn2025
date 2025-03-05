@@ -174,9 +174,9 @@ public class RobotContainer
           leftButtons.button(6).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)).andThen(m_ElevatorSubsystem.goToHomeCommand())); // Elevator All The Way Down
   
           // Assistant Driver Alignment Buttons
-          rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
-          rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
-          rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+          //rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+          //rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+          //rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
 
           // Lift Position Buttons
           rightButtons.button(6).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.catchPosition));
@@ -199,6 +199,8 @@ public class RobotContainer
       driverXbox.povLeft().onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
       driverXbox.povUp().onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
       driverXbox.povRight().onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+      
+      //driverXbox.povDown().onTrue(m_TargetingSubsystem.pathfindTest()); // LL Testing
   
       if (RobotBase.isSimulation()) {
         drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
