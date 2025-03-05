@@ -126,14 +126,16 @@ public class TargetingSubsystem extends SubsystemBase {
                 SmartDashboard.putBoolean("Tracking AprilTag?", false);
             }
 
+            LimelightHelpers.PoseEstimate poseToUse;
+
             LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT2 = LimelightHelpers
                     .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
             LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT = LimelightHelpers
-                    .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME
+                    .getBotPoseEstimate_wpiBlue(Constants.LimeLight.LIMELIGHT_NAME
             //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightTarget_Fiducial();
-            LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightResults.geLatestResults(Constants.Limelight.LIMELIGHT_NAME).targets_Fiducials[0]; // It should be one of these two calls
-            Pose2d estimatedFieldPose = jsonData.getRobotPose_TargetSpace2D();
-            m_field.setRobotPose(estimatedFieldPose);
+            //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightResults.geLatestResults(Constants.Limelight.LIMELIGHT_NAME).targets_Fiducials[0]; // It should be one of these two calls
+            //Pose2d estimatedFieldPose = jsonData.getRobotPose_TargetSpace2D();
+            //m_field.setRobotPose(estimatedFieldPose);
 
             Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
 
@@ -141,16 +143,22 @@ public class TargetingSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Limelight Bot Pose Estimation Y", limelightBotPoseEstimateMT2.pose.getY()); 
             SmartDashboard.putNumber("Limelight Target Pose Estimation X", LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME));
             SmartDashboard.putNumber("Limelight Target Pose Estimation Y", LimelightHelpers.getTY(Constants.LimeLight.LIMELIGHT_NAME));
-            SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation X", estimatedFieldPose.getX());
-            SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation Y", estimatedFieldPose.getY());          
+            //SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation X", estimatedFieldPose.getX());
+            //SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation Y", estimatedFieldPose.getY());          
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
-            
+
+            if(limelightBotPoseEstimateMT.avgTagDist < Units.feetToMeters(12)){
+                poseToUse = limelightBotPoseEstimate;
+            } else {
+                poseToUse = limelightBotPoseEstimateMT2;
+            }
             drivebase.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
             m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
-            drivebase.addVisionMeasurement(estimatedFieldPose, limelightBotPoseEstimateMT2.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
-            m_poseEstimator.addVisionMeasurement(estimatedFieldPose, limelightBotPoseEstimateMT2.timestampSeconds);
+            drivebase.addVisionMeasurement(poseToUse, poseToUse.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
+            m_poseEstimator.addVisionMeasurement(poseToUse, poseToUse.timestampSeconds);
             //drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
+            m_field.setRobotPose(poseToUse);
         }
     }
 
