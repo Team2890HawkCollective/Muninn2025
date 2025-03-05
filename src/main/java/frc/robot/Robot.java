@@ -47,12 +47,12 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     instance = this;
-    final AddressableLED signalLights = new AddressableLED(9);
+    final AddressableLED signalLights = new AddressableLED(4);
 
     // Reuse buffer
     // Default to a length of 60, start empty output
     // Length is expensive to set, so only set it once, then just update data
-    AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(60);
+    AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(256);
     signalLights.setLength(signalLightsBuffer.getLength());
 
     // Set the data
@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
-
+    /*
     new Thread(() -> {
       UsbCamera camera = CameraServer.startAutomaticCapture();
       camera.setResolution(640, 480);
@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
         Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
         outputStream.putFrame(output);
       }
-    }).start();
+    }).start();*/
   }
 
   /**

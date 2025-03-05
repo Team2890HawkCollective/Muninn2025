@@ -37,7 +37,7 @@ public class LiftSubsystem extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler
-    SmartDashboard.putData("Lift Voltage Rotations", (Sendable) liftMotor.getPosition());
+    //SmartDashboard.putData("Lift Voltage Rotations", (Sendable) liftMotor.getPosition());
   }
 
   public Command moveToPositionCommand(PositionVoltage positionVoltage) {
