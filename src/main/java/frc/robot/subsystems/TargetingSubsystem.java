@@ -25,6 +25,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.RectanglePoseArea
 // NetworkTables if needed, LimelightHelpers is less pain
 //import edu.wpi.first.networktables.NetworkTable;
 //import edu.wpi.first.networktables.NetworkTableEntry;
@@ -39,6 +40,11 @@ public class TargetingSubsystem extends SubsystemBase {
 
     private final Field2d m_field = new Field2d();
 
+    // The fieldBoundry is gotten from the bottom left, and upper right corners. 
+    // Bottom Left is always (0,0)
+    // Upper Right is the dimensions of the field. I found that this is in meters by comparing the values provided in the example to last year's field dimensions.
+    private final RectanglePoseArea fieldBoundary = new RectanglePoseArea(new Translation2d(0, 0), new Translation2d(17.55, 8.05));
+    
     private final SwerveDrivePoseEstimator m_poseEstimator;
 
     public TargetingSubsystem(SwerveDrive driveSystem) {
@@ -117,7 +123,7 @@ public class TargetingSubsystem extends SubsystemBase {
         LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,
                 drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
 
-        if (tagId != 0) {
+        if (tagId != null) {
             if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
                 SmartDashboard.putNumber("Visible AprilTag TID", tagId);
                 SmartDashboard.putBoolean("Tracking AprilTag?", true);
