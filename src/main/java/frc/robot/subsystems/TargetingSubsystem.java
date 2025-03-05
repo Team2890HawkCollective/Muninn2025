@@ -10,15 +10,22 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.ejml.dense.row.linsol.qr.LinearSolverQr_CDRM;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.RectanglePoseArea
 // NetworkTables if needed, LimelightHelpers is less pain
 //import edu.wpi.first.networktables.NetworkTable;
 //import edu.wpi.first.networktables.NetworkTableEntry;
@@ -31,15 +38,44 @@ public class TargetingSubsystem extends SubsystemBase {
 
     private SwerveDrive drivebase;
 
+    private final Field2d m_field = new Field2d();
+
+    // The fieldBoundry is gotten from the bottom left, and upper right corners. 
+    // Bottom Left is always (0,0)
+    // Upper Right is the dimensions of the field. I found that this is in meters by comparing the values provided in the example to last year's field dimensions.
+    private final RectanglePoseArea fieldBoundary = new RectanglePoseArea(new Translation2d(0, 0), new Translation2d(17.55, 8.05));
+    
+    private final SwerveDrivePoseEstimator m_poseEstimator;
+
     public TargetingSubsystem(SwerveDrive driveSystem) {
         this.drivebase = driveSystem;
         LimelightHelpers.SetFiducialIDFiltersOverride(Constants.LimeLight.LIMELIGHT_NAME,
                 Constants.LimeLight.ALL_REEF_APRILTAGS); // Filter Out Non-Reef tags
+
+        this.m_poseEstimator =
+            new SwerveDrivePoseEstimator(
+                drivebase.kinematics,
+                drivebase.getGyro().getRotation3d().toRotation2d(),
+                new SwerveModulePosition[] {
+                    drivebase.getModulePositions()[0], // Front Left
+                    drivebase.getModulePositions()[0], // Front Right
+                    drivebase.getModulePositions()[0], // Back Left
+                    drivebase.getModulePositions()[0] // Back Right
+                    //m_frontLeft.getPosition(),
+                    //m_frontRight.getPosition(),
+                    //m_backLeft.getPosition(),
+                    //m_backRight.getPosition()
+                },
+                Pose2d.kZero,
+                VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+                VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
+          
         // Set initial bot orientation
         // Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
         // LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME,
         // drivebase.getYaw().getDegrees(), 0,
         // drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
+        SmartDashboard.putData("Field", m_field);
     }
 
     @Override
@@ -96,22 +132,39 @@ public class TargetingSubsystem extends SubsystemBase {
                 SmartDashboard.putBoolean("Tracking AprilTag?", false);
             }
 
-            LimelightHelpers.PoseEstimate limelightBotPoseEstimate = LimelightHelpers
+            LimelightHelpers.PoseEstimate poseToUse;
+
+            LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT2 = LimelightHelpers
                     .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
+            LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT = LimelightHelpers
+                    .getBotPoseEstimate_wpiBlue(Constants.LimeLight.LIMELIGHT_NAME
+            //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightTarget_Fiducial();
+            //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightResults.geLatestResults(Constants.Limelight.LIMELIGHT_NAME).targets_Fiducials[0]; // It should be one of these two calls
+            //Pose2d estimatedFieldPose = jsonData.getRobotPose_TargetSpace2D();
+            //m_field.setRobotPose(estimatedFieldPose);
+
             Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
 
-            SmartDashboard.putNumber("Limelight Bot Pose Estimation X", limelightBotPoseEstimate.pose.getX());
-            SmartDashboard.putNumber("Limelight Bot Pose Estimation Y", limelightBotPoseEstimate.pose.getY());
-            SmartDashboard.putNumber("Limelight Target Pose Estimation X",
-                    LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME));
-            SmartDashboard.putNumber("Limelight Target Pose Estimation Y",
-                    LimelightHelpers.getTY(Constants.LimeLight.LIMELIGHT_NAME));
+            SmartDashboard.putNumber("Limelight Bot Pose Estimation X", limelightBotPoseEstimateMT2.pose.getX());
+            SmartDashboard.putNumber("Limelight Bot Pose Estimation Y", limelightBotPoseEstimateMT2.pose.getY()); 
+            SmartDashboard.putNumber("Limelight Target Pose Estimation X", LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME));
+            SmartDashboard.putNumber("Limelight Target Pose Estimation Y", LimelightHelpers.getTY(Constants.LimeLight.LIMELIGHT_NAME));
+            //SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation X", estimatedFieldPose.getX());
+            //SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation Y", estimatedFieldPose.getY());          
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
-            drivebase.addVisionMeasurement(limelightBotPoseEstimate.pose, limelightBotPoseEstimate.timestampSeconds);
-            drivebase.swerveDrivePoseEstimator.addVisionMeasurement(limelightBotPoseEstimate.pose,
-                    limelightBotPoseEstimate.timestampSeconds);
+            if(limelightBotPoseEstimateMT.avgTagDist < Units.feetToMeters(12)){
+                poseToUse = limelightBotPoseEstimate;
+            } else {
+                poseToUse = limelightBotPoseEstimateMT2;
+            }
+            drivebase.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
+            m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
+            drivebase.addVisionMeasurement(poseToUse, poseToUse.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
+            m_poseEstimator.addVisionMeasurement(poseToUse, poseToUse.timestampSeconds);
+            //drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
+            m_field.setRobotPose(poseToUse);
         }
     }
 
