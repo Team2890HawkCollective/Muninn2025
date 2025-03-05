@@ -20,12 +20,13 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import frc.robot.RectanglePoseArea
+import frc.robot.subsystems.RectanglePoseArea;
 // NetworkTables if needed, LimelightHelpers is less pain
 //import edu.wpi.first.networktables.NetworkTable;
 //import edu.wpi.first.networktables.NetworkTableEntry;
@@ -137,7 +138,7 @@ public class TargetingSubsystem extends SubsystemBase {
             LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT2 = LimelightHelpers
                     .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimeLight.LIMELIGHT_NAME);
             LimelightHelpers.PoseEstimate limelightBotPoseEstimateMT = LimelightHelpers
-                    .getBotPoseEstimate_wpiBlue(Constants.LimeLight.LIMELIGHT_NAME
+                    .getBotPoseEstimate_wpiBlue(Constants.LimeLight.LIMELIGHT_NAME);
             //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightTarget_Fiducial();
             //LimelightHelpers.LimelightTarget_Fiducial jsonData = new LimelightHelpers.LimelightResults.geLatestResults(Constants.Limelight.LIMELIGHT_NAME).targets_Fiducials[0]; // It should be one of these two calls
             //Pose2d estimatedFieldPose = jsonData.getRobotPose_TargetSpace2D();
@@ -155,16 +156,16 @@ public class TargetingSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
             if(limelightBotPoseEstimateMT.avgTagDist < Units.feetToMeters(12)){
-                poseToUse = limelightBotPoseEstimate;
+                poseToUse = limelightBotPoseEstimateMT;
             } else {
                 poseToUse = limelightBotPoseEstimateMT2;
             }
             drivebase.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
             m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
-            drivebase.addVisionMeasurement(poseToUse, poseToUse.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
-            m_poseEstimator.addVisionMeasurement(poseToUse, poseToUse.timestampSeconds);
+            drivebase.addVisionMeasurement(poseToUse.pose, poseToUse.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
+            m_poseEstimator.addVisionMeasurement(poseToUse.pose, poseToUse.timestampSeconds);
             //drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
-            m_field.setRobotPose(poseToUse);
+            m_field.setRobotPose(poseToUse.pose);
         }
     }
 
