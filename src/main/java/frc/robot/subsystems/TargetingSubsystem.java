@@ -101,14 +101,17 @@ public class TargetingSubsystem extends SubsystemBase {
             Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
 
             SmartDashboard.putNumber("Limelight Bot Pose Estimation X", limelightBotPoseEstimate.pose.getX());
-            SmartDashboard.putNumber("Limelight Bot Pose Estimation Y", limelightBotPoseEstimate.pose.getY()); 
-            SmartDashboard.putNumber("Limelight Target Pose Estimation X", LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME));
-            SmartDashboard.putNumber("Limelight Target Pose Estimation Y", LimelightHelpers.getTY(Constants.LimeLight.LIMELIGHT_NAME));           
+            SmartDashboard.putNumber("Limelight Bot Pose Estimation Y", limelightBotPoseEstimate.pose.getY());
+            SmartDashboard.putNumber("Limelight Target Pose Estimation X",
+                    LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME));
+            SmartDashboard.putNumber("Limelight Target Pose Estimation Y",
+                    LimelightHelpers.getTY(Constants.LimeLight.LIMELIGHT_NAME));
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
             drivebase.addVisionMeasurement(limelightBotPoseEstimate.pose, limelightBotPoseEstimate.timestampSeconds);
-            drivebase.swerveDrivePoseEstimator.addVisionMeasurement(limelightBotPoseEstimate.pose, limelightBotPoseEstimate.timestampSeconds);
+            drivebase.swerveDrivePoseEstimator.addVisionMeasurement(limelightBotPoseEstimate.pose,
+                    limelightBotPoseEstimate.timestampSeconds);
         }
     }
 

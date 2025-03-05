@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.controls.PositionVoltage;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -109,18 +111,16 @@ public final class Constants {
 
   public final class Lift {
     public static final int LIFT_MOTOR_ID = 50;
-    public static final double START_STAGE_ENCODER_VALUE = 25;
-    public static final double CATCH_STAGE_ENCODER_VALUE = 50;
-    public static final double LIFT_STAGE_ENCODER_VALUE = 0;
-
-    public static final double PID_P = 0;
+    public static final PositionVoltage catchPosition = new PositionVoltage(10);
+    public static final PositionVoltage liftPosition = new PositionVoltage(0);
+    public static final double PID_P = 1;
     public static final double PID_I = 0;
     public static final double PID_D = 0;
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
 
     public final class LIFT_SERVO {
-      // public static final int SERVO_PWN_PORT = ;
+      public static final int SERVO_PWN_PORT = 0;
       public static final double R_UNLOCK_ANGLE = 0.3;
       public static final double R_LOCK_ANGLE = 0.15;
     }
@@ -142,7 +142,7 @@ public final class Constants {
       public static final double PID_D = 0.01;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
-      public static final int ROTATE_DELAY = 2;
+      public static final int ROTATE_DELAY = 3;
     }
 
     public final class CoralServo {
@@ -154,7 +154,7 @@ public final class Constants {
 
     public static final int TOF_SENSOR = 2; // To change the ID for the TOF Sensor, drop the code and enable the bot,
                                              // and then go to http://10.28.90.2:5812/ in a browser.
-    public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
+    public static final int TOF_TRIGGER_DIST = 100; // In Millimeters
 
   }
 
@@ -308,6 +308,6 @@ public final class Constants {
 
   public static class LED {
     public static final int SIGNAL_LIGHTS_PORT = 4;
-    public static final int SIGNAL_LIGHTS_LENGTH = 30;
+    public static final int SIGNAL_LIGHTS_LENGTH = 256;
   }
 }

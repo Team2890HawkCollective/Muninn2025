@@ -48,8 +48,8 @@ public class RobotContainer
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
   private final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
 
-    private final static CommandJoystick leftButtons = new CommandJoystick(2);
-    private final static CommandJoystick rightButtons = new CommandJoystick(3);
+    private final static CommandJoystick leftButtons = new CommandJoystick(3);
+    private final static CommandJoystick rightButtons = new CommandJoystick(2);
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverXbox = new CommandXboxController(0);
     private final CommandXboxController assistantDriverXbox = new CommandXboxController(1);
@@ -161,6 +161,8 @@ public class RobotContainer
           assistantDriverXbox.povRight().onTrue(m_AlgaeSubsystem.AlgaeOutputCommand()); // Algae Output Position
           assistantDriverXbox.leftBumper().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
           assistantDriverXbox.rightBumper().onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+          assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand()).onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+          assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand()).onFalse(m_LiftSubsystem.stopLiftMotorCommand());
   
       //} else {
           // Elevator Stage Buttons
@@ -175,12 +177,19 @@ public class RobotContainer
           rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
           rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
           rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+
+          // Lift Position Buttons
+          rightButtons.button(6).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.catchPosition));
+          rightButtons.button(7).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.liftPosition));
+          rightButtons.button(8).onTrue(m_LiftSubsystem.lockRatchetCommand());
+          rightButtons.button(9).onTrue(m_LiftSubsystem.retractRatchetCommand());
+
       //}
 
-      rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
+      //rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
       // Driver Controls
-      driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToOpen()); // Open Coral Servo
-      driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Close Coral Servo
+      driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Open Coral Servo
+      driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen()); // Close Coral Servo
   
       driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
       driverXbox.rightTrigger().whileTrue(m_AlgaeSubsystem.moveOutputAlgaeWheelsCommand()).onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Output Algae

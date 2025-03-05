@@ -65,10 +65,8 @@ public class CoralSubsystem extends SubsystemBase {
     public Command coralIntakeCommand() {
         return rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)
                 .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)))
-                // .andThen(runOnce(()->intakeCoral()))
                 // .until(() ->{return (TOFSensor.getRange() <
                 // Constants.Coral.WheelMotor.TOF_TRIGGER_DIST);})
-                // .andThen(()->stopWheels())
                 .andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE)));
     }
 
