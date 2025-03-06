@@ -145,7 +145,7 @@ public class TargetingSubsystem extends SubsystemBase {
 
             LimelightHelpers.PoseEstimate poseToUse = limelightBotPoseEstimateMT;
 
-            Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
+            //Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
 
             //SmartDashboard.putNumber("Limelight Bot Pose Estimation X", limelightBotPoseEstimateMT2.pose.getX());
             //SmartDashboard.putNumber("Limelight Bot Pose Estimation Y", limelightBotPoseEstimateMT2.pose.getY()); 
@@ -153,8 +153,6 @@ public class TargetingSubsystem extends SubsystemBase {
             //SmartDashboard.putNumber("Limelight Target Pose Estimation Y", LimelightHelpers.getTY(Constants.LimeLight.LIMELIGHT_NAME));
             //SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation X", estimatedFieldPose.getX());
             //SmartDashboard.putNumber("Limelight Bot Pose (Field Space) Estimation Y", estimatedFieldPose.getY());          
-            SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
-            SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
             if(fieldBoundary.isPoseWithinArea(poseToUse.pose) && poseToUse.tagCount > 0){ //&& LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME) != 0.0){
                 if(limelightBotPoseEstimateMT.avgTagDist < Units.feetToMeters(12)){
@@ -171,12 +169,16 @@ public class TargetingSubsystem extends SubsystemBase {
             m_poseEstimator.addVisionMeasurement(poseToUse.pose, poseToUse.timestampSeconds);
             //drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
             m_field.setRobotPose(poseToUse.pose);
+            SmartDashboard.putData(m_field);
         }
+        Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
+        SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
+        SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
     }
 
     public Command autoAlignment(String location) {
         PathConstraints constraints = new PathConstraints(
-                0.05, 0.1, // Default MaxVelocity: 3.0; Max Acceleration: 4.0
+                0.05, 0.07, // Default MaxVelocity: 3.0; Max Acceleration: 4.0
                 Units.degreesToRadians(540), Units.degreesToRadians(720));
 
         int tagId = (int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
