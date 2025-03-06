@@ -52,8 +52,6 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     instance = this;
-
-    m_CoralSubsystem.updateLED();
   };
 
   public static Robot getInstance() {
@@ -125,6 +123,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    m_CoralSubsystem.updateLED();
   }
 
   /**
