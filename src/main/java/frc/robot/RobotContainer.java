@@ -217,7 +217,7 @@ public class RobotContainer {
     // rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
     // Driver Controls
     driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Open Coral Servo
-    driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen()); // Close Coral Servo
+    driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen().andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE))); // Close Coral Servo
 
     driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand())
         .onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
@@ -229,7 +229,9 @@ public class RobotContainer {
     driverXbox.y().whileTrue(m_LiftSubsystem.moveLiftUpCommand())
         .onFalse(m_LiftSubsystem.stopLiftMotorCommand()); // Manual Lift Up
     driverXbox.a().whileTrue(m_LiftSubsystem.moveLiftDownCommand()) // Manual Lift Down
+    //.andThen(m_AlgaeSubsystem.algaeLiftCommand())
         .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+
 
     // Driver Alignment Controls
     driverXbox.povLeft().onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));

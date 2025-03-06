@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.playingwithfusion.TimeOfFlight;
 
 public class CoralSubsystem extends SubsystemBase {
-    private static SparkMax coralRotationalMotor = new SparkMax(Constants.Coral.RotationMotor.CORAL_MOTOR_ID,
+    public static SparkMax coralRotationalMotor = new SparkMax(Constants.Coral.RotationMotor.CORAL_MOTOR_ID,
             MotorType.kBrushless);
     private static SparkMaxConfig coralRotationalPIDConfig = new SparkMaxConfig();
     private static SparkClosedLoopController coralRotationalPIDController;
