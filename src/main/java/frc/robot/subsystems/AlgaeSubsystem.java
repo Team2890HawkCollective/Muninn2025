@@ -29,7 +29,6 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Algae.Wheel.TOF_SENSOR);
 
-
     public AlgaeSubsystem() {
         algaeRotationPIDConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -53,20 +52,29 @@ public class AlgaeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler
-        //algaeWheelMotor.getOutputCurrent();
+        // algaeWheelMotor.getOutputCurrent();
         SmartDashboard.putNumber("Algae Relative Encoder", algaeRotationMotor.getEncoder().getPosition());
-        //SmartDashboard.putNumber("Algae TOF Distance", TOFSensor.getRange());
+        // SmartDashboard.putNumber("Algae TOF Distance", TOFSensor.getRange());
         manualAlgaeRotation();
     }
 
-    public void manualAlgaeRotation(){
-        double leftButtonsJoystickY = RobotContainer.getLeftButtons().getY();
-        if (leftButtonsJoystickY == -1.00){
-            algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*-1);
-        }else if (leftButtonsJoystickY == 1.00){
-            algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED);
-        }else{
-            algaeRotationMotor.set(0);
+    public void manualAlgaeRotation() {
+        if (Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")) {
+            double assistDriverJoystickY = RobotContainer.getAssistantDriverXbox().getLeftY();
+            if (assistDriverJoystickY != 0 && Math.abs(assistDriverJoystickY) > .8) {
+                algaeRotationMotor.set(assistDriverJoystickY);
+            } else {
+                algaeRotationMotor.set(0);
+            }
+        } else {
+            double leftButtonsJoystickY = RobotContainer.getLeftButtons().getY();
+            if (leftButtonsJoystickY == -1.00) {
+                algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED * -1);
+            } else if (leftButtonsJoystickY == 1.00) {
+                algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED);
+            } else {
+                algaeRotationMotor.set(0);
+            }
         }
     }
 
@@ -74,7 +82,6 @@ public class AlgaeSubsystem extends SubsystemBase {
         return runOnce(() -> rotateToPosition(encoderValue));
     }
 
-    
     public void rotateToPosition(double encoderValue) {
         algaeRotationPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
     }
@@ -83,26 +90,26 @@ public class AlgaeSubsystem extends SubsystemBase {
         return rotateToPositionCommand(Constants.Algae.Rotation.CARRY_ENCODER_VALUE);
 
     }
+
     public Command AlgaeOutputCommand() {
         return rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ENCODER_VALUE_POS);
     }
-    
-    public Command AlgaeStartCommand(){
+
+    public Command AlgaeStartCommand() {
         return rotateToPositionCommand(Constants.Algae.Rotation.START_POSITION_ENCODER_VALUE);
     }
 
-    public Command moveInputAlgaeWheelsCommand(){
+    public Command moveInputAlgaeWheelsCommand() {
         return runOnce(() -> moveInputAlgaeWheels());
     }
 
-    public Command moveOutputAlgaeWheelsCommand(){
+    public Command moveOutputAlgaeWheelsCommand() {
         return runOnce(() -> moveOutputAlgaeWheels());
     }
 
-    public Command stopAlgaeWheelsCommand(){
+    public Command stopAlgaeWheelsCommand() {
         return runOnce(() -> stopWheels());
     }
-
 
     public void stopRotationMotor() {
         algaeRotationMotor.set(0);
@@ -130,11 +137,11 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     public Command joystickRotateAlgaeCommand(double joystickY) {
         return run(() -> joystickRotateAlgae(joystickY))
-            .onlyWhile(() -> (Math.abs(joystickY)>Constants.Algae.Rotation.DEADZONE))
-            .andThen(() -> stopRotationMotor());
+                .onlyWhile(() -> (Math.abs(joystickY) > Constants.Algae.Rotation.DEADZONE))
+                .andThen(() -> stopRotationMotor());
     }
 
-    public void joystickRotateAlgae(double speed){
+    public void joystickRotateAlgae(double speed) {
         algaeWheelMotor.set(speed);
     }
 

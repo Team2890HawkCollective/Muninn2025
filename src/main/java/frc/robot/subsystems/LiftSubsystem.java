@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.Constants.Lift;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.spark.SparkMax;
@@ -37,7 +38,8 @@ public class LiftSubsystem extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler
-    //SmartDashboard.putData("Lift Voltage Rotations", (Sendable) liftMotor.getPosition());
+    // SmartDashboard.putData("Lift Voltage Rotations", (Sendable)
+    // liftMotor.getPosition());
   }
 
   public Command moveToPositionCommand(PositionVoltage positionVoltage) {
@@ -67,6 +69,7 @@ public class LiftSubsystem extends SubsystemBase {
   public Command stopLiftMotorCommand() {
     return runOnce(() -> stopLiftMotor());
   }
+
   public void stopLiftMotor() {
     liftMotor.set(0);
   }
@@ -87,11 +90,36 @@ public class LiftSubsystem extends SubsystemBase {
     toggleRatchet(true);
   }
 
+  public Command moveLiftUpCommand() {
+    return run(() -> moveLiftUp());
+  }
+
+  public Command moveLiftDownCommand() {
+    return run(() -> moveLiftDown());
+  }
+
+  public void moveLiftUp() {
+    liftMotor.set(0.55);
+  }
+
+  public void moveLiftDown() {
+    liftMotor.set(-0.55);
+  }
+
   public static void toggleRatchet(boolean toggle) {
     if (toggle == true) {
       liftRatchet.set(Constants.Lift.LIFT_SERVO.R_LOCK_ANGLE);
     } else
       liftRatchet.set(Constants.Lift.LIFT_SERVO.R_UNLOCK_ANGLE);
+  }
+
+  public void manualLiftDrive() {
+    double assistDriverJoystickY = RobotContainer.getAssistantDriverXbox().getRightY();
+    if (assistDriverJoystickY != 0 && Math.abs(assistDriverJoystickY) > .8) {
+      liftMotor.set(assistDriverJoystickY);
+    } else {
+      liftMotor.set(0);
+    }
   }
 
 }

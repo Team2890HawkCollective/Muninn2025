@@ -56,6 +56,7 @@ public class CoralSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler
         SmartDashboard.putNumber("Coral Relative Encoder", coralRotationalMotor.getEncoder().getPosition());
+        updateLED();
     }
 
     public Command rotateToPositionCommand(double encoderValue) {
@@ -87,5 +88,13 @@ public class CoralSubsystem extends SubsystemBase {
 
     public void rotateToPosition(double encoderValue) {
         coralRotationalPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
+    }
+
+    public void updateLED(){
+        if(TOFSensor.getRange()<Constants.Coral.TOF_TRIGGER_DIST){
+            Led.setColor(Led.signalLights, Led.signalLightsBuffer, 182, 7, 235);
+        } else {
+            Led.setColor(Led.signalLights, Led.signalLightsBuffer, 240, 107, 5);
+        }
     }
 }

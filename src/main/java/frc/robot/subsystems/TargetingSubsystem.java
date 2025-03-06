@@ -156,14 +156,14 @@ public class TargetingSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
-            if(fieldBoundary.isPoseWithinArea(poseToUse.pose) && poseToUse.tagCount > 0){
-                //if(limelightBotPoseEstimateMT.avgTagDist < Units.feetToMeters(12)){
-                    //poseToUse = limelightBotPoseEstimateMT;
-                    //SmartDashboard.putBoolean("MegaTag2?", false);
-                //} else {
+            if(fieldBoundary.isPoseWithinArea(poseToUse.pose) && poseToUse.tagCount > 0 && LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME) != 0.0){
+                if(limelightBotPoseEstimateMT.avgTagDist < Units.feetToMeters(12)){
+                    poseToUse = limelightBotPoseEstimateMT;
+                    SmartDashboard.putBoolean("MegaTag2?", false);
+                } else {
                     poseToUse = limelightBotPoseEstimateMT2;
                     SmartDashboard.putBoolean("MegaTag2?", true);
-                //}
+                }
             }
             drivebase.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
             m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
