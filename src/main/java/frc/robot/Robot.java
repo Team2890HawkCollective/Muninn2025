@@ -4,11 +4,13 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
+
 import javax.lang.model.type.NullType;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
-
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -19,6 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.Led;
 import frc.robot.subsystems.TargetingSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
@@ -39,6 +43,7 @@ public class Robot extends TimedRobot {
 
   public RobotContainer m_robotContainer;
 
+  private CoralSubsystem m_CoralSubsystem;
   private ShuffleboardDisplay m_shuffleboardDisplay;
   private TargetingSubsystem m_TargetingSubsystem;
   private String m_choosenAutoMode;
@@ -47,20 +52,6 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     instance = this;
-    final AddressableLED signalLights = new AddressableLED(4);
-
-    // Reuse buffer
-    // Default to a length of 60, start empty output
-    // Length is expensive to set, so only set it once, then just update data
-    AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(256);
-    signalLights.setLength(signalLightsBuffer.getLength());
-
-    // Set the data
-    LEDPattern green = LEDPattern.solid(Color.kGreen);
-
-    green.applyTo(signalLightsBuffer);
-    signalLights.setData(signalLightsBuffer);
-    signalLights.start();
   };
 
   public static Robot getInstance() {
@@ -91,24 +82,25 @@ public class Robot extends TimedRobot {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
     /*
-    new Thread(() -> {
-      UsbCamera camera = CameraServer.startAutomaticCapture();
-      camera.setResolution(640, 480);
-
-      CvSink cvSink = CameraServer.getVideo();
-      CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
-
-      Mat source = new Mat();
-      Mat output = new Mat();
-
-      while (!Thread.interrupted()) {
-        if (cvSink.grabFrame(source) == 0) {
-          continue;
-        }
-        Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-        outputStream.putFrame(output);
-      }
-    }).start();*/
+     * new Thread(() -> {
+     * UsbCamera camera = CameraServer.startAutomaticCapture();
+     * camera.setResolution(640, 480);
+     * 
+     * CvSink cvSink = CameraServer.getVideo();
+     * CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
+     * 
+     * Mat source = new Mat();
+     * Mat output = new Mat();
+     * 
+     * while (!Thread.interrupted()) {
+     * if (cvSink.grabFrame(source) == 0) {
+     * continue;
+     * }
+     * Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+     * outputStream.putFrame(output);
+     * }
+     * }).start();
+     */
   }
 
   /**

@@ -11,21 +11,21 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.robot.Constants;
 
 public class Led {
-    public static AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
-    public static AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
+    static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
+    static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
 
     public static int getBufferLength(AddressableLEDBuffer buffer) {
         return buffer.getLength();
     }
 
-    public static Command setColorCommand(AddressableLED led, AddressableLEDBuffer buffer, int r, int g, int b){
-        return Commands.runOnce(()->setColor(led, buffer, r, g, b));
+    public Command setColorCommand(int r, int g, int b) {
+        return Commands.runOnce(() -> setColor(r, g, b));
     }
 
-    public static void setColor(AddressableLED led, AddressableLEDBuffer buffer, int r, int g, int b) {
-        for (var i = 0; i < Led.getBufferLength(buffer); i++)
-            buffer.setRGB(i, r, g, b);
-        led.setData(buffer);
+    public static void setColor(int r, int g, int b) {
+        for (var i = 0; i < Led.getBufferLength(signalLightsBuffer); i++)
+            signalLightsBuffer.setRGB(i, r, g, b);
+        signalLights.setData(signalLightsBuffer);
     }
 }
