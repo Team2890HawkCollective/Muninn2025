@@ -79,11 +79,11 @@ public class CoralSubsystem extends SubsystemBase {
                 //.andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     }
 
-    public Command servoRotateToOpen(){
+    public Command servoRotateToOpen() {
         return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE));
     }
 
-    public Command servoRotateToClosed(){
+    public Command servoRotateToClosed() {
         return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE));
     }
 
@@ -91,7 +91,7 @@ public class CoralSubsystem extends SubsystemBase {
         coralRotationalPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
     }
 
-    public void updateLED(){
+    public void updateLED() {
         if(TOFSensor.getRange()<Constants.Coral.TOF_TRIGGER_DIST){
             Led.setColor(Color.kPurple);
         } else {

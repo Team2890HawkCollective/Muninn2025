@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
 
   public RobotContainer m_robotContainer;
 
+  private CoralSubsystem m_CoralSubsystem;
   private ShuffleboardDisplay m_shuffleboardDisplay;
   private TargetingSubsystem m_TargetingSubsystem;
   private String m_choosenAutoMode;
@@ -51,6 +52,8 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     instance = this;
+
+    m_CoralSubsystem.updateLED();
   };
 
   public static Robot getInstance() {
