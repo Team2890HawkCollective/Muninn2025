@@ -156,7 +156,7 @@ public class TargetingSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
             SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
 
-            if(fieldBoundary.isPoseWithinArea(poseToUse.pose) && poseToUse.tagCount > 0 && LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME) != 0.0){
+            if(fieldBoundary.isPoseWithinArea(poseToUse.pose) && poseToUse.tagCount > 0){ //&& LimelightHelpers.getTX(Constants.LimeLight.LIMELIGHT_NAME) != 0.0){
                 if(limelightBotPoseEstimateMT.avgTagDist < Units.feetToMeters(12)){
                     poseToUse = limelightBotPoseEstimateMT;
                     SmartDashboard.putBoolean("MegaTag2?", false);
