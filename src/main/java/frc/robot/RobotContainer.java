@@ -200,11 +200,11 @@ public class RobotContainer {
 
     // Assistant Driver Alignment Buttons
     rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
-        //.andThen(Led.setColorCommand(Led.signalLights, Led.signalLightsBuffer, 64, 240, 5)));
+        //.andThen(Led.setColorCommand(64, 240, 5)));
     rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
-        //.andThen(Led.setColorCommand(Led.signalLights, Led.signalLightsBuffer, 64, 240, 5)));
+        //.andThen(Led.setColorCommand(64, 240, 5)));
     rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
-        //.andThen(Led.setColorCommand(Led.signalLights, Led.signalLightsBuffer, 64, 240, 5)));
+        //.andThen(Led.setColorCommand(64, 240, 5)));
 
     // Lift Position Buttons
     // rightButtons.button(6).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.catchPosition));
