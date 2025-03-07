@@ -101,6 +101,7 @@ public class Robot extends TimedRobot {
      * }
      * }).start();
      */
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   /**
