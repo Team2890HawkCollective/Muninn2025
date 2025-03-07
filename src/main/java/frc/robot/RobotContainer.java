@@ -199,11 +199,11 @@ public class RobotContainer {
             .andThen(m_ElevatorSubsystem.goToHomeCommand())); // Elevator All The Way Down
 
     // Assistant Driver Alignment Buttons
-    rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+    //rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
         //.andThen(Led.setColorCommand(64, 240, 5)));
-    rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+    //rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
         //.andThen(Led.setColorCommand(64, 240, 5)));
-    rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+    //rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
         //.andThen(Led.setColorCommand(64, 240, 5)));
 
     // Lift Position Buttons
@@ -234,9 +234,9 @@ public class RobotContainer {
 
 
     // Driver Alignment Controls
-    driverXbox.povLeft().onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
-    driverXbox.povUp().onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
-    driverXbox.povRight().onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+    //driverXbox.povLeft().onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+    //driverXbox.povUp().onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+    //driverXbox.povRight().onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
 
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);

@@ -136,7 +136,7 @@ public final class Constants {
 
     public final class RotationMotor {
       public static final int CORAL_MOTOR_ID = 60;
-      public static final double START_POSITION_ENCODER_VALUE = -2.023809194564819;
+      public static final double START_POSITION_ENCODER_VALUE = -1.023809194564819;
       public static final double SCORE_POSITION_ENCODER_VALUE = -19.618974685668945;
       // public static final double SCORE_POSITION_ENCODER_VALUE =
       // -17.214284896850586;
