@@ -55,7 +55,7 @@ public class AlgaeSubsystem extends SubsystemBase {
         // algaeWheelMotor.getOutputCurrent();
         SmartDashboard.putNumber("Algae Relative Encoder", algaeRotationMotor.getEncoder().getPosition());
         // SmartDashboard.putNumber("Algae TOF Distance", TOFSensor.getRange());
-        manualAlgaeRotation();
+        //manualAlgaeRotation();
     }
 
     public void manualAlgaeRotation() {

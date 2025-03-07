@@ -165,10 +165,10 @@ public class RobotContainer {
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     assistantDriverXbox.rightBumper()
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand())
-        .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
-    assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())
-        .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+    //assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand())
+        //.onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+    //assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())
+        //.onFalse(m_LiftSubsystem.stopLiftMotorCommand());
 
     // } else {
     // Elevator Stage Buttons

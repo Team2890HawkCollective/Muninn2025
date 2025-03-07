@@ -99,7 +99,7 @@ public final class Constants {
         L3_ALGAE_STAGE_ENCODER_DIFFERENCE
     };
 
-    public static final double PID_P = 0.8;
+    public static final double PID_P = 10;
     public static final double PID_I = 0;
     public static final double PID_D = 0.05;
     public static final double PID_IZ = 0;
@@ -136,7 +136,7 @@ public final class Constants {
 
     public final class RotationMotor {
       public static final int CORAL_MOTOR_ID = 60;
-      public static final double START_POSITION_ENCODER_VALUE = 0.0;
+      public static final double START_POSITION_ENCODER_VALUE = -2.023809194564819;
       public static final double SCORE_POSITION_ENCODER_VALUE = -19.618974685668945;
       // public static final double SCORE_POSITION_ENCODER_VALUE =
       // -17.214284896850586;
@@ -145,7 +145,7 @@ public final class Constants {
       public static final double PID_D = 0.01;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
-      public static final long ROTATE_DELAY = 1000L;
+      public static final int ROTATE_DELAY = 2;
     }
 
     public final class CoralServo {

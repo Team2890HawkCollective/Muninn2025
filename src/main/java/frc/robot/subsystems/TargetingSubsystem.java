@@ -185,7 +185,7 @@ public class TargetingSubsystem extends SubsystemBase {
 
         Pose2d targetPose = new Pose2d();
 
-        if (tagId != 0) {
+        if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
             // Red Reef Tags
             if (tagId == 7) {
                 switch (location.toLowerCase()) {
