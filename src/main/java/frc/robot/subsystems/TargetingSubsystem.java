@@ -124,7 +124,7 @@ public class TargetingSubsystem extends SubsystemBase {
         LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,
                 drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
 
-        if (tagId != 0) {
+        if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
             if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
                 SmartDashboard.putNumber("Visible AprilTag TID", tagId);
                 SmartDashboard.putBoolean("Tracking AprilTag?", true);

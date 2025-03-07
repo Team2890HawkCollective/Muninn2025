@@ -173,7 +173,7 @@ public class RobotContainer {
     // } else {
     // Elevator Stage Buttons
     leftButtons.button(1)
-        .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
+       .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
             .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
             .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
     leftButtons.button(2)
@@ -219,10 +219,10 @@ public class RobotContainer {
     driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Open Coral Servo
     driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen().andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE))); // Close Coral Servo
 
-    driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand())
-        .onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
-    driverXbox.rightTrigger().whileTrue(m_AlgaeSubsystem.moveOutputAlgaeWheelsCommand())
-        .onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Output Algae
+    //driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand())
+    //    .onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
+    //driverXbox.rightTrigger().whileTrue(m_AlgaeSubsystem.moveOutputAlgaeWheelsCommand())
+    //    .onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Output Algae
 
     driverXbox.b().onTrue(m_LiftSubsystem.retractRatchetCommand());
     driverXbox.x().onTrue(m_LiftSubsystem.lockRatchetCommand());
