@@ -155,9 +155,9 @@ public final class Constants {
       public static final long OUTPUT_DELAY = 3000;
     }
 
-    public static final int TOF_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
+    public static final int TOF_SENSOR = 2; // To change the ID for the TOF Sensor, drop the code and enable the bot,
                                              // and then go to http://10.28.90.2:5812/ in a browser.
-    public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
+    public static final int TOF_TRIGGER_DIST = 20; // In Millimeters
 
   }
 
@@ -256,18 +256,18 @@ public final class Constants {
     public static class BlueReefPositions {
       public static class CoralPoses {
         // FMS Branch Names
-        public static final Pose2d A = new Pose2d(3.215, 4.446, Rotation2d.fromDegrees(0));
+        public static final Pose2d A = new Pose2d(3.215, 4.472, Rotation2d.fromDegrees(0));
         public static final Pose2d B = new Pose2d(3.215, 4.160, Rotation2d.fromDegrees(0));
-        public static final Pose2d C = new Pose2d(3.455, 3.129, Rotation2d.fromDegrees(60));
-        public static final Pose2d D = new Pose2d(3.751, 2.949, Rotation2d.fromDegrees(60));
-        public static final Pose2d E = new Pose2d(4.714, 2.679, Rotation2d.fromDegrees(120));
-        public static final Pose2d F = new Pose2d(5.020, 2.841, Rotation2d.fromDegrees(120));
-        public static final Pose2d G = new Pose2d(5.800, 3.561, Rotation2d.fromDegrees(180));
-        public static final Pose2d H = new Pose2d(5.785, 3.885, Rotation2d.fromDegrees(180));
-        public static final Pose2d I = new Pose2d(5.533, 4.901, Rotation2d.fromDegrees(240));
-        public static final Pose2d J = new Pose2d(5.240, 5.063, Rotation2d.fromDegrees(240));
-        public static final Pose2d K = new Pose2d(4.255, 5.369, Rotation2d.fromDegrees(300));
-        public static final Pose2d L = new Pose2d(3.967, 5.198, Rotation2d.fromDegrees(300));
+        public static final Pose2d C = new Pose2d(3.471, 3.148, Rotation2d.fromDegrees(60));
+        public static final Pose2d D = new Pose2d(3.749, 2.989, Rotation2d.fromDegrees(60));
+        public static final Pose2d E = new Pose2d(4.716, 2.695, Rotation2d.fromDegrees(120));
+        public static final Pose2d F = new Pose2d(5.001, 2.858, Rotation2d.fromDegrees(120));
+        public static final Pose2d G = new Pose2d(5.748, 3.556, Rotation2d.fromDegrees(180));
+        public static final Pose2d H = new Pose2d(5.748, 3.886, Rotation2d.fromDegrees(180));
+        public static final Pose2d I = new Pose2d(5.517, 4.890, Rotation2d.fromDegrees(240));
+        public static final Pose2d J = new Pose2d(5.253, 5.045, Rotation2d.fromDegrees(240));
+        public static final Pose2d K = new Pose2d(4.255, 5.337, Rotation2d.fromDegrees(300));
+        public static final Pose2d L = new Pose2d(3.971, 5.191, Rotation2d.fromDegrees(300));
       }
 
       public static class AlgaePoses {

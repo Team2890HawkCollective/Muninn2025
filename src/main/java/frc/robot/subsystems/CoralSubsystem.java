@@ -57,6 +57,7 @@ public class CoralSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler
         SmartDashboard.putNumber("Coral Relative Encoder", coralRotationalMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("Coral TOF Distance", TOFSensor.getRange());
         //updateLED();
     }
 

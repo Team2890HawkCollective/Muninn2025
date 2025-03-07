@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -315,7 +316,7 @@ public class TargetingSubsystem extends SubsystemBase {
                     0.0 // Goal end velocity in meters/sec
             );
         } else {
-            return null;
+            return Commands.none();
         }
     }
 
