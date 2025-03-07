@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -78,11 +79,11 @@ public class CoralSubsystem extends SubsystemBase {
                 //.andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     }
 
-    public Command servoRotateToOpen(){
+    public Command servoRotateToOpen() {
         return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE));
     }
 
-    public Command servoRotateToClosed(){
+    public Command servoRotateToClosed() {
         return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE));
     }
 
@@ -90,11 +91,11 @@ public class CoralSubsystem extends SubsystemBase {
         coralRotationalPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
     }
 
-    public void updateLED(){
+    public void updateLED() {
         if(TOFSensor.getRange()<Constants.Coral.TOF_TRIGGER_DIST){
-            Led.setColor(182, 7, 235);
+            Led.setColor(Color.kPurple);
         } else {
-            Led.setColor(240, 107, 5);
+            Led.setColor(Color.kOrange);
         }
     }
 }
