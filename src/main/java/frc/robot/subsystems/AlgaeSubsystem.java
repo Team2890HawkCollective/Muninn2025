@@ -27,7 +27,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     private static SparkMax algaeWheelMotor = new SparkMax(Constants.Algae.Wheel.ALGAE_WHEEL_MOTOR_ID,
             MotorType.kBrushless);
 
-    public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Algae.Wheel.TOF_SENSOR);
+   // public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Algae.Wheel.TOF_SENSOR);
 
     public AlgaeSubsystem() {
         algaeRotationPIDConfig.closedLoop
@@ -124,11 +124,11 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public void moveInputAlgaeWheels() {
-        if (TOFSensor.getRange() > Constants.Algae.Wheel.TOF_DISTANCE) {
+        //if (TOFSensor.getRange() > Constants.Algae.Wheel.TOF_DISTANCE) {
             algaeWheelMotor.set(Constants.Algae.Wheel.WHEEL_INTAKE_SPEED);
-        } else {
-            algaeWheelMotor.set(0);
-        }
+        //} else {
+            //algaeWheelMotor.set(0);
+        //}
     }
 
     public void moveOutputAlgaeWheels() {

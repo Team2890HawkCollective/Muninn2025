@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Station_2_DriveToReef_Coral_Lower"
+            "pathName": "DriveForward"
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": []
+            "name": "Coral_Level_2"
           }
         }
       ]

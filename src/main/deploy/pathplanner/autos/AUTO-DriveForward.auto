@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "PositionFinder"
+            "pathName": "DriveForward"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Test_Autos",
+  "folder": "Comp_Autos",
   "choreoAuto": false
 }
