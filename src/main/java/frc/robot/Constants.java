@@ -67,7 +67,8 @@ public final class Constants {
   }
 
   public final class Elevator {
-    public static final int ELEVATOR_MOTOR_ID = 40;
+    public static final int ELEVATOR_MOTOR1_ID = 40;
+    public static final int ELEVATOR_MOTOR2_ID = 41;
 
     public static final double DEADZONE = 0.1;
 

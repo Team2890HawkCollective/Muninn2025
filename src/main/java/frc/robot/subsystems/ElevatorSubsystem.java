@@ -17,7 +17,8 @@ import frc.robot.Constants;
 import com.revrobotics.spark.SparkClosedLoopController;
 
 public class ElevatorSubsystem extends SubsystemBase {
-    private static SparkFlex elevatorMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
+    private static SparkFlex elevatorMotor1 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR1_ID, MotorType.kBrushless);
+    private static SparkFlex elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
     private static SparkClosedLoopController elevatorPIDController;
     public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
     public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
@@ -37,14 +38,16 @@ public class ElevatorSubsystem extends SubsystemBase {
                 .d(0, ClosedLoopSlot.kSlot1)
                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
-        elevatorMotor.configure(elevatorPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        elevatorPIDController = elevatorMotor.getClosedLoopController();
+        elevatorMotor1.configure(elevatorPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        elevatorPIDController = elevatorMotor1.getClosedLoopController();
+        //elevatorMotor2.configure(elevatorPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        //elevatorPIDController = elevatorMotor2.getClosedLoopController();
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler
-        SmartDashboard.putNumber("Elevator Relative Encoder", elevatorMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("Elevator Relative Encoder", elevatorMotor1.getEncoder().getPosition());
         SmartDashboard.putBoolean("Elevator Limit Switch State", bottomlimitSwitch.get());
     }
 
@@ -66,7 +69,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public Command goToHomeCommand() {
         return run(() -> moveElevatorDown()).until(() -> bottomlimitSwitch.get() == true)
                 .andThen(() -> stopElevatorMotor())
-                .andThen(() -> Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition());
+                .andThen(() -> Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor1.getEncoder().getPosition());
     }
 
     public Command moveElevatorUpCommand() {
@@ -86,19 +89,23 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorUp() {
-        elevatorMotor.set(Constants.Elevator.ELEVATOR_UP_SPEED);
+        elevatorMotor1.set(Constants.Elevator.ELEVATOR_UP_SPEED);
+        elevatorMotor2.set(Constants.Elevator.ELEVATOR_UP_SPEED);
     }
 
     public void joysticMoveElevatorUp(double speed) {
-        elevatorMotor.set(speed);
+        elevatorMotor1.set(speed);
+        elevatorMotor2.set(speed);
     }
 
     public void moveElevatorDown() {
-        elevatorMotor.set(Constants.Elevator.HOMING_SPEED);
+        elevatorMotor1.set(Constants.Elevator.HOMING_SPEED);
+        elevatorMotor2.set(Constants.Elevator.HOMING_SPEED);
     }
 
     public void stopElevatorMotor() {
-        elevatorMotor.set(0);
+        elevatorMotor1.set(0);
+        elevatorMotor2.set(0);
     }
 
     public Command stopElevatorMotorCommand() {
@@ -107,7 +114,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void zeroEncoder() {
         if (bottomlimitSwitch.get() == true)
-            Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition();
+            Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor1.getEncoder().getPosition();
     }
 
 }
