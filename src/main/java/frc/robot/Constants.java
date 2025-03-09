@@ -72,7 +72,7 @@ public final class Constants {
 
     public static final double DEADZONE = 0.1;
 
-    public static final double ELEVATOR_UP_SPEED = -0.8;
+    public static final double ELEVATOR_UP_SPEED = -0.45;
 
     public static final int CORAL_STAGE_BASE = 0;
     public static final int CORAL_STAGE_L1 = 1;

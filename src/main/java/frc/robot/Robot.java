@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
   private String m_choosenAutoMode;
 
   private Timer disabledTimer;
-
+  
   public Robot() {
     instance = this;
   };

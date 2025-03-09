@@ -124,7 +124,13 @@ public class RobotContainer {
 
     // Autonomous Command Registration
 
-    NamedCommands.registerCommand("Coral_Level_2_Half", m_ElevatorSubsystem.goToElevatorStageCommand(2)
+    NamedCommands.registerCommand("Coral_Level_2_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(2)
+        .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+        .andThen(m_CoralSubsystem.coralOutputCommand()));
+    NamedCommands.registerCommand("Coral_Level_3_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(3)
+        .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+        .andThen(m_CoralSubsystem.coralOutputCommand()));
+    NamedCommands.registerCommand("Coral_Level_4_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(4)
         .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
         .andThen(m_CoralSubsystem.coralOutputCommand()));
   }
