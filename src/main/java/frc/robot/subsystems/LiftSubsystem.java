@@ -99,11 +99,11 @@ public class LiftSubsystem extends SubsystemBase {
   }
 
   public void moveLiftUp() {
-    liftMotor.set(0.55);
+    liftMotor.set(0.08);
   }
 
   public void moveLiftDown() {
-    liftMotor.set(-0.55);
+    liftMotor.set(-0.08);
   }
 
   public static void toggleRatchet(boolean toggle) {
@@ -115,7 +115,7 @@ public class LiftSubsystem extends SubsystemBase {
 
   public void manualLiftDrive() {
     double assistDriverJoystickY = RobotContainer.getAssistantDriverXbox().getRightY();
-    if (assistDriverJoystickY != 0 && Math.abs(assistDriverJoystickY) > .8) {
+    if (assistDriverJoystickY != 0 && Math.abs(assistDriverJoystickY) > 0.2) {
       liftMotor.set(assistDriverJoystickY);
     } else {
       liftMotor.set(0);

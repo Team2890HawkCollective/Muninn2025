@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -74,7 +76,8 @@ public class CoralSubsystem extends SubsystemBase {
     }
 
     public Command coralOutputCommand() {
-        return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE);
+        return Commands.none();
+        //return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE);
                 //.andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)));
                 //.wait(3000)
                 //.andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));

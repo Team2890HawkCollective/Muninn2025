@@ -72,7 +72,8 @@ public final class Constants {
 
     public static final double DEADZONE = 0.1;
 
-    public static final double ELEVATOR_UP_SPEED = -0.45;
+    public static final double ELEVATOR_UP_SPEED = -0.25;
+    public static final double HOMING_SPEED = 0.25;
 
     public static final int CORAL_STAGE_BASE = 0;
     public static final int CORAL_STAGE_L1 = 1;
@@ -100,13 +101,12 @@ public final class Constants {
         L3_ALGAE_STAGE_ENCODER_DIFFERENCE
     };
 
-    public static final double PID_P = 10;
+    public static final double PID_P = 0.8;
     public static final double PID_I = 0;
     public static final double PID_D = 0.05;
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
     public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;
-    public static final double HOMING_SPEED = 0.4;
     public static final int LIMIT_SWITCH_PWM_PORT = 1;
 
   }
@@ -170,7 +170,7 @@ public final class Constants {
       public static final double COLLECT_ENCODER_VALUE_POS = 73.09744262695312;
       public static final double CARRY_ENCODER_VALUE = 19.166601181030273;
       public static final double PROCESSOR_ENCODER_VALUE = 57.50067901611328;
-      public static final double LIFT_POSITION_ENCODER_VALUE = 25.09507942199707;
+      public static final double LIFT_POSITION_ENCODER_VALUE = 19.952302932739258;
       public static final double PID_P = 0.3;
       public static final double PID_I = 0;
       public static final double PID_D = 0;

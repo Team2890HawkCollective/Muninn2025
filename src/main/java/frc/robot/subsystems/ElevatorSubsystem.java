@@ -22,9 +22,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static SparkClosedLoopController elevatorPIDController;
     public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
 
-    private static SparkFlex elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
-    //private static RelativeEncoder elevator2Encoder;
-    //private static SparkClosedLoopController elevator2PIDController;
+    //private static SparkFlex elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
+    private static SparkFlex elevatorMotor2;
+    private static RelativeEncoder elevator2Encoder;
+    private static SparkClosedLoopController elevator2PIDController;
 
     public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
 
@@ -49,14 +50,14 @@ public class ElevatorSubsystem extends SubsystemBase {
         //elevatorPIDController = elevatorMotor2.getClosedLoopController();
 
         // Motor 2 Slaving Code
-        //elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
-        //elevator2Encoder = elevatorMotor2.getEncoder();
-        //elevator2PIDController = elevatorMotor2.getClosedLoopController();
-        //elevatorMotor2.configure(
-        //    elevatorPIDConfig.follow(elevatorMotor1),
-        //    ResetMode.kNoResetSafeParameters, 
-        //    PersistMode.kNoPersistParameters
-        //);
+        elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
+        elevator2Encoder = elevatorMotor2.getEncoder();
+        elevator2PIDController = elevatorMotor2.getClosedLoopController();
+        elevatorMotor2.configure(
+            elevatorPIDConfig.follow(elevatorMotor1),
+            ResetMode.kNoResetSafeParameters, 
+            PersistMode.kNoPersistParameters
+        );
 
     }
 
@@ -106,22 +107,22 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void moveElevatorUp() {
         elevatorMotor1.set(Constants.Elevator.ELEVATOR_UP_SPEED);
-        elevatorMotor2.set(Constants.Elevator.ELEVATOR_UP_SPEED);
+        //elevatorMotor2.set(Constants.Elevator.ELEVATOR_UP_SPEED);
     }
 
     public void joysticMoveElevatorUp(double speed) {
         elevatorMotor1.set(speed);
-        elevatorMotor2.set(speed);
+        //elevatorMotor2.set(speed);
     }
 
     public void moveElevatorDown() {
         elevatorMotor1.set(Constants.Elevator.HOMING_SPEED);
-        elevatorMotor2.set(Constants.Elevator.HOMING_SPEED);
+        //elevatorMotor2.set(Constants.Elevator.HOMING_SPEED);
     }
 
     public void stopElevatorMotor() {
         elevatorMotor1.set(0);
-        elevatorMotor2.set(0);
+        //elevatorMotor2.set(0);
     }
 
     public Command stopElevatorMotorCommand() {

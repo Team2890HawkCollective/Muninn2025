@@ -100,7 +100,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public Command algaeLiftCommand(){
-        return rotateToPositionCommand(Constants.Algae.Rotation.LIFT_POSITION_ENCODER_VALUE);
+        return rotateToPositionCommand(Constants.Algae.Rotation.PROCESSOR_ENCODER_VALUE);
     }
 
     public Command moveInputAlgaeWheelsCommand() {
