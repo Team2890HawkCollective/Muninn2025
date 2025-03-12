@@ -14,13 +14,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.revrobotics.spark.SparkClosedLoopController;
+
+import com.ctre.phoenix6.controls.Follower;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.*;//SparkClosedLoopController;
+import com.revrobotics.spark.config.*;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private static SparkFlex elevatorMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
+    private static RelativeEncoder elevator2Encoder;
+    private static SparkFlex elevatorMotor2;
+    private static SparkClosedLoopController elevator2PIDCOntroller;
     private static SparkClosedLoopController elevatorPIDController;
     public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
     public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
+   // elevatorMotor2.SparkFlexConfig.Follower
+        //elevatorMotor2.SparkF;
+    //public elevatorMotor2
 
     public ElevatorSubsystem() {
         elevatorPIDConfig.closedLoop
@@ -38,6 +48,15 @@ public class ElevatorSubsystem extends SubsystemBase {
                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
         elevatorMotor.configure(elevatorPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID2, MotorType.kBrushless);
+        elevator2Encoder = elevatorMotor2.getEncoder();
+        elevator2PIDCOntroller = elevatorMotor2.getClosedLoopController();
+        elevatorMotor2.configure(
+            elevatorPIDConfig.follow(elevatorMotor),
+            ResetMode.kResetSafeParameters,
+            PersistMode.kPersistParameters);
+
+
         elevatorPIDController = elevatorMotor.getClosedLoopController();
     }
 

@@ -68,6 +68,7 @@ public final class Constants {
 
   public final class Elevator {
     public static final int ELEVATOR_MOTOR_ID = 40;
+    public static final int ELEVATOR_MOTOR_ID2 = 41;
 
     public static final double DEADZONE = 0.1;
 
@@ -155,9 +156,9 @@ public final class Constants {
       public static final long OUTPUT_DELAY = 3000;
     }
 
-    public static final int TOF_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
+    //public static final int TOF_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
                                              // and then go to http://10.28.90.2:5812/ in a browser.
-    public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
+    //public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
 
   }
 
@@ -186,8 +187,8 @@ public final class Constants {
       public static final double WHEEL_OUTPUT_SPEED = 0.8;
 
       // public static final int LIMIT_SWITCH_PORT = 3;
-      public static final int TOF_SENSOR = 61;
-      public static final int TOF_DISTANCE = 200; // In Millimeters
+      //public static final int TOF_SENSOR = 61;
+      //public static final int TOF_DISTANCE = 200; // In Millimeters
 
     }
 
