@@ -335,6 +335,7 @@ public class TargetingSubsystem extends SubsystemBase {
                         Constants.Coral.LEFT_BRANCH_OFFSET, // Horizontal Offset
                         Rotation2d.kZero
                     );
+                    targetPose = tagPose.plus(offsetTransformation);
                 case "center":
                     // Center/Algae Alignment
                     Transform2d offsetTransformation = new Transform2d(
@@ -342,6 +343,7 @@ public class TargetingSubsystem extends SubsystemBase {
                         Constants.Algae.OFFSET, // Horizontal Offset
                         Rotation2d.kZero
                     );
+                    targetPose = tagPose.plus(offsetTransformation);
                 case "right":
                     // Right Coral Alignment
                     Transform2d offsetTransformation = new Transform2d(
@@ -349,6 +351,7 @@ public class TargetingSubsystem extends SubsystemBase {
                         Constants.Coral.RIGHT_BRANCH_OFFSET, // Horizontal Offset
                         Rotation2d.kZero
                     );
+                    targetPose = invert(tagPose.plus(offsetTransformation));
             }
 
             List<Waypoint> waypoints = Pathplanner.waypointsFromPoses(
@@ -361,16 +364,12 @@ public class TargetingSubsystem extends SubsystemBase {
                 waypoints, 
                 constraints,
                 new IdealStartingState(getVelocityMagnitude(drivebase.getFieldVelocity()), drivebase.getHeading()), // Start with the current velocity and heading, keeps the transition smoother
-                new GoalEndState(0.0, waypoint.getRotation())
+                new GoalEndState(0.0, invert(targetPose.getRotation()))
             );
 
             path.preventFlipping = true;
 
-            return AutoBuilder.followPath(path).andThen(
-                Commands.print("start position PID loop"),
-                PositionPIDCommand.generateCommand(mSwerve, waypoint, kAlignmentAdjustmentTimeout),
-                Commands.print("end position PID loop")
-            );
+            return AutoBuilder.followPath(path)
         } else {
             return Commands.none();
         }
@@ -387,5 +386,15 @@ public class TargetingSubsystem extends SubsystemBase {
 
         // Print the result
         return test;
+    }
+
+    private static Pose2d invert(Pose2d in) {
+        // Inverts Rotation. We want to face the tag, not the direction the tag faces.
+        return new Pose2d(in.getTranslation(), in.getRotation().plus(Rotation2d.k180deg));
+    }
+
+    priate static boolean isBlue() {
+        // Check if we are Blue Alliance
+        return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
     }
 }
