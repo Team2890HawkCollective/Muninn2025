@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "PositionFinder"
+            "pathName": "Station_2_DriveToReef_Coral_Lower"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral_Level_3_HalfCycle"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Test_Autos",
+  "folder": "Comp_Autos",
   "choreoAuto": false
 }

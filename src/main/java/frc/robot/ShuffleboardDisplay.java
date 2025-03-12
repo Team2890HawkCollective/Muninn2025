@@ -53,14 +53,13 @@ public class ShuffleboardDisplay {
     
     
         public void initializeAutoChooser(){
-            switch (ShuffleboardConstants.UNIVERSAL_MODE_CHOICE) {
-                case "competition":
+            if(ShuffleboardConstants.UNIVERSAL_MODE_CHOICE.equalsIgnoreCase("competition")) {
                     autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("comp_")): stream);
-                case "testing":
+            } else if(ShuffleboardConstants.UNIVERSAL_MODE_CHOICE.equalsIgnoreCase("testing")){
                     autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier((stream) -> true? stream.filter(auto -> auto.getName().startsWith("test_")): stream);
-                case "allAutos":
+            } else if(ShuffleboardConstants.UNIVERSAL_MODE_CHOICE.equalsIgnoreCase("allAutos")){
                     autoChooser = AutoBuilder.buildAutoChooser();
-                default: //Default Puts All Commands. This is redundant because all the cases are hard coded.
+            } else { //Default Puts All Commands. This is redundant because all the cases are hard coded.
                     autoChooser = AutoBuilder.buildAutoChooser();
             }
             SmartDashboard.putData("Autonomous Choices", autoChooser);

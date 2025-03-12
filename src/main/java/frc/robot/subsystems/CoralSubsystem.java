@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -27,7 +29,7 @@ public class CoralSubsystem extends SubsystemBase {
     // private static SparkMax coralWheelMotor = new
     // SparkMax(Constants.Coral.WheelMotor.WHEEL_MOTOR_ID, MotorType.kBrushless);
 
-    public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Coral.TOF_SENSOR);
+    //public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Coral.TOF_SENSOR);
     private static Servo doorServo = new Servo(Constants.Coral.CoralServo.SERVO_PWM_PORT);
 
     public CoralSubsystem() {
@@ -57,6 +59,7 @@ public class CoralSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler
         SmartDashboard.putNumber("Coral Relative Encoder", coralRotationalMotor.getEncoder().getPosition());
+        //SmartDashboard.putNumber("Coral TOF Distance", TOFSensor.getRange());
         //updateLED();
     }
 
@@ -73,7 +76,8 @@ public class CoralSubsystem extends SubsystemBase {
     }
 
     public Command coralOutputCommand() {
-        return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE);
+        return Commands.none();
+        //return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE);
                 //.andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)));
                 //.wait(3000)
                 //.andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
@@ -91,11 +95,11 @@ public class CoralSubsystem extends SubsystemBase {
         coralRotationalPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
     }
 
-    public void updateLED() {
-        if(TOFSensor.getRange()<Constants.Coral.TOF_TRIGGER_DIST){
-            Led.setColor(Color.kPurple);
-        } else {
-            Led.setColor(Color.kOrange);
-        }
-    }
+    //public void updateLED() {
+    //    if(TOFSensor.getRange()<Constants.Coral.TOF_TRIGGER_DIST){
+    //        Led.setColor(Color.kPurple);
+    //    } else {
+    //        Led.setColor(Color.kOrange);
+    //    }
+    //}
 }

@@ -43,87 +43,97 @@ import swervelib.SwerveInputStream;
  * trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
-  private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
-  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
-  private final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
+    private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
+    private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
+    private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
+    private final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
 
-  private final static CommandJoystick leftButtons = new CommandJoystick(3);
-  private final static CommandJoystick rightButtons = new CommandJoystick(2);
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final static CommandXboxController driverXbox = new CommandXboxController(0);
-  private final static CommandXboxController assistantDriverXbox = new CommandXboxController(1);
-  // The robot's subsystems and commands are defined here...
-  public final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-      "swerve"));
+    private final static CommandJoystick leftButtons = new CommandJoystick(3);
+    private final static CommandJoystick rightButtons = new CommandJoystick(2);
+    // Replace with CommandPS4Controller or CommandJoystick if needed
+    private final static CommandXboxController driverXbox = new CommandXboxController(0);
+    private final static CommandXboxController assistantDriverXbox = new CommandXboxController(1);
+    // The robot's subsystems and commands are defined here...
+    public final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+            "swerve"));
 
-  private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase.getSwerveDrive());
-  // m_TargetingSubsystem.initializeLimeLight();
-  /**
-   * Converts driver input into a field-relative ChassisSpeeds that is controlled
-   * by angular velocity.
-   */
-  SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-      () -> driverXbox.getLeftY() * -1,
-      () -> driverXbox.getLeftX() * -1)
-      .withControllerRotationAxis(() -> driverXbox.getRightX() * -1)
-      .deadband(OperatorConstants.DEADBAND)
-      .scaleTranslation(0.8)
-      .allianceRelativeControl(true);
+    private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase.getSwerveDrive());
+    // m_TargetingSubsystem.initializeLimeLight();
+    /**
+     * Converts driver input into a field-relative ChassisSpeeds that is controlled
+     * by angular velocity.
+     */
+    SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+            () -> driverXbox.getLeftY() * 1,
+            () -> driverXbox.getLeftX() * 1)
+            .withControllerRotationAxis(() -> driverXbox.getRightX() * -1)
+            .deadband(OperatorConstants.DEADBAND)
+            .scaleTranslation(0.8)
+            .allianceRelativeControl(true);
 
-  /**
-   * Clone's the angular velocity input stream and converts it to a fieldRelative
-   * input stream.
-   */
-  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
-      .withControllerHeadingAxis(() -> driverXbox.getRightX() * -1,
-          driverXbox::getRightY)
-      .headingWhile(true);
+    /**
+     * Clone's the angular velocity input stream and converts it to a fieldRelative
+     * input stream.
+     */
+    SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
+            .withControllerHeadingAxis(() -> driverXbox.getRightX() * -1,
+                    driverXbox::getRightY)
+            .headingWhile(true);
 
-  /**
-   * Clone's the angular velocity input stream and converts it to a robotRelative
-   * input stream.
-   */
-  SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
-      .allianceRelativeControl(false);
+    /**
+     * Clone's the angular velocity input stream and converts it to a robotRelative
+     * input stream.
+     */
+    SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
+            .allianceRelativeControl(false);
 
-  SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
-      () -> -driverXbox.getLeftY(),
-      () -> -driverXbox.getLeftX())
-      .withControllerRotationAxis(() -> driverXbox.getRawAxis(
-          2))
-      .deadband(OperatorConstants.DEADBAND)
-      .scaleTranslation(0.8)
-      .allianceRelativeControl(true);
-  // Derive the heading axis with math!
-  SwerveInputStream driveDirectAngleKeyboard = driveAngularVelocityKeyboard.copy()
-      .withControllerHeadingAxis(() -> Math.sin(
-          driverXbox.getRawAxis(
-              2) *
-              Math.PI)
-          *
-          (Math.PI *
-              2),
-          () -> Math.cos(
-              driverXbox.getRawAxis(
-                  2) *
-                  Math.PI)
-              *
-              (Math.PI *
-                  2))
-      .headingWhile(true);
+    SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
+            () -> -driverXbox.getLeftY(),
+            () -> -driverXbox.getLeftX())
+            .withControllerRotationAxis(() -> driverXbox.getRawAxis(
+                    2))
+            .deadband(OperatorConstants.DEADBAND)
+            .scaleTranslation(0.8)
+            .allianceRelativeControl(true);
+    // Derive the heading axis with math!
+    SwerveInputStream driveDirectAngleKeyboard = driveAngularVelocityKeyboard.copy()
+            .withControllerHeadingAxis(() -> Math.sin(
+                    driverXbox.getRawAxis(
+                            2) *
+                            Math.PI)
+                    *
+                    (Math.PI *
+                            2),
+                    () -> Math.cos(
+                            driverXbox.getRawAxis(
+                                    2) *
+                                    Math.PI)
+                            *
+                            (Math.PI *
+                                    2))
+            .headingWhile(true);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
-    DriverStation.silenceJoystickConnectionWarning(true);
-    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        // Configure the trigger bindings
+        configureBindings();
+        DriverStation.silenceJoystickConnectionWarning(true);
+        NamedCommands.registerCommand("test", Commands.print("I EXIST"));
 
-    // Autonomous Command Registration
-  }
+        // Autonomous Command Registration
+
+        NamedCommands.registerCommand("Coral_Level_2_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(2)
+                .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                .andThen(m_CoralSubsystem.coralOutputCommand()));
+        NamedCommands.registerCommand("Coral_Level_3_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(3)
+                .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                .andThen(m_CoralSubsystem.coralOutputCommand()));
+        NamedCommands.registerCommand("Coral_Level_4_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(4)
+                .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                .andThen(m_CoralSubsystem.coralOutputCommand()));
+    }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
@@ -161,19 +171,21 @@ public class RobotContainer {
     assistantDriverXbox.povLeft().onTrue(m_AlgaeSubsystem.AlgaeStartCommand()); // Algae Start Position
     assistantDriverXbox.povUp().onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()); // Algae Carry Position
     assistantDriverXbox.povRight().onTrue(m_AlgaeSubsystem.AlgaeOutputCommand()); // Algae Output Position
+    assistantDriverXbox.povDown().onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.PROCESSOR_ENCODER_VALUE));
     assistantDriverXbox.leftBumper()
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     assistantDriverXbox.rightBumper()
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand())
-        .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
-    assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())
-        .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+    //assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand())
+        //.onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+    //assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())
+        //.onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+    
 
     // } else {
     // Elevator Stage Buttons
     leftButtons.button(1)
-        .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
+       .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
             .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
             .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
     leftButtons.button(2)
@@ -217,7 +229,7 @@ public class RobotContainer {
     // rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
     // Driver Controls
     driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Open Coral Servo
-    driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen().andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE))); // Close Coral Servo
+    driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen());//.andThen(new WaitCommand(1)).andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE))); // Close Coral Servo
 
     driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand())
         .onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
@@ -226,17 +238,22 @@ public class RobotContainer {
 
     driverXbox.b().onTrue(m_LiftSubsystem.retractRatchetCommand());
     driverXbox.x().onTrue(m_LiftSubsystem.lockRatchetCommand());
-    driverXbox.y().whileTrue(m_LiftSubsystem.moveLiftUpCommand())
-        .onFalse(m_LiftSubsystem.stopLiftMotorCommand()); // Manual Lift Up
-    driverXbox.a().whileTrue(m_LiftSubsystem.moveLiftDownCommand()) // Manual Lift Down
-    //.andThen(m_AlgaeSubsystem.algaeLiftCommand())
-        .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+    driverXbox.y().onTrue(m_LiftSubsystem.retractRatchetCommand())
+        .whileTrue(m_LiftSubsystem.moveLiftUpCommand())
+        .onFalse(m_LiftSubsystem.stopLiftMotorCommand()
+            .andThen(m_LiftSubsystem.lockRatchetCommand())); // Manual Lift Up
+    driverXbox.a().onTrue(m_LiftSubsystem.retractRatchetCommand())
+        .whileTrue(m_LiftSubsystem.moveLiftDownCommand() // Manual Lift Down
+            .andThen(m_AlgaeSubsystem.algaeLiftCommand())
+        ).onFalse(m_LiftSubsystem.stopLiftMotorCommand()
+        .andThen(m_LiftSubsystem.lockRatchetCommand())
+        );
 
 
     // Driver Alignment Controls
-    driverXbox.povLeft().onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
-    driverXbox.povUp().onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
-    driverXbox.povRight().onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+    //driverXbox.povLeft().onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+    //driverXbox.povUp().onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+    //driverXbox.povRight().onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
 
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
@@ -276,39 +293,39 @@ public class RobotContainer {
 
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
-  }
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // An example command will be run in autonomous
+        return drivebase.getAutonomousCommand("New Auto");
+    }
 
-  public Command getHomingCommand() {
-    // An example command will be run in autonomous
-    return m_ElevatorSubsystem.goToHomeCommand();
-  }
+    public Command getHomingCommand() {
+        // An example command will be run in autonomous
+        return m_ElevatorSubsystem.goToHomeCommand();
+    }
 
-  public void setMotorBrake(boolean brake) {
-    drivebase.setMotorBrake(brake);
-  }
+    public void setMotorBrake(boolean brake) {
+        drivebase.setMotorBrake(brake);
+    }
 
-  public static CommandJoystick getLeftButtons() {
-    return leftButtons;
-  }
+    public static CommandJoystick getLeftButtons() {
+        return leftButtons;
+    }
 
-  public static CommandJoystick getRightButtons() {
-    return rightButtons;
-  }
+    public static CommandJoystick getRightButtons() {
+        return rightButtons;
+    }
 
-  public static CommandXboxController getDriverXbox() {
-    return driverXbox;
-  }
+    public static CommandXboxController getDriverXbox() {
+        return driverXbox;
+    }
 
-  public static CommandXboxController getAssistantDriverXbox() {
-    return assistantDriverXbox;
-  }
+    public static CommandXboxController getAssistantDriverXbox() {
+        return assistantDriverXbox;
+    }
 
 }

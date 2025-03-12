@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -21,12 +22,19 @@ import com.revrobotics.spark.*;//SparkClosedLoopController;
 import com.revrobotics.spark.config.*;
 
 public class ElevatorSubsystem extends SubsystemBase {
+    private static SparkFlex elevatorMotor1 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR1_ID, MotorType.kBrushless);
     private static SparkFlex elevatorMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
     private static RelativeEncoder elevator2Encoder;
     private static SparkFlex elevatorMotor2;
     private static SparkClosedLoopController elevator2PIDCOntroller;
     private static SparkClosedLoopController elevatorPIDController;
     public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
+
+    //private static SparkFlex elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
+    private static SparkFlex elevatorMotor2;
+    private static RelativeEncoder elevator2Encoder;
+    private static SparkClosedLoopController elevator2PIDController;
+
     public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
    // elevatorMotor2.SparkFlexConfig.Follower
         //elevatorMotor2.SparkF;
@@ -63,7 +71,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler
-        SmartDashboard.putNumber("Elevator Relative Encoder", elevatorMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("Elevator Relative Encoder", elevatorMotor1.getEncoder().getPosition());
         SmartDashboard.putBoolean("Elevator Limit Switch State", bottomlimitSwitch.get());
     }
 
@@ -85,7 +93,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public Command goToHomeCommand() {
         return run(() -> moveElevatorDown()).until(() -> bottomlimitSwitch.get() == true)
                 .andThen(() -> stopElevatorMotor())
-                .andThen(() -> Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition());
+                .andThen(() -> Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor1.getEncoder().getPosition());
     }
 
     public Command moveElevatorUpCommand() {
@@ -105,19 +113,23 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorUp() {
-        elevatorMotor.set(Constants.Elevator.ELEVATOR_UP_SPEED);
+        elevatorMotor1.set(Constants.Elevator.ELEVATOR_UP_SPEED);
+        //elevatorMotor2.set(Constants.Elevator.ELEVATOR_UP_SPEED);
     }
 
     public void joysticMoveElevatorUp(double speed) {
-        elevatorMotor.set(speed);
+        elevatorMotor1.set(speed);
+        //elevatorMotor2.set(speed);
     }
 
     public void moveElevatorDown() {
-        elevatorMotor.set(Constants.Elevator.HOMING_SPEED);
+        elevatorMotor1.set(Constants.Elevator.HOMING_SPEED);
+        //elevatorMotor2.set(Constants.Elevator.HOMING_SPEED);
     }
 
     public void stopElevatorMotor() {
-        elevatorMotor.set(0);
+        elevatorMotor1.set(0);
+        //elevatorMotor2.set(0);
     }
 
     public Command stopElevatorMotorCommand() {
@@ -126,7 +138,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void zeroEncoder() {
         if (bottomlimitSwitch.get() == true)
-            Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor.getEncoder().getPosition();
+            Constants.Elevator.BASE_STAGE_ENCODER_VALUE = elevatorMotor1.getEncoder().getPosition();
     }
 
 }

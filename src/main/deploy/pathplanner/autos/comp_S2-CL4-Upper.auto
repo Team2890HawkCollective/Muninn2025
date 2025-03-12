@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Station_1_DriveToReef_Coral_Upper"
+            "pathName": "Station_2_DriveToReef_Coral_Upper"
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": []
+            "name": "Coral_Level_4_HalfCycle"
           }
         }
       ]

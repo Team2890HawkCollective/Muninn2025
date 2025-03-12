@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
   private String m_choosenAutoMode;
 
   private Timer disabledTimer;
-
+  
   public Robot() {
     instance = this;
   };
@@ -81,26 +81,26 @@ public class Robot extends TimedRobot {
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
-    /*
-     * new Thread(() -> {
-     * UsbCamera camera = CameraServer.startAutomaticCapture();
-     * camera.setResolution(640, 480);
-     * 
-     * CvSink cvSink = CameraServer.getVideo();
-     * CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
-     * 
-     * Mat source = new Mat();
-     * Mat output = new Mat();
-     * 
-     * while (!Thread.interrupted()) {
-     * if (cvSink.grabFrame(source) == 0) {
-     * continue;
-     * }
-     * Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-     * outputStream.putFrame(output);
-     * }
-     * }).start();
-     */
+    
+      new Thread(() -> {
+      UsbCamera camera = CameraServer.startAutomaticCapture();
+      camera.setResolution(640, 480);
+      
+      CvSink cvSink = CameraServer.getVideo();
+      CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
+     
+      Mat source = new Mat();
+      Mat output = new Mat();
+      
+      while (!Thread.interrupted()) {
+      if (cvSink.grabFrame(source) == 0) {
+      continue;
+      }
+      Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+      outputStream.putFrame(output);
+      }
+      }).start();
+     
   }
 
   /**
@@ -123,7 +123,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    m_CoralSubsystem.updateLED();
+    //m_CoralSubsystem.updateLED();
   }
 
   /**
