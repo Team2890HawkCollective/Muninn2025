@@ -9,20 +9,24 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.ejml.dense.row.linsol.qr.LinearSolverQr_CDRM;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.IdealStartingState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -95,7 +99,7 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public Command autoAlignmentCommand(String location) {
         //return autoAlignmentPose(location); // This is the pathfindToPose version.
-        return runOnce(autoAlignmentOffset(location)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose 
+        return autoAlignmentOffset(location); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose 
     }
 
     public Command pathfindTest() {
@@ -327,37 +331,40 @@ public class TargetingSubsystem extends SubsystemBase {
     public Command autoAlignmentOffset(String location){
         // We don't pathfind UNLESS we can see a tag (For now at least). Otherwise, we could hit an allied bots or opponent defense bots.
         if(LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)){
-            tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT.getTagPose((int)LimeLightHelper.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).toPose2D(); // Pose for visible tag
+            Pose2d tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT.getTagPose((int)LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get().toPose2d();; // Pose for visible tag
+            Transform2d offsetTransformation;
             Pose2d startingPose = drivebase.getPose(); // This is the current pose of the bot
             Pose2d targetPose; // This will be decided below
             switch (location.toLowerCase()){
                 case "left":
                     // Left Coral Alignment
-                    Transform2d offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_WIDTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                    offsetTransformation = new Transform2d(
+                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
                         Constants.Coral.LEFT_BRANCH_OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
                     );
                     targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
                 case "center":
                     // Center/Algae Alignment
-                    Transform2d offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_WIDTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                     offsetTransformation = new Transform2d(
+                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
                         Constants.Algae.OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
                     );
                     targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
                 case "right":
                     // Right Coral Alignment
-                    Transform2d offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_WIDTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                    offsetTransformation = new Transform2d(
+                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
                         Constants.Coral.RIGHT_BRANCH_OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
                     );
                     targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
+                default:
+                    targetPose = new Pose2d();
             }
 
-            List<Waypoint> waypoints = Pathplanner.waypointsFromPoses( // Generate a path given our starting (current) and target poses. We won't be far enough away to need much more
+            List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses( // Generate a path given our starting (current) and target poses. We won't be far enough away to need much more
                 startingPose,
                 targetPose
             );
@@ -371,8 +378,8 @@ public class TargetingSubsystem extends SubsystemBase {
             PathPlannerPath path = new PathPlannerPath(
                 waypoints, 
                 constraints,
-                new IdealStartingState(drivebase.getFieldVelocity()., drivebase.getGyroRotation3d().toRotation2d()), // Start with the current velocity and heading, keeps the transition smoother
-                new GoalEndState(0.0, invert(targetPose.getRotation()))
+                new IdealStartingState(averageVelocity(drivebase.getFieldVelocity().vxMetersPerSecond,drivebase.getFieldVelocity().vyMetersPerSecond), drivebase.getGyroRotation3d().toRotation2d()), // Start with the current velocity and heading, keeps the transition smoother
+                new GoalEndState(0.0, invert(targetPose).getRotation())
             );
 
             path.preventFlipping = true; // If the coords are correct, don't flip it. This keeps us from accidentally going to the other side
@@ -382,11 +389,6 @@ public class TargetingSubsystem extends SubsystemBase {
             // If we don't see a tag, don't have the free will to pathfind.
             return Commands.none();
         }
-    }
-
-    private Object getVelocityMagnitude(ChassisSpeeds fieldVelocity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getVelocityMagnitude'");
     }
 
     // Function return true if given element
@@ -407,8 +409,12 @@ public class TargetingSubsystem extends SubsystemBase {
         return new Pose2d(in.getTranslation(), in.getRotation().plus(Rotation2d.k180deg));
     }
 
-    priate static boolean isBlue() {
+    private static boolean isBlue() {
         // Check if we are Blue Alliance
         return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
+    }
+
+    private static double averageVelocity(double vx, double vy){
+        return Math.sqrt(Math.pow(vx, 2)+Math.pow(vy, 2));
     }
 }
