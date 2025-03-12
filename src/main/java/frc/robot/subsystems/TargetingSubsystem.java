@@ -172,10 +172,11 @@ public class TargetingSubsystem extends SubsystemBase {
                     SmartDashboard.putBoolean("MegaTag2?", true);
                 }
             }
+            Pose2d finalPose = new Pose2d(poseToUse.pose.getX(),poseToUse.pose.getY(),drivebase.getPose().getRotation());
             drivebase.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
             m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999)); // Standard Deviation
-            drivebase.addVisionMeasurement(poseToUse.pose, poseToUse.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
-            m_poseEstimator.addVisionMeasurement(poseToUse.pose, poseToUse.timestampSeconds);
+            drivebase.addVisionMeasurement(finalPose, poseToUse.timestampSeconds); // Add Field Pose, but get the timestamp from the MegaTag2 Pose.
+            m_poseEstimator.addVisionMeasurement(finalPose, poseToUse.timestampSeconds);
             //drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose, limelightBotPoseEstimateMT2.timestampSeconds);
             m_field.setRobotPose(poseToUse.pose);
             SmartDashboard.putData(m_field);
