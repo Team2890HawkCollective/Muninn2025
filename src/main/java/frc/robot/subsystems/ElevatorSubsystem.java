@@ -23,7 +23,7 @@ import com.revrobotics.spark.config.*;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private static SparkFlex elevatorMotor1 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR1_ID, MotorType.kBrushless);
-    private static SparkFlex elevatorMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
+    private static SparkFlex elevatorMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
     private static RelativeEncoder elevator2Encoder;
     private static SparkFlex elevatorMotor2;
     private static SparkClosedLoopController elevator2PIDCOntroller;
@@ -31,10 +31,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
 
     //private static SparkFlex elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
-    private static SparkFlex elevatorMotor2;
-    private static RelativeEncoder elevator2Encoder;
-    private static SparkClosedLoopController elevator2PIDController;
-
     public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
    // elevatorMotor2.SparkFlexConfig.Follower
         //elevatorMotor2.SparkF;
@@ -55,8 +51,9 @@ public class ElevatorSubsystem extends SubsystemBase {
                 .d(0, ClosedLoopSlot.kSlot1)
                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+        elevatorPIDConfig.smartCurrentLimit(80);
         elevatorMotor.configure(elevatorPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR_ID2, MotorType.kBrushless);
+        elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
         elevator2Encoder = elevatorMotor2.getEncoder();
         elevator2PIDCOntroller = elevatorMotor2.getClosedLoopController();
         elevatorMotor2.configure(
@@ -66,6 +63,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
         elevatorPIDController = elevatorMotor.getClosedLoopController();
+
+        
     }
 
     @Override
