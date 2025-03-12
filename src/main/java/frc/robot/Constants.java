@@ -132,10 +132,11 @@ public final class Constants {
 
   public final class Coral {
 
-    public static final double DISTANCE_FROM_CENTER = 0.2794; // In Meters
+    public static final double DISTANCE_FROM_CENTER = 0.2794; // In Meters (11 Inches)
 
-    public static final double LEFT_OFFSET = 0.0; // In Inches
-    public static final double RIGHT_OFFSET = 0.0; // In Inches
+    // Branches are 13 Inches apart, so 6.5 each from the center.
+    public static final double LEFT_BRANCH_OFFSET = Units.inchesToMeters(-17.5); // In Inches
+    public static final double RIGHT_BRANCH_OFFSET = Units.inchesToMeters(4.5); // In Inches
 
     public final class RotationMotor {
       public static final int CORAL_MOTOR_ID = 60;
@@ -166,8 +167,7 @@ public final class Constants {
 
   public final class Algae {
 
-    public static final double LEFT_OFFSET = 0.0; // In Inches
-    public static final double RIGHT_OFFSET = 0.0; // In Inches
+    public static final double OFFSET = Units.inchesToMeters(0.0); // In Inches
 
     public final class Rotation {
       public static final double MANUAL_SPEED = .3;
@@ -218,9 +218,9 @@ public final class Constants {
       .loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
     public static final double BUMPER_WIDTH = Units.inchesToMeters(5); // Get This Value
-    public static final double ROBOT_WIDTH = Units.inchesToMeters(30 + BUMPER_WIDTH);
-    public static final double ROBoT_LENGTH = Units.inchesToMeters(30 + BUMPER_WIDTH);
-    public static final Transform2d HALF_ROBOT = new Transform2d(ROBOT_LENGH / 2.0, 0, new Rotation2d());
+    //public static final double ROBOT_WIDTH = Units.inchesToMeters(30 + BUMPER_WIDTH); // Tis a square, don't need this
+    public static final double ROBOT_SIDE_LENGTH = Units.inchesToMeters(30 + BUMPER_WIDTH);
+    public static final Transform2d HALF_ROBOT = new Transform2d(ROBOT_SIDE_LENGH / 2.0, 0, new Rotation2d());
 
     // View For AprilTag Labeling: Red Barge Is On Bottom
     public static class BlueAprilTags {

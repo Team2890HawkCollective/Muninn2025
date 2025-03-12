@@ -322,29 +322,46 @@ public class TargetingSubsystem extends SubsystemBase {
     }
 
     public Command autoAlignmentOffset(String location){
+        // We don't pathfind UNLESS we can see a tag (For now at least). Otherwise, we could hit an allied or defense bot
         if(LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)){
+            tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT.getTagPose((int)LimeLightHelper.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).toPose2D(); // Pose for visible tag
             Pose2d startingPose = drivebase.getPose();
             Pose2d targetPose;
             switch (location.toLowerCase()){
                 case "left":
                     // Left Coral Alignment
-                    tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT.getTagPose((int)LimeLightHelper.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).toPose2D();
-                    Transform2d offsetTransformation = new Transform2d()
+                    Transform2d offsetTransformation = new Transform2d(
+                        Constants.LimeLight.ROBOT_SIDE_WIDTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                        Constants.Coral.LEFT_BRANCH_OFFSET, // Horizontal Offset
+                        Rotation2d.kZero
+                    );
                 case "center":
                     // Center/Algae Alignment
+                    Transform2d offsetTransformation = new Transform2d(
+                        Constants.LimeLight.ROBOT_SIDE_WIDTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                        Constants.Algae.OFFSET, // Horizontal Offset
+                        Rotation2d.kZero
+                    );
                 case "right":
                     // Right Coral Alignment
+                    Transform2d offsetTransformation = new Transform2d(
+                        Constants.LimeLight.ROBOT_SIDE_WIDTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                        Constants.Coral.RIGHT_BRANCH_OFFSET, // Horizontal Offset
+                        Rotation2d.kZero
+                    );
             }
+
             List<Waypoint> waypoints = Pathplanner.waypointsFromPoses(
                 startingPose,
                 targetPose
             );
+
             PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
             PathPlannerPath path = new PathPlannerPath(
-            waypoints, 
-            constraints,
-            new IdealStartingState(getVelocityMagnitude(drivebase.getFieldVelocity()), drivebase.getHeading()), 
-            new GoalEndState(0.0, waypoint.getRotation())
+                waypoints, 
+                constraints,
+                new IdealStartingState(getVelocityMagnitude(drivebase.getFieldVelocity()), drivebase.getHeading()), // Start with the current velocity and heading, keeps the transition smoother
+                new GoalEndState(0.0, waypoint.getRotation())
             );
 
             path.preventFlipping = true;
