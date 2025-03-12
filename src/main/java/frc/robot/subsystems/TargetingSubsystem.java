@@ -91,7 +91,8 @@ public class TargetingSubsystem extends SubsystemBase {
     }
 
     public Command autoAlignmentCommand(String location) {
-        return autoAlignment(location);
+        //return autoAlignmentPose(location);
+        return runOnce(autoAlignmentOffset(location));
     }
 
     public Command pathfindTest() {
@@ -177,7 +178,7 @@ public class TargetingSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
     }
 
-    public Command autoAlignment(String location) {
+    public Command autoAlignmentPose(String location) {
         PathConstraints constraints = new PathConstraints(
                 0.05, 0.07, // Default MaxVelocity: 3.0; Max Acceleration: 4.0
                 Units.degreesToRadians(540), Units.degreesToRadians(720));
@@ -314,6 +315,44 @@ public class TargetingSubsystem extends SubsystemBase {
                     targetPose,
                     constraints,
                     0.0 // Goal end velocity in meters/sec
+            );
+        } else {
+            return Commands.none();
+        }
+    }
+
+    public Command autoAlignmentOffset(String location){
+        if(LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)){
+            Pose2d startingPose = drivebase.getPose();
+            Pose2d targetPose;
+            switch (location.toLowerCase()){
+                case "left":
+                    // Left Coral Alignment
+                    tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT.getTagPose((int)LimeLightHelper.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).toPose2D();
+                    Transform2d offsetTransformation = new Transform2d()
+                case "center":
+                    // Center/Algae Alignment
+                case "right":
+                    // Right Coral Alignment
+            }
+            List<Waypoint> waypoints = Pathplanner.waypointsFromPoses(
+                startingPose,
+                targetPose
+            );
+            PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+            PathPlannerPath path = new PathPlannerPath(
+            waypoints, 
+            constraints,
+            new IdealStartingState(getVelocityMagnitude(drivebase.getFieldVelocity()), drivebase.getHeading()), 
+            new GoalEndState(0.0, waypoint.getRotation())
+            );
+
+            path.preventFlipping = true;
+
+            return AutoBuilder.followPath(path).andThen(
+                Commands.print("start position PID loop"),
+                PositionPIDCommand.generateCommand(mSwerve, waypoint, kAlignmentAdjustmentTimeout),
+                Commands.print("end position PID loop")
             );
         } else {
             return Commands.none();

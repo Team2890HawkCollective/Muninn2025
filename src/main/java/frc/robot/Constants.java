@@ -134,6 +134,9 @@ public final class Constants {
 
     public static final double DISTANCE_FROM_CENTER = 0.2794; // In Meters
 
+    public static final double LEFT_OFFSET = 0.0; // In Inches
+    public static final double RIGHT_OFFSET = 0.0; // In Inches
+
     public final class RotationMotor {
       public static final int CORAL_MOTOR_ID = 60;
       public static final double START_POSITION_ENCODER_VALUE = -1.023809194564819;
@@ -162,6 +165,10 @@ public final class Constants {
   }
 
   public final class Algae {
+
+    public static final double LEFT_OFFSET = 0.0; // In Inches
+    public static final double RIGHT_OFFSET = 0.0; // In Inches
+
     public final class Rotation {
       public static final double MANUAL_SPEED = .3;
       public static final int ALGAE_ROTATION_MOTOR_ID = 61;
@@ -206,6 +213,14 @@ public final class Constants {
     public static final String LIMELIGHT_NAME = "limelight";
 
     public static final int[] ALL_REEF_APRILTAGS = { 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22 };
+
+    public static  final AprilTagFieldLayout APRILTAG_FIELD_LAYOUT = AprilTagFieldLayout
+      .loadField(AprilTagFields.k2025ReefscapeAndyMark);
+
+    public static final double BUMPER_WIDTH = Units.inchesToMeters(5); // Get This Value
+    public static final double ROBOT_WIDTH = Units.inchesToMeters(30 + BUMPER_WIDTH);
+    public static final double ROBoT_LENGTH = Units.inchesToMeters(30 + BUMPER_WIDTH);
+    public static final Transform2d HALF_ROBOT = new Transform2d(ROBOT_LENGH / 2.0, 0, new Rotation2d());
 
     // View For AprilTag Labeling: Red Barge Is On Bottom
     public static class BlueAprilTags {
