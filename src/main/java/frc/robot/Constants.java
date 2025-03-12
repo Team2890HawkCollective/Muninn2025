@@ -6,8 +6,11 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.Seconds;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Time;
@@ -221,7 +224,7 @@ public final class Constants {
     public static final double BUMPER_WIDTH = Units.inchesToMeters(5); // Get This Value
     //public static final double ROBOT_WIDTH = Units.inchesToMeters(30 + BUMPER_WIDTH); // Tis a square, don't need this
     public static final double ROBOT_SIDE_LENGTH = Units.inchesToMeters(30 + BUMPER_WIDTH);
-    public static final Transform2d HALF_ROBOT = new Transform2d(ROBOT_SIDE_LENGH / 2.0, 0, new Rotation2d());
+    public static final Transform2d HALF_ROBOT = new Transform2d(ROBOT_SIDE_LENGTH / 2.0, 0, new Rotation2d());
 
     // View For AprilTag Labeling: Red Barge Is On Bottom
     public static class BlueAprilTags {
