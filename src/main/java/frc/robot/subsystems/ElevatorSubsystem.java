@@ -23,12 +23,13 @@ import com.revrobotics.spark.config.*;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private static SparkFlex elevatorMotor1 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR1_ID, MotorType.kBrushless);
-    private static SparkFlex elevatorMotor = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
-    private static RelativeEncoder elevator2Encoder;
+    private static RelativeEncoder elevator1Encoder;
+    private static SparkClosedLoopController elevator1PIDController;
+    public static SparkFlexConfig elevator1PIDConfig = new SparkFlexConfig();
+
     private static SparkFlex elevatorMotor2;
-    private static SparkClosedLoopController elevator2PIDCOntroller;
-    private static SparkClosedLoopController elevatorPIDController;
-    public static SparkFlexConfig elevatorPIDConfig = new SparkFlexConfig();
+    public static SparkFlexConfig elevator2PIDConfig = new SparkFlexConfig();
+    //private static SparkClosedLoopController elevator2PIDController;
 
     //private static SparkFlex elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
     public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
@@ -37,7 +38,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     //public elevatorMotor2
 
     public ElevatorSubsystem() {
-        elevatorPIDConfig.closedLoop
+        elevator1PIDController = elevatorMotor1.getClosedLoopController();
+        elevator1PIDConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                 // Set PID values for position control. We don't need to pass a closed loop
                 // slot, as it will default to slot 0.
@@ -51,19 +53,16 @@ public class ElevatorSubsystem extends SubsystemBase {
                 .d(0, ClosedLoopSlot.kSlot1)
                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
-        elevatorPIDConfig.smartCurrentLimit(80);
-        elevatorMotor.configure(elevatorPIDConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        elevator1PIDConfig.smartCurrentLimit(80);
+        elevatorMotor1.configure(elevator1PIDConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        elevator1Encoder = elevatorMotor1.getEncoder();
+
         elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
-        elevator2Encoder = elevatorMotor2.getEncoder();
-        elevator2PIDCOntroller = elevatorMotor2.getClosedLoopController();
+        //elevator2PIDController = elevatorMotor1.getClosedLoopController();
         elevatorMotor2.configure(
-            elevatorPIDConfig.follow(elevatorMotor),
+            elevator2PIDConfig.follow(elevatorMotor1),
             ResetMode.kResetSafeParameters,
             PersistMode.kPersistParameters);
-
-
-        elevatorPIDController = elevatorMotor.getClosedLoopController();
-
         
     }
 
@@ -83,7 +82,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void goToElevatorStage(int elevatorStageValue) {
-        elevatorPIDController.setReference(
+        elevator1PIDController.setReference(
                 Constants.Elevator.STAGE_ENCODER_DIFFERENCES[elevatorStageValue]
                         + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
                 SparkFlex.ControlType.kPosition);
