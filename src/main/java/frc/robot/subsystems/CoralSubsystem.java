@@ -51,7 +51,7 @@ public class CoralSubsystem extends SubsystemBase {
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
         coralRotationalPIDConfig.smartCurrentLimit(80);
         coralRotationalMotor.configure(coralRotationalPIDConfig, ResetMode.kResetSafeParameters,
-                PersistMode.kPersistParameters);
+                PersistMode.kNoPersistParameters);
         coralRotationalPIDController = coralRotationalMotor.getClosedLoopController();
     }
 
