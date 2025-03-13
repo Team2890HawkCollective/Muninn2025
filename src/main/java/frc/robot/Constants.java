@@ -88,9 +88,9 @@ public final class Constants {
 
     public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
-    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -1.292043685913086; // Old Number  4.2342
-    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -1.9708251953125; // Old Number 6.352
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -2.924988031387329; // Old Number 10.1144
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -25.505441665649414; // Old Number  4.2342
+    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -37.79143524169922; // Old Number 6.352
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -62.53088836669922; // Old Number 10.1144
     public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
     public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
 
@@ -104,9 +104,9 @@ public final class Constants {
         L3_ALGAE_STAGE_ENCODER_DIFFERENCE
     };
 
-    public static final double PID_P = 0.8;
+    public static final double PID_P = 0.4;
     public static final double PID_I = 0;
-    public static final double PID_D = 0.05;
+    public static final double PID_D = 0.4;
     public static final double PID_IZ = 0;
     public static final double PID_F = 0;
     public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;

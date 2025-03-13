@@ -84,17 +84,17 @@ public class ShuffleboardDisplay {
         SwerveModuleConfiguration backLeftConfig = modules[2].configuration;
         SwerveModuleConfiguration backRightConfig = modules[3].configuration;
 
-        SmartDashboard.putData("Front Left Drive", frontLeftConfig.velocityPIDF.createPIDController());
-        SmartDashboard.putData("Front Left Angle", frontLeftConfig.anglePIDF.createPIDController());
+        //SmartDashboard.putData("Front Left Drive", frontLeftConfig.velocityPIDF.createPIDController());
+        //SmartDashboard.putData("Front Left Angle", frontLeftConfig.anglePIDF.createPIDController());
 
-        SmartDashboard.putData("Front Right Drive", frontRightConfig.velocityPIDF.createPIDController());
-        SmartDashboard.putData("Front Right Angle", frontRightConfig.anglePIDF.createPIDController());
+        //SmartDashboard.putData("Front Right Drive", frontRightConfig.velocityPIDF.createPIDController());
+        //SmartDashboard.putData("Front Right Angle", frontRightConfig.anglePIDF.createPIDController());
 
-        SmartDashboard.putData("Back Left Drive", backLeftConfig.velocityPIDF.createPIDController());
-        SmartDashboard.putData("Back Left Angle", backLeftConfig.anglePIDF.createPIDController());
+        //SmartDashboard.putData("Back Left Drive", backLeftConfig.velocityPIDF.createPIDController());
+        //SmartDashboard.putData("Back Left Angle", backLeftConfig.anglePIDF.createPIDController());
 
-        SmartDashboard.putData("Back Right Drive", backRightConfig.velocityPIDF.createPIDController());
-        SmartDashboard.putData("Back Right Angle", backRightConfig.anglePIDF.createPIDController());
+        //SmartDashboard.putData("Back Right Drive", backRightConfig.velocityPIDF.createPIDController());
+        //SmartDashboard.putData("Back Right Angle", backRightConfig.anglePIDF.createPIDController());
     }
 
 }

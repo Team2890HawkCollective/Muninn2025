@@ -210,6 +210,10 @@ public class RobotContainer {
                 m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE))
             .andThen(m_ElevatorSubsystem.goToHomeCommand())); // Elevator All The Way Down
 
+    // Elevator Manual Control
+    leftButtons.axisGreaterThan(1, 0.3).toggleOnTrue(m_ElevatorSubsystem.moveElevatorUpCommand()).toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
+    leftButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_ElevatorSubsystem.moveElevatorDownCommand())).toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
+
     // Assistant Driver Alignment Buttons
     rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
         //.andThen(Led.setColorCommand(64, 240, 5)));
