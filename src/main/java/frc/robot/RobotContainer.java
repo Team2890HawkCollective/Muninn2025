@@ -58,7 +58,7 @@ public class RobotContainer {
     public final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve"));
 
-    private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase.getSwerveDrive());
+    private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase);
     // m_TargetingSubsystem.initializeLimeLight();
     /**
      * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -134,6 +134,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Coral_Level_4_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(4)
                 .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
                 .andThen(m_CoralSubsystem.coralOutputCommand()));
+        NamedCommands.registerCommand("openCoralServo", m_CoralSubsystem.servoRotateToOpen());
     }
 
   /**

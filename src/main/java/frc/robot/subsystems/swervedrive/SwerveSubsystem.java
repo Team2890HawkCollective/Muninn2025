@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.json.simple.parser.ParseException;
@@ -412,6 +413,33 @@ public class SwerveSubsystem extends SubsystemBase {
           translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), 0.8),
           Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
           true,
+          false);
+    });
+  }
+
+  /**
+   * Command to drive the robot using translative values and heading as angular
+   * velocity.
+   *
+   * @param translationX     Translation in the X direction. Cubed for smoother
+   *                         controls.
+   * @param translationY     Translation in the Y direction. Cubed for smoother
+   *                         controls.
+   * @param angularRotationX Angular velocity of the robot to set. Cubed for
+   *                         smoother controls.
+   * @param fieldRelative    If drive is field relative
+   * 
+   * @return Drive command.
+   */
+  public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY,
+      DoubleSupplier angularRotationX, boolean fieldRelative) {
+    return run(() -> {
+      // Make the robot move
+      swerveDrive.drive(SwerveMath.scaleTranslation(new Translation2d(
+          translationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
+          translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), 0.8),
+          Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
+          fieldRelative,
           false);
     });
   }
