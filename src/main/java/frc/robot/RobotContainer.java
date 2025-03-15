@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -222,6 +223,9 @@ public class RobotContainer {
     rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
         //.andThen(Led.setColorCommand(64, 240, 5)));
 
+    // Override
+    rightButtons.button(6).onTrue(manualOverrideCommand());
+
     // Lift Position Buttons
     // rightButtons.button(6).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.catchPosition));
     // rightButtons.button(7).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.liftPosition));
@@ -332,4 +336,15 @@ public class RobotContainer {
         return assistantDriverXbox;
     }
 
+    public Command manualOverrideCommand(){
+        return Commands.runOnce(()->manualOverride());
+    }
+
+    public void manualOverride(){
+        CommandScheduler.getInstance().cancelAll();
+        m_ElevatorSubsystem.stopElevatorMotor();
+        m_LiftSubsystem.stopLiftMotor();
+        m_AlgaeSubsystem.stopWheels();
+        m_AlgaeSubsystem.stopRotationMotor();
+    }
 }

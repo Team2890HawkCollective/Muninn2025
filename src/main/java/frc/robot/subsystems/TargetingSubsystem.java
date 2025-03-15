@@ -84,7 +84,12 @@ public class TargetingSubsystem extends SubsystemBase {
         // LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME,
         // drivebase.getYaw().getDegrees(), 0,
         // drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
-        SmartDashboard.putData("Field", m_field);
+        SmartDashboard.putData("Field", m_field); // Add the field widget (Not working rn)
+
+        SmartDashboard.putNumber("Target Pose X", -1); // Add Target Pose X display. set to arbitrary -1.
+        SmartDashboard.putNumber("Target Pose Y", -1); // Add Target Pose Y display. set to arbitrary -1.
+        SmartDashboard.putNumber("Tag Pose X", -1); // Add the Tag Pose X display, set to arbitrary -1.
+        SmartDashboard.putNumber("Tag Pose Y", -1); // Add the Tag Pose Y display, set to arbitrary -1.
     }
 
     @Override
@@ -134,12 +139,17 @@ public class TargetingSubsystem extends SubsystemBase {
                 drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
 
         if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
+            Pose2d tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT.getTagPose((int)LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get().toPose2d();
             if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
                 SmartDashboard.putNumber("Visible AprilTag TID", tagId);
                 SmartDashboard.putBoolean("Tracking AprilTag?", true);
+                SmartDashboard.putNumber("Tag Pose X", tagPose.getX());
+                SmartDashboard.putNumber("Tag Pose Y", tagPose.getY());
             } else {
-                SmartDashboard.putNumber("Visible AprilTag TID", 0);
-                SmartDashboard.putBoolean("Tracking AprilTag?", false);
+                SmartDashboard.putNumber("Visible AprilTag TID", -1); // If no tag, set to an arbitrary -1
+                SmartDashboard.putBoolean("Tracking AprilTag?", false); // If no tag, set the bool widget to red (false)
+                SmartDashboard.putNumber("Tag Pose X", -1); // If no tag, set to an arbitrary -1
+                SmartDashboard.putNumber("Tag Pose Y", -1); // If no tag, set to an arbitrary -1
             }
 
 
@@ -182,8 +192,8 @@ public class TargetingSubsystem extends SubsystemBase {
             SmartDashboard.putData(m_field);
         }
         Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
-        SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX());
-        SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY());
+        SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX()); // Display the estimated bot X
+        SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY()); // Display the estimated bot Y
     }
 
     public Command autoAlignmentPose(String location) {
@@ -332,38 +342,40 @@ public class TargetingSubsystem extends SubsystemBase {
     public Command autoAlignmentOffset(String location){
         // We don't pathfind UNLESS we can see a tag (For now at least). Otherwise, we could hit an allied bots or opponent defense bots.
         if(LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)){
-            Pose2d tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT.getTagPose((int)LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get().toPose2d();; // Pose for visible tag
+            Pose2d tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT.getTagPose((int)LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get().toPose2d(); // Pose for visible tag
             Transform2d offsetTransformation;
             Pose2d startingPose = drivebase.getPose(); // This is the current pose of the bot
             Pose2d targetPose; // This will be decided below
-            switch (location.toLowerCase()){
-                case "left":
-                    // Left Coral Alignment
-                    offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
-                        Constants.Coral.LEFT_BRANCH_OFFSET, // Horizontal Offset
-                        Rotation2d.kZero // Rotation here doesn't matter
-                    );
-                    targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
-                case "center":
-                    // Center/Algae Alignment
-                     offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
-                        Constants.Algae.OFFSET, // Horizontal Offset
-                        Rotation2d.kZero // Rotation here doesn't matter
-                    );
-                    targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
-                case "right":
-                    // Right Coral Alignment
-                    offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
-                        Constants.Coral.RIGHT_BRANCH_OFFSET, // Horizontal Offset
-                        Rotation2d.kZero // Rotation here doesn't matter
-                    );
-                    targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
-                default:
-                    targetPose = new Pose2d();
+            if(location.toLowerCase().equalsIgnoreCase("left")){
+                // Left Coral Alignment
+                offsetTransformation = new Transform2d(
+                    Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                    Constants.Coral.LEFT_BRANCH_OFFSET, // Horizontal Offset
+                    Rotation2d.kZero // Rotation here doesn't matter
+                );
+                targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
+            } else if(location.toLowerCase().equalsIgnoreCase("center")){
+                // Center/Algae Alignment
+                offsetTransformation = new Transform2d(
+                    Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                    Constants.Algae.OFFSET, // Horizontal Offset
+                    Rotation2d.kZero // Rotation here doesn't matter
+                );
+                targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
+            } else if(location.toLowerCase().equalsIgnoreCase("right")){
+                // Right Coral Alignment
+                offsetTransformation = new Transform2d(
+                    Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                    Constants.Coral.RIGHT_BRANCH_OFFSET, // Horizontal Offset
+                    Rotation2d.kZero // Rotation here doesn't matter
+                );
+                targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert so we face towards the tag, not the direcetion the tag faces
+            } else {
+                targetPose = new Pose2d();
             }
+
+            SmartDashboard.putNumber("Target Pose X", targetPose.getX());
+            SmartDashboard.putNumber("Target Pose Y", targetPose.getY());
 
             List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses( // Generate a path given our starting (current) and target poses. We won't be far enough away to need much more
                 startingPose,
@@ -385,7 +397,8 @@ public class TargetingSubsystem extends SubsystemBase {
 
             path.preventFlipping = true; // If the coords are correct, don't flip it. This keeps us from accidentally going to the other side
 
-            return AutoBuilder.followPath(path);
+            return Commands.none();
+            //return AutoBuilder.followPath(path);
         } else {
             // If we don't see a tag, don't have the free will to pathfind.
             return Commands.none();
