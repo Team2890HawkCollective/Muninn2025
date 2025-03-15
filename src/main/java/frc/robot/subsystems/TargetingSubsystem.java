@@ -397,8 +397,8 @@ public class TargetingSubsystem extends SubsystemBase {
 
             path.preventFlipping = true; // If the coords are correct, don't flip it. This keeps us from accidentally going to the other side
 
-            return Commands.none();
-            //return AutoBuilder.followPath(path);
+            //return Commands.none();
+            return AutoBuilder.followPath(path);
         } else {
             // If we don't see a tag, don't have the free will to pathfind.
             return Commands.none();
