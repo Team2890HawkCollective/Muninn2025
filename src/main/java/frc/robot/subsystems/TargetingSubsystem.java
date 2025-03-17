@@ -108,8 +108,8 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public Command autoAlignmentCommand(String location) {
         // return new DefferredCommand(()->autoAlignmentPose(location),Set.of(swerveSub)); // This is the pathfindToPose version.
-        //return new DeferredCommand(()->autoAlignmentOffset(location),Set.of(swerveSub)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose
-        return new DeferredCommand(()->autoAlignmentBasic(),Set.of(swerveSub));
+        return new DeferredCommand(()->autoAlignmentOffset(location),Set.of(swerveSub)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose
+        //return new DeferredCommand(()->autoAlignmentBasic(),Set.of(swerveSub));
     }
 
     public Command pathfindTest() {
