@@ -55,7 +55,7 @@ public class LiftSubsystem extends SubsystemBase {
   }
 
   public void catchPosition() {
-    liftMotor.set(-.1);
+    liftMotor.set(-1);
   }
 
   public Command moveToStartPositionCommand() {
@@ -63,7 +63,7 @@ public class LiftSubsystem extends SubsystemBase {
   }
 
   public void startPosition() {
-    liftMotor.set(.1);
+    liftMotor.set(1);
   }
 
   public Command stopLiftMotorCommand() {

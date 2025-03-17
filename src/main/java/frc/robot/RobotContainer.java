@@ -251,15 +251,16 @@ public class RobotContainer {
 
     driverXbox.b().onTrue(m_LiftSubsystem.retractRatchetCommand());
     driverXbox.x().onTrue(m_LiftSubsystem.lockRatchetCommand());
-    driverXbox.y().onTrue(m_LiftSubsystem.retractRatchetCommand())
-        .whileTrue(m_LiftSubsystem.moveLiftUpCommand())
+    driverXbox.y().onTrue(//m_LiftSubsystem.retractRatchetCommand())
+        //.whileTrue(
+            m_LiftSubsystem.moveLiftUpCommand())
         .onFalse(m_LiftSubsystem.stopLiftMotorCommand()
             .andThen(m_LiftSubsystem.lockRatchetCommand())); // Manual Lift Up
     driverXbox.a().onTrue(m_LiftSubsystem.retractRatchetCommand())
         .whileTrue(m_LiftSubsystem.moveLiftDownCommand() // Manual Lift Down
-            .andThen(m_AlgaeSubsystem.algaeLiftCommand())
+            //.andThen(m_AlgaeSubsystem.algaeLiftCommand())
         ).onFalse(m_LiftSubsystem.stopLiftMotorCommand()
-        .andThen(m_LiftSubsystem.lockRatchetCommand())
+        //.andThen(m_LiftSubsystem.lockRatchetCommand())
         );
 
 
