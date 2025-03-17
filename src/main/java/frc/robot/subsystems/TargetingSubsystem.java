@@ -33,6 +33,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -49,6 +52,11 @@ public class TargetingSubsystem extends SubsystemBase {
 
     private SwerveSubsystem swerveSub;
     private SwerveDrive drivebase;
+
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
+        .getStructTopic("MyPose", Pose2d.struct).publish();
+    StructArrayPublisher<Pose2d> arrayPublisher = NetworkTableInstance.getDefault()
+        .getStructArrayTopic("MyPoseArray", Pose2d.struct).publish();
 
     private final Field2d m_field = new Field2d();
 
@@ -147,7 +155,7 @@ public class TargetingSubsystem extends SubsystemBase {
         if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
 
             // Signal Tag Visible
-            Led.setColorAlignment(Color.kLimeGreen);
+            //Led.setColorAlignment(Color.kLimeGreen);
 
             Pose2d tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT
                     .getTagPose((int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get()
@@ -215,8 +223,10 @@ public class TargetingSubsystem extends SubsystemBase {
             // limelightBotPoseEstimateMT2.timestampSeconds);
             m_field.setRobotPose(poseToUse.pose);
             SmartDashboard.putData(m_field);
+            
+            arrayPublisher.set(new Pose2d[] {drivebase.getPose(), finalPose});
         } else {
-            Led.setColorAlignment(Color.kDarkRed);
+            //Led.setColorAlignment(Color.kDarkRed);
         }
         Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
         SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX()); // Display the estimated bot X
@@ -442,7 +452,9 @@ public class TargetingSubsystem extends SubsystemBase {
                                          // going to the other side
 
             // Signal Pathfinding Is Now Controlling Drive
-            Led.setColorAlignmentBlink(Color.kSkyBlue);
+            //Led.setColorAlignmentBlink(Color.kSkyBlue);
+
+            publisher.set(targetPose);
 
             // return Commands.none();
             return AutoBuilder.followPath(path);

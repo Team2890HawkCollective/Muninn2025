@@ -219,14 +219,14 @@ public class RobotContainer {
 
     // Assistant Driver Alignment Buttons
     rightButtons.button(10)
-        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left")
-            .andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
     rightButtons.button(11)
-        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center")
-            .andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
     rightButtons.button(12)
-        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right")
-            .andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
 
     // Override
     rightButtons.button(6).onTrue(manualOverrideCommand());
