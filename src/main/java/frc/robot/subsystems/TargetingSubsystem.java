@@ -431,7 +431,7 @@ public class TargetingSubsystem extends SubsystemBase {
                                                                            // heading, keeps the transition smoother
                     new GoalEndState(0.0, invert(targetPose).getRotation()));
 
-            path.preventFlipping = true; // If the coords are correct, don't flip it. This keeps us from accidentally
+            path.preventFlipping = false; // If the coords are correct, don't flip it. This keeps us from accidentally
                                          // going to the other side
 
             // return Commands.none();
