@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.DoubleSupplier;
 
 import org.ejml.dense.row.linsol.qr.LinearSolverQr_CDRM;
@@ -34,7 +35,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.subsystems.RectanglePoseArea;
 // NetworkTables if needed, LimelightHelpers is less pain
 //import edu.wpi.first.networktables.NetworkTable;
@@ -99,7 +100,7 @@ public class TargetingSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        //updatePoseEstimation();
+        updatePoseEstimation();
     }
 
     public Command updatePoseEstimationCommand() {
@@ -107,9 +108,9 @@ public class TargetingSubsystem extends SubsystemBase {
     }
 
     public Command autoAlignmentCommand(String location) {
-        // return new DefferredCommand(()->autoAlignmentPose(location),Set.of(swerveSub)); // This is the pathfindToPose version.
-        return new DeferredCommand(()->autoAlignmentOffset(location),Set.of(swerveSub)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose
-        //return new DeferredCommand(()->autoAlignmentBasic(),Set.of(swerveSub));
+        // return Commands.defer(()->autoAlignmentPose(location),Set.of(swerveSub)); // This is the pathfindToPose version.
+        return Commands.defer(()->autoAlignmentOffset(location),Set.of(swerveSub)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose
+        // return Commands.defer(()->autoAlignmentBasic(),Set.of(swerveSub));
     }
 
     public Command pathfindTest() {
@@ -144,6 +145,10 @@ public class TargetingSubsystem extends SubsystemBase {
                 drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
 
         if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
+
+            // Signal Tag Visible
+            Led.setColorAlignment(Color.kLimeGreen);
+
             Pose2d tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT
                     .getTagPose((int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get()
                     .toPose2d();
@@ -210,6 +215,8 @@ public class TargetingSubsystem extends SubsystemBase {
             // limelightBotPoseEstimateMT2.timestampSeconds);
             m_field.setRobotPose(poseToUse.pose);
             SmartDashboard.putData(m_field);
+        } else {
+            Led.setColorAlignment(Color.kDarkRed);
         }
         Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
         SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX()); // Display the estimated bot X
@@ -433,6 +440,9 @@ public class TargetingSubsystem extends SubsystemBase {
 
             path.preventFlipping = false; // If the coords are correct, don't flip it. This keeps us from accidentally
                                          // going to the other side
+
+            // Signal Pathfinding Is Now Controlling Drive
+            Led.setColorAlignmentBlink(Color.kSkyBlue);
 
             // return Commands.none();
             return AutoBuilder.followPath(path);

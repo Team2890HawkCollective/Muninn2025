@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -217,12 +218,15 @@ public class RobotContainer {
     leftButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_ElevatorSubsystem.moveElevatorDownCommand())).toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
 
     // Assistant Driver Alignment Buttons
-    rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
-        //.andThen(Led.setColorCommand(64, 240, 5)));
-    rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
-        //.andThen(Led.setColorCommand(64, 240, 5)));
-    rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
-        //.andThen(Led.setColorCommand(64, 240, 5)));
+    rightButtons.button(10)
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left")
+            .andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+    rightButtons.button(11)
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center")
+            .andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+    rightButtons.button(12)
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right")
+            .andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
 
     // Override
     rightButtons.button(6).onTrue(manualOverrideCommand());
