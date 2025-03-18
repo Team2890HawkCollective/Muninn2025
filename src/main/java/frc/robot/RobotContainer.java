@@ -217,16 +217,20 @@ public class RobotContainer {
     leftButtons.axisGreaterThan(1, 0.3).toggleOnTrue(m_ElevatorSubsystem.moveElevatorUpCommand()).toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
     leftButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_ElevatorSubsystem.moveElevatorDownCommand())).toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
 
+    // Manual Coral Tilt
+    rightButtons.button(8).onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    rightButtons.button(9).onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+
     // Assistant Driver Alignment Buttons
     rightButtons.button(10)
-        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
-            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left")
+            .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
     rightButtons.button(11)
-        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
-            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center")
+            .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
     rightButtons.button(12)
-        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
-            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right")
+            .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
 
     // Override
     rightButtons.button(6).onTrue(manualOverrideCommand());

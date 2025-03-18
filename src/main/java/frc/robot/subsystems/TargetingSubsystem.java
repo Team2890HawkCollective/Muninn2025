@@ -36,6 +36,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -103,12 +104,17 @@ public class TargetingSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Target Pose Y", -1); // Add Target Pose Y display. set to arbitrary -1.
         SmartDashboard.putNumber("Tag Pose X", -1); // Add the Tag Pose X display, set to arbitrary -1.
         SmartDashboard.putNumber("Tag Pose Y", -1); // Add the Tag Pose Y display, set to arbitrary -1.
+        
+        // Add the other LL Widgets
+        SmartDashboard.putNumber("Visible AprilTag TID", -1);
+        SmartDashboard.putBoolean("Tracking AprilTag?", false);
+        SmartDashboard.putBoolean("MegaTag2?", false);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        updatePoseEstimation();
+        // updatePoseEstimation();
     }
 
     public Command updatePoseEstimationCommand() {
@@ -117,8 +123,9 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public Command autoAlignmentCommand(String location) {
         // return Commands.defer(()->autoAlignmentPose(location),Set.of(swerveSub)); // This is the pathfindToPose version.
-        return Commands.defer(()->autoAlignmentOffset(location),Set.of(swerveSub)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose
+        //return Commands.defer(()->autoAlignmentOffset(location),Set.of(swerveSub)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose
         // return Commands.defer(()->autoAlignmentBasic(),Set.of(swerveSub));
+        return Commands.none();
     }
 
     public Command pathfindTest() {
@@ -155,11 +162,15 @@ public class TargetingSubsystem extends SubsystemBase {
         if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
 
             // Signal Tag Visible
-            //Led.setColorAlignment(Color.kLimeGreen);
+            //Led.setColorAlignmentBlink(Color.kLimeGreen);
 
-            Pose2d tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT
-                    .getTagPose((int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get()
-                    .toPose2d();
+            Pose2d tagPose = new Pose2d();
+            Optional<Pose3d> tagPosePre = Optional.ofNullable(Constants.LimeLight.APRILTAG_FIELD_LAYOUT
+                    .getTagPose((int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get());
+            if(tagPosePre != null){
+                tagPose = tagPosePre.get().toPose2d();
+            } else {
+            }
             if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
                 SmartDashboard.putNumber("Visible AprilTag TID", tagId);
                 SmartDashboard.putBoolean("Tracking AprilTag?", true);
@@ -446,9 +457,9 @@ public class TargetingSubsystem extends SubsystemBase {
                                     drivebase.getFieldVelocity().vyMetersPerSecond),
                             drivebase.getGyroRotation3d().toRotation2d()), // Start with the current velocity and
                                                                            // heading, keeps the transition smoother
-                    new GoalEndState(0.0, invert(targetPose).getRotation()));
+                    new GoalEndState(0.0, targetPose.getRotation()));
 
-            path.preventFlipping = false; // If the coords are correct, don't flip it. This keeps us from accidentally
+            path.preventFlipping = true; // If the coords are correct, don't flip it. This keeps us from accidentally
                                          // going to the other side
 
             // Signal Pathfinding Is Now Controlling Drive

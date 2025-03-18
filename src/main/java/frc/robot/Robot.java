@@ -11,6 +11,11 @@ import javax.lang.model.type.NullType;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.commands.PathfindingCommand;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -84,7 +89,7 @@ public class Robot extends TimedRobot {
 
     // Turn On LEDs
     Led.initLED();
-    Led.setColor(Color.kHotPink);
+    Led.setColor(Color.kTeal);
 
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
@@ -108,6 +113,8 @@ public class Robot extends TimedRobot {
       outputStream.putFrame(output);
       }
       }).start();
+
+      PathfindingCommand.warmupCommand().schedule();
      
   }
 

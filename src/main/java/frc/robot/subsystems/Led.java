@@ -18,6 +18,7 @@ public class Led {
     static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
     static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
+    static final AddressableLEDBufferView alignmentLEDS = new AddressableLEDBufferView(signalLightsBuffer, 200, 255);
     
     public static void initLED(){
         signalLights.setLength(signalLightsBuffer.getLength());
@@ -59,21 +60,32 @@ public class Led {
      * Set Aligmnent Light Chunk (Solid)
      * @param color
      */
-    //public static void setColorAlignment(Color color){
-    //    LEDPattern blinker = LEDPattern.solid(color);
-    //    //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-    //    blinker.applyTo(alignmentLEDS);
-    //    signalLights.setData(signalLightsBuffer);
-    //}
+    public static void setColorAlignment(Color color){
+        LEDPattern blinker = LEDPattern.solid(color);
+        //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
+        blinker.applyTo(alignmentLEDS);
+        signalLights.setData(signalLightsBuffer);
+    }
 
     /**
      * Set Aligmnent Light Chunk (Blink)
      * @param color
      */
-    //public static void setColorAlignmentBlink(Color color){
-    //    LEDPattern blinker = LEDPattern.solid(color);
-    //    blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-    //    blinker.applyTo(alignmentLEDS);
-    //    signalLights.setData(signalLightsBuffer);
-    //}
+    public static void setColorAlignmentBlink(Color color){
+        LEDPattern blinker = LEDPattern.solid(color);
+        blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
+        blinker.applyTo(alignmentLEDS);
+        signalLights.setData(signalLightsBuffer);
+    }
+
+    /**
+     * Turns Off Alignment LEDs
+     * @param color
+     */
+    public static void turnOffAlignmentLights(){
+        LEDPattern blinker = LEDPattern.kOff;
+        //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
+        blinker.applyTo(alignmentLEDS);
+        signalLights.setData(signalLightsBuffer);
+    }
 }
