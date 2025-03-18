@@ -340,7 +340,7 @@ public class TargetingSubsystem extends SubsystemBase {
                 case "left":
                     // Left Coral Alignment
                     offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0,//+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
                         Constants.Coral.LEFT_BRANCH_OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
                     );
@@ -348,7 +348,7 @@ public class TargetingSubsystem extends SubsystemBase {
                 case "center":
                     // Center/Algae Alignment
                      offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0,//+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
                         Constants.Algae.OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
                     );
@@ -356,7 +356,7 @@ public class TargetingSubsystem extends SubsystemBase {
                 case "right":
                     // Right Coral Alignment
                     offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
+                        Constants.LimeLight.ROBOT_SIDE_LENGTH/2.0,//+Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards Offset
                         Constants.Coral.RIGHT_BRANCH_OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
                     );
@@ -418,4 +418,7 @@ public class TargetingSubsystem extends SubsystemBase {
     private static double averageVelocity(double vx, double vy){
         return Math.sqrt(Math.pow(vx, 2)+Math.pow(vy, 2));
     }
+
+
+    
 }

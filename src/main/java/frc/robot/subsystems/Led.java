@@ -17,6 +17,10 @@ public class Led {
     static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
     static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
+    
+    public static void initLED(){
+        signalLights.setLength(signalLightsBuffer.getLength());
+    }
 
     public static int getBufferLength(AddressableLEDBuffer buffer) {
         return buffer.getLength();

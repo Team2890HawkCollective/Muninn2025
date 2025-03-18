@@ -29,7 +29,7 @@ public class CoralSubsystem extends SubsystemBase {
     // private static SparkMax coralWheelMotor = new
     // SparkMax(Constants.Coral.WheelMotor.WHEEL_MOTOR_ID, MotorType.kBrushless);
 
-    //public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Coral.TOF_SENSOR);
+    public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Coral.TOF_SENSOR);
     private static Servo doorServo = new Servo(Constants.Coral.CoralServo.SERVO_PWM_PORT);
 
     public CoralSubsystem() {
@@ -95,11 +95,11 @@ public class CoralSubsystem extends SubsystemBase {
         coralRotationalPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
     }
 
-    //public void updateLED() {
-    //    if(TOFSensor.getRange()<Constants.Coral.TOF_TRIGGER_DIST){
-    //        Led.setColor(Color.kPurple);
-    //    } else {
-    //        Led.setColor(Color.kOrange);
-    //    }
-    //}
+    public void updateLED() {
+        if(TOFSensor.getRange()<Constants.Coral.TOF_TRIGGER_DIST){
+            Led.setColor(Color.kPurple);
+        } else {
+            Led.setColor(Color.kOrange);
+        }
+    }
 }

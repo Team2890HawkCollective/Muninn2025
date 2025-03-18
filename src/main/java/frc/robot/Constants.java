@@ -163,9 +163,9 @@ public final class Constants {
       public static final long OUTPUT_DELAY = 3000;
     }
 
-    //public static final int TOF_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
+    public static final int TOF_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
                                              // and then go to http://10.28.90.2:5812/ in a browser.
-    //public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
+    public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
 
   }
 

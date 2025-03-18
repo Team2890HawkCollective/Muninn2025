@@ -68,10 +68,14 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
+    
     m_shuffleboardDisplay = new ShuffleboardDisplay();
     m_shuffleboardDisplay.initiateDisplay();
     m_shuffleboardDisplay.initializeAutoChooser();
+
+    // close servo on startup
+    m_CoralSubsystem = new CoralSubsystem();
+    m_CoralSubsystem.servoRotateToClosed();
 
     // Create a timer to disable motor brake a few seconds after disable. This will
     // let the robot stop
