@@ -33,7 +33,7 @@ import frc.robot.commands.swervedrive.auto.*;
  */
 public final class Constants {
 
-  public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
+  public static final double ROBOT_MASS = 48.1442941; // 106.14 Lbs
   public static final Matter CHASSIS = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
   public static final double MAX_SPEED = Units.feetToMeters(14.5);
@@ -75,8 +75,8 @@ public final class Constants {
 
     public static final double DEADZONE = 0.1;
 
-    public static final double ELEVATOR_UP_SPEED = -0.25;
-    public static final double HOMING_SPEED = 0.25;
+    public static final double ELEVATOR_UP_SPEED = -0.45;
+    public static final double HOMING_SPEED = 0.35;
 
     public static final int CORAL_STAGE_BASE = 0;
     public static final int CORAL_STAGE_L1 = 1;
@@ -88,9 +88,9 @@ public final class Constants {
 
     public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
-    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -25.505441665649414; // Old Number  4.2342
-    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -37.79143524169922; // Old Number 6.352
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -62.53088836669922; // Old Number 10.1144
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -27.372209548950195; //-25.505441665649414; // Old Number  4.2342
+    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -40.66043472290039; //-46.79143524169922; // Old Number 6.352
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -65.83088836669922; // Old Number 10.1144
     public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
     public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
 
@@ -104,7 +104,7 @@ public final class Constants {
         L3_ALGAE_STAGE_ENCODER_DIFFERENCE
     };
 
-    public static final double PID_P = 0.4;
+    public static final double PID_P = 0.3;
     public static final double PID_I = 0;
     public static final double PID_D = 0.4;
     public static final double PID_IZ = 0;
@@ -144,7 +144,7 @@ public final class Constants {
 
     public final class RotationMotor {
       public static final int CORAL_MOTOR_ID = 60;
-      public static final double START_POSITION_ENCODER_VALUE = -1.023809194564819;
+      public static final double START_POSITION_ENCODER_VALUE = 0.0; //-1.023809194564819; // This tries to not kill the ramp
       public static final double SCORE_POSITION_ENCODER_VALUE = -19.618974685668945;
       // public static final double SCORE_POSITION_ENCODER_VALUE =
       // -17.214284896850586;
@@ -193,7 +193,7 @@ public final class Constants {
 
     public final class Wheel {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
-      public static final double WHEEL_INTAKE_SPEED = -0.35;
+      public static final double WHEEL_INTAKE_SPEED = -0.75;
       public static final double WHEEL_OUTPUT_SPEED = 0.8;
 
       // public static final int LIMIT_SWITCH_PORT = 3;

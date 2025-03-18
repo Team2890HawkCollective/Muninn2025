@@ -11,7 +11,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -57,7 +59,7 @@ public class RobotContainer {
     public final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve"));
 
-    private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase.getSwerveDrive());
+    private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase);
     // m_TargetingSubsystem.initializeLimeLight();
     /**
      * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -133,6 +135,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Coral_Level_4_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(4)
                 .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
                 .andThen(m_CoralSubsystem.coralOutputCommand()));
+        NamedCommands.registerCommand("openCoralServo", m_CoralSubsystem.servoRotateToOpen());
     }
 
   /**
@@ -215,12 +218,18 @@ public class RobotContainer {
     leftButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_ElevatorSubsystem.moveElevatorDownCommand())).toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
 
     // Assistant Driver Alignment Buttons
-    rightButtons.button(10).onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
-        //.andThen(Led.setColorCommand(64, 240, 5)));
-    rightButtons.button(11).onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
-        //.andThen(Led.setColorCommand(64, 240, 5)));
-    rightButtons.button(12).onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
-        //.andThen(Led.setColorCommand(64, 240, 5)));
+    rightButtons.button(10)
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+    rightButtons.button(11)
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+    rightButtons.button(12)
+        .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+            //.andThen(Commands.runOnce(()->Led.setColorAlignment(Color.kOrange))));
+
+    // Override
+    rightButtons.button(6).onTrue(manualOverrideCommand());
 
     // Lift Position Buttons
     // rightButtons.button(6).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.catchPosition));
@@ -242,15 +251,16 @@ public class RobotContainer {
 
     driverXbox.b().onTrue(m_LiftSubsystem.retractRatchetCommand());
     driverXbox.x().onTrue(m_LiftSubsystem.lockRatchetCommand());
-    driverXbox.y().onTrue(m_LiftSubsystem.retractRatchetCommand())
-        .whileTrue(m_LiftSubsystem.moveLiftUpCommand())
+    driverXbox.y().onTrue(//m_LiftSubsystem.retractRatchetCommand())
+        //.whileTrue(
+            m_LiftSubsystem.moveLiftUpCommand())
         .onFalse(m_LiftSubsystem.stopLiftMotorCommand()
             .andThen(m_LiftSubsystem.lockRatchetCommand())); // Manual Lift Up
     driverXbox.a().onTrue(m_LiftSubsystem.retractRatchetCommand())
         .whileTrue(m_LiftSubsystem.moveLiftDownCommand() // Manual Lift Down
-            .andThen(m_AlgaeSubsystem.algaeLiftCommand())
+            //.andThen(m_AlgaeSubsystem.algaeLiftCommand())
         ).onFalse(m_LiftSubsystem.stopLiftMotorCommand()
-        .andThen(m_LiftSubsystem.lockRatchetCommand())
+        //.andThen(m_LiftSubsystem.lockRatchetCommand())
         );
 
 
@@ -332,4 +342,15 @@ public class RobotContainer {
         return assistantDriverXbox;
     }
 
+    public Command manualOverrideCommand(){
+        return Commands.runOnce(()->manualOverride());
+    }
+
+    public void manualOverride(){
+        CommandScheduler.getInstance().cancelAll();
+        m_ElevatorSubsystem.stopElevatorMotor();
+        m_LiftSubsystem.stopLiftMotor();
+        m_AlgaeSubsystem.stopWheels();
+        m_AlgaeSubsystem.stopRotationMotor();
+    }
 }

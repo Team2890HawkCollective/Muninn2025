@@ -82,6 +82,9 @@ public class Robot extends TimedRobot {
     // immediately when disabled, but then also let it be pushed more
     disabledTimer = new Timer();
 
+    // Turn On LEDs
+    Led.setColor(Color.kHotPink);
+
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
