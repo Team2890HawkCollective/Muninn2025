@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
     disabledTimer = new Timer();
 
     // Turn On LEDs
+    Led.initLED();
     Led.setColor(Color.kHotPink);
 
     if (isSimulation()) {

@@ -21,6 +21,8 @@ public class Led {
     
     public static void initLED(){
         signalLights.setLength(signalLightsBuffer.getLength());
+        signalLights.setData(signalLightsBuffer);
+        signalLights.start();
     }
 
     public static int getBufferLength(AddressableLEDBuffer buffer) {

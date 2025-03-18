@@ -223,7 +223,7 @@ public final class Constants {
 
     public static final double BUMPER_WIDTH = Units.inchesToMeters(2.75); // Get This Value
     //public static final double ROBOT_WIDTH = Units.inchesToMeters(30 + BUMPER_WIDTH); // Tis a square, don't need this
-    public static final double ROBOT_SIDE_LENGTH = Units.inchesToMeters(29 + BUMPER_WIDTH);
+    public static final double ROBOT_SIDE_LENGTH = Units.inchesToMeters(29);
     public static final Transform2d HALF_ROBOT = new Transform2d(ROBOT_SIDE_LENGTH / 2.0, 0, new Rotation2d());
 
     // View For AprilTag Labeling: Red Barge Is On Bottom
