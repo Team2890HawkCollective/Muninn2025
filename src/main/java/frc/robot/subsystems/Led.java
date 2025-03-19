@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.AddressableLEDBufferView;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
@@ -87,5 +88,9 @@ public class Led {
         //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
         blinker.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
+    }
+
+    public static double getMatchTime() {
+        return DriverStation.getMatchTime();
     }
 }

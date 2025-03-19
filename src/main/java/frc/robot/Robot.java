@@ -81,6 +81,7 @@ public class Robot extends TimedRobot {
     // close servo on startup
     m_CoralSubsystem = new CoralSubsystem();
     m_CoralSubsystem.servoRotateToClosed();
+    
 
     // Create a timer to disable motor brake a few seconds after disable. This will
     // let the robot stop
@@ -90,6 +91,7 @@ public class Robot extends TimedRobot {
     // Turn On LEDs
     Led.initLED();
     Led.setColor(Color.kTeal);
+
 
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
@@ -203,6 +205,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    if(DriverStation.getMatchTime() <= 20)
+    {
+      Led.setColorBlink(Color.kHotPink);
+    }
   }
 
   @Override

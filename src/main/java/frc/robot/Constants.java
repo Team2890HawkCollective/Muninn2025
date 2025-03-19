@@ -332,5 +332,6 @@ public final class Constants {
   public static class LED {
     public static final int SIGNAL_LIGHTS_PORT = 4;
     public static final int SIGNAL_LIGHTS_LENGTH = 256;
+    public static final int END_GAME_TIME_START = 20;
   }
 }
