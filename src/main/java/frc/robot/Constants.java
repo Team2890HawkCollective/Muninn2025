@@ -153,7 +153,7 @@ public final class Constants {
       public static final double PID_D = 0.01;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
-      public static final int ROTATE_DELAY = 2;
+      public static final double ROTATE_DELAY = 1.25;
     }
 
     public final class CoralServo {

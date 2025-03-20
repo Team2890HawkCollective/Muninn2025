@@ -41,7 +41,7 @@ public class Led {
      */
     public static void setColorBlink(Color color) {
         LEDPattern blinker = LEDPattern.solid(color);
-        blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
+        blinker.blink(Seconds.of(.25));
         blinker.applyTo(signalLightsBuffer);
         signalLights.setData(signalLightsBuffer);
     }
