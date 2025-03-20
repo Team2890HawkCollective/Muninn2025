@@ -4,6 +4,7 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -131,9 +132,13 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public Command alignToReefTagRelativeCommand(String location){
         if(location.toLowerCase().equals("left")){
-            return runOnce(alignToReefTagRelative align = new alignToReefTagRelative(false,swerveSub));
+            alignToReefTagRelative align = new alignToReefTagRelative(false,swerveSub));
+            align.schedule()
+            return Commands.none();
         } else if(location.toLowerCase().equals("right")){
-            return runOnce(alignToReefTagRelative align = new alignToReefTagRelative(true,swerveSub));
+            alignToReefTagRelative align = new alignToReefTagRelative(true,swerveSub));
+            align.schedule()
+            return Commands.none();
         } else {
             return Commands.none();
         }
