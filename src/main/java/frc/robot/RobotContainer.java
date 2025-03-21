@@ -221,6 +221,12 @@ public class RobotContainer {
     rightButtons.button(8).onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     rightButtons.button(9).onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
 
+    // Algae Tilt
+    rightButtons.axisGreaterThan(1, 0.3).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()); // Carry Position
+    rightButtons.axisLessThan(1, -0.3).onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.PROCESSOR_ENCODER_VALUE)); // Processor Position
+    rightButtons.axisGreaterThan(0, 0.3).onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.START_POSITION_ENCODER_VALUE)); // Start Position
+    rightButtons.axisGreaterThan(0, -0.3).onTrue(m_AlgaeSubsystem.AlgaeOutputCommand()); // Output Command
+
     // Assistant Driver Alignment Buttons
     rightButtons.button(10)
         .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left")
