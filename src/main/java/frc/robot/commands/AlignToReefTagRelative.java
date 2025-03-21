@@ -22,7 +22,7 @@ public class AlignToReefTagRelative extends Command {
 
   public AlignToReefTagRelative(boolean isRightScore, SwerveSubsystem drivebase) {
     xController = new PIDController(Constants.LimeLight.TagRelative.X_REEF_ALIGNMENT_P, 0.0, 0);  // Vertical movement
-    yController = new PIDController(Constants.LimeLight,TagRelative.Y_REEF_ALIGNMENT_P, 0.0, 0);  // Horitontal movement
+    yController = new PIDController(Constants.LimeLight.TagRelative.Y_REEF_ALIGNMENT_P, 0.0, 0);  // Horitontal movement
     rotController = new PIDController(Constants.LimeLight.TagRelative.ROT_REEF_ALIGNMENT_P, 0, 0);  // Rotation
     this.isRightScore = isRightScore;
     this.drivebase = drivebase;

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
+import frc.robot.commands.AlignToReefTagRelative;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -132,13 +133,11 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public Command alignToReefTagRelativeCommand(String location){
         if(location.toLowerCase().equals("left")){
-            alignToReefTagRelative align = new alignToReefTagRelative(false,swerveSub));
-            align.schedule()
-            return Commands.none();
+            AlignToReefTagRelative align = new AlignToReefTagRelative(false,swerveSub);
+            return align;
         } else if(location.toLowerCase().equals("right")){
-            alignToReefTagRelative align = new alignToReefTagRelative(true,swerveSub));
-            align.schedule()
-            return Commands.none();
+            AlignToReefTagRelative align = new AlignToReefTagRelative(true,swerveSub);
+            return align;
         } else {
             return Commands.none();
         }
@@ -172,7 +171,7 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public void updatePoseEstimation() {
         double tagId = LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
-        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
 
         if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
 
@@ -356,9 +355,9 @@ public class TargetingSubsystem extends SubsystemBase {
             if (tagId == 21) {
                 if(location.toLowerCase().equals("left")) {
                     targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.G;
-                if(location.toLowerCase().equals("center")) {
+                } else if(location.toLowerCase().equals("center")) {
                     targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.NINE;
-                if(location.toLowerCase().equals("right")) {
+                } else if(location.toLowerCase().equals("right")) {
                     targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.H;
                 }
             }
@@ -388,6 +387,7 @@ public class TargetingSubsystem extends SubsystemBase {
         } else {
             return Commands.none();
         }
+
     }
 
     public Command autoAlignmentOffset(String location) {
