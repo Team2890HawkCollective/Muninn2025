@@ -4,6 +4,7 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -114,7 +115,7 @@ public class TargetingSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        // updatePoseEstimation();
+        updatePoseEstimation();
     }
 
     public Command updatePoseEstimationCommand() {
@@ -125,9 +126,24 @@ public class TargetingSubsystem extends SubsystemBase {
         // return Commands.defer(()->autoAlignmentPose(location),Set.of(swerveSub)); // This is the pathfindToPose version.
         //return Commands.defer(()->autoAlignmentOffset(location),Set.of(swerveSub)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose
         // return Commands.defer(()->autoAlignmentBasic(),Set.of(swerveSub));
+        // return Commands.defer(alignToReefTagRelativeCommand(location),Set.of(swerveSub);
         return Commands.none();
     }
 
+    public Command alignToReefTagRelativeCommand(String location){
+        if(location.toLowerCase().equals("left")){
+            alignToReefTagRelative align = new alignToReefTagRelative(false,swerveSub));
+            align.schedule()
+            return Commands.none();
+        } else if(location.toLowerCase().equals("right")){
+            alignToReefTagRelative align = new alignToReefTagRelative(true,swerveSub));
+            align.schedule()
+            return Commands.none();
+        } else {
+            return Commands.none();
+        }
+    }
+    
     public Command pathfindTest() {
         PathConstraints constraints = new PathConstraints(
                 3.0, 4.0,
@@ -156,8 +172,7 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public void updatePoseEstimation() {
         double tagId = LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
-        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,
-                drivebase.getPitch().getDegrees(), 0, drivebase.getRoll().getDegrees(), 0);
+        LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0,, 0, 0, 0);
 
         if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
 
@@ -256,125 +271,113 @@ public class TargetingSubsystem extends SubsystemBase {
         if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
             // Red Reef Tags
             if (tagId == 7) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.A;
-                    case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.THREE;
-                    case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.B;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.A;
+                } else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.THREE;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.B;
                 }
             }
             if (tagId == 8) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.C;
-                    case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ONE;
-                    case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.D;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.C;
+                } else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ONE;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.D;
                 }
             }
             if (tagId == 9) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.E;
-                    case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ELEVEN;
-                    case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.F;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.E;
+                } else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.ELEVEN;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.F;
                 }
             }
             if (tagId == 10) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.G;
-                    case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.NINE;
-                    case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.H;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.G;
+                } else if(location.toLowerCase().equals("cneter")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.NINE;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.H;
                 }
             }
             if (tagId == 11) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.I;
-                    case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.SEVEN;
-                    case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.J;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.I;
+                }else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.SEVEN;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.J;
                 }
             }
             if (tagId == 6) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.K;
-                    case "center":
-                        targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.FIVE;
-                    case "right":
-                        targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.L;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.K;
+                } else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.AlgaePoses.FIVE;
+                }else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.RedReefPositions.CoralPoses.L;
                 }
             }
 
             // Blue Reef Tags
             if (tagId == 18) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.A;
-                    case "center":
-                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.THREE;
-                    case "right":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.B;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.A;
+                }else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.THREE;
+                } else if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.B;
                 }
             }
             if (tagId == 17) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.C;
-                    case "center":
-                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.ONE;
-                    case "right":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.D;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.C;
+                } else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.ONE;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.D;
                 }
             }
             if (tagId == 22) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.E;
-                    case "center":
-                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.ELEVEN;
-                    case "right":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.F;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.E;
+                } else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.ELEVEN;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.F;
                 }
             }
             if (tagId == 21) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.G;
-                    case "center":
-                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.NINE;
-                    case "right":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.H;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.G;
+                if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.NINE;
+                if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.H;
                 }
             }
             if (tagId == 20) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.I;
-                    case "center":
-                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.SEVEN;
-                    case "right":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.J;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.I;
+                } else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.SEVEN;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.J;
                 }
             }
             if (tagId == 19) {
-                switch (location.toLowerCase()) {
-                    case "left":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.K;
-                    case "center":
-                        targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.FIVE;
-                    case "right":
-                        targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.L;
+                if(location.toLowerCase().equals("left")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.K;
+                } else if(location.toLowerCase().equals("center")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.AlgaePoses.FIVE;
+                } else if(location.toLowerCase().equals("right")) {
+                    targetPose = Constants.LimeLight.BlueReefPositions.CoralPoses.L;
                 }
             }
             return AutoBuilder.pathfindToPose(
