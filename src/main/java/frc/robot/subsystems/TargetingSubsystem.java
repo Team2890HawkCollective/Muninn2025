@@ -127,8 +127,8 @@ public class TargetingSubsystem extends SubsystemBase {
         // return Commands.defer(()->autoAlignmentPose(location),Set.of(swerveSub)); // This is the pathfindToPose version.
         //return Commands.defer(()->autoAlignmentOffset(location),Set.of(swerveSub)); // This is based off of the work of teams 910 Foley Freeze and 4915 Spartronics. This generates a path given the bot's current pose and offset tag pose
         // return Commands.defer(()->autoAlignmentBasic(),Set.of(swerveSub));
-        // return Commands.defer(alignToReefTagRelativeCommand(location),Set.of(swerveSub);
-        return Commands.none();
+        return Commands.defer(()->alignToReefTagRelativeCommand(location),Set.of(swerveSub));
+        // return Commands.none();
     }
 
     public Command alignToReefTagRelativeCommand(String location){
