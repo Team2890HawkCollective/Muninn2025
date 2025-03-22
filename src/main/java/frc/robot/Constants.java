@@ -88,9 +88,9 @@ public final class Constants {
 
     public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
-    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -27.372209548950195; //-25.505441665649414; // Old Number  4.2342
-    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -40.66043472290039; //-46.79143524169922; // Old Number 6.352
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -64.83088836669922; // Old Number 10.1144
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -25.372209548950195; //-25.505441665649414; // Old Number  4.2342
+    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -38.66043472290039; //-46.79143524169922; // Old Number 6.352
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -62.83088836669922; // Old Number 10.1144
     public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
     public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
 
