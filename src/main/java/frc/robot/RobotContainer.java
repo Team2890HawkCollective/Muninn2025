@@ -213,14 +213,16 @@ public class RobotContainer {
             .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
             .andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L2; Skips Coral L1
     leftButtons.button(6)
-        .onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()
+        .onTrue(m_AlgaeSubsystem.AlgaeStartCommand()
             .andThen(
                 m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE))
             .andThen(m_ElevatorSubsystem.goToHomeCommand())); // Elevator All The Way Down
 
     // Elevator Manual Control
     leftButtons.axisGreaterThan(1, 0.3).toggleOnTrue(m_ElevatorSubsystem.moveElevatorUpCommand()).toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
-    leftButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.AlgaeCarryCommand().andThen(m_ElevatorSubsystem.moveElevatorDownCommand())).toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
+    leftButtons.axisLessThan(1, -0.3).toggleOnTrue(//m_AlgaeSubsystem.AlgaeStartCommand().andThen(
+        m_ElevatorSubsystem.moveElevatorDownCommand())//)
+        .toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
 
     // Manual Coral Tilt
     rightButtons.button(8).onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));

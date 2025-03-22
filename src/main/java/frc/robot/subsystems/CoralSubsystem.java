@@ -97,9 +97,9 @@ public class CoralSubsystem extends SubsystemBase {
 
     public void updateLED() {
         if(TOFSensor.getRange()<Constants.Coral.TOF_TRIGGER_DIST){
-            Led.setColor(Color.kPurple);
+            //Led.setColor(Color.kPurple);
         } else {
-            Led.setColor(Color.kOrange);
+            //Led.setColor(Color.kOrange);
         }
     }
 }

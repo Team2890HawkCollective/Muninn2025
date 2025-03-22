@@ -90,7 +90,7 @@ public final class Constants {
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
     public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -27.372209548950195; //-25.505441665649414; // Old Number  4.2342
     public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -40.66043472290039; //-46.79143524169922; // Old Number 6.352
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -65.83088836669922; // Old Number 10.1144
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -64.83088836669922; // Old Number 10.1144
     public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
     public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
 
@@ -183,7 +183,7 @@ public final class Constants {
       public static final double LIFT_POSITION_ENCODER_VALUE = 19.952302932739258;
       public static final double PID_P = 0.3;
       public static final double PID_I = 0;
-      public static final double PID_D = 0;
+      public static final double PID_D = 0.1;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
 

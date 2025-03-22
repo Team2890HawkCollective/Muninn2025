@@ -207,7 +207,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     if(DriverStation.getMatchTime() <= 20)
     {
-      Led.setColorBlink(Color.kHotPink);
+      Led.setColorBlink(Color.kPink);
     }
   }
 
