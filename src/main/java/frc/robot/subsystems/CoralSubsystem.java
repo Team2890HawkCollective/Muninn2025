@@ -102,4 +102,8 @@ public class CoralSubsystem extends SubsystemBase {
             //Led.setColor(Color.kOrange);
         }
     }
+
+    public void zeroEncoder(){
+        coralRotationalMotor.getEncoder().setPosition(0);
+    }
 }

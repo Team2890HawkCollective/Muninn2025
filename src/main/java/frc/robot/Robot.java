@@ -117,7 +117,6 @@ public class Robot extends TimedRobot {
       }).start();
 
       PathfindingCommand.warmupCommand().schedule();
-     
   }
 
   /**
@@ -169,6 +168,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_robotContainer.setMotorBrake(true);
+
+    // Zero Encoders
+    m_robotContainer.m_CoralSubsystem.zeroEncoder(); // Coralp  OP\
+    m_robotContainer.m_AlgaeSubsystem.zeroEncoder(); // Algae
+    
     //m_robotContainer.getHomingCommand().schedule();
     Command choosenAutoMode = m_shuffleboardDisplay.getAutonomousChoice();
     SmartDashboard.putData("Selected Auto Mode", choosenAutoMode);

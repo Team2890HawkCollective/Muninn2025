@@ -150,4 +150,16 @@ public class AlgaeSubsystem extends SubsystemBase {
         algaeWheelMotor.set(speed);
     }
 
+    public Command manualAlgaeUpCommand(){
+        return runOnce(()->algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*-1));
+    }
+
+    public Command manualAlgaeDownCommand(){
+        return runOnce(()->algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*1));
+    }
+
+    public void zeroEncoder(){
+        algaeRotationMotor.getEncoder().setPosition(0);
+    }
+
 }

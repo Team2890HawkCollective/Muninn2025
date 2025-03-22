@@ -39,6 +39,12 @@
           "data": {
             "name": "coralIntake"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "homeElevator"
+          }
         }
       ]
     }

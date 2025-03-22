@@ -47,8 +47,8 @@ import swervelib.SwerveInputStream;
 public class RobotContainer {
     private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
     private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
-    private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
-    private final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
+    public final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
+    public final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
 
     private final static CommandJoystick leftButtons = new CommandJoystick(3);
     private final static CommandJoystick rightButtons = new CommandJoystick(2);
@@ -228,11 +228,18 @@ public class RobotContainer {
     rightButtons.button(8).onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     rightButtons.button(9).onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
 
-    // Algae Tilt
+    // Algae
+    rightButtons.axisGreaterThan(0, 0.3).onTrue(m_AlgaeSubsystem.AlgaeStartCommand()); // Start Position
+    rightButtons.axisLessThan(0, -0.3).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()); // Carry Position
+    rightButtons.axisGreaterThan(1, 0.3).toggleOnTrue(m_AlgaeSubsystem.manualAlgaeUpCommand()).toggleOnFalse(m_AlgaeSubsystem.stopRotationMotorCommand()); // Manual Up
+    rightButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.manualAlgaeDownCommand()).toggleOnFalse(m_AlgaeSubsystem.stopRotationMotorCommand()); // Manual Down
+
+    /* // 4 Direction Joystick
     rightButtons.axisGreaterThan(1, 0.3).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()); // Carry Position
     rightButtons.axisLessThan(1, -0.3).onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.PROCESSOR_ENCODER_VALUE)); // Processor Position
     rightButtons.axisGreaterThan(0, 0.3).onTrue(m_AlgaeSubsystem.rotateToPositionCommand(Constants.Algae.Rotation.START_POSITION_ENCODER_VALUE)); // Start Position
     rightButtons.axisGreaterThan(0, -0.3).onTrue(m_AlgaeSubsystem.AlgaeOutputCommand()); // Output Command
+    */
 
     // Assistant Driver Alignment Buttons
     rightButtons.button(10)
