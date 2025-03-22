@@ -31,13 +31,19 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.3
+            "waitTime": 0.4
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Backup"
+            "name": "coralIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "homeElevator"
           }
         }
       ]

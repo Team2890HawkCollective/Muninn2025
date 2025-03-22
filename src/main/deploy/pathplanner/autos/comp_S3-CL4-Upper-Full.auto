@@ -33,12 +33,6 @@
           "data": {
             "waitTime": 0.3
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Backup"
-          }
         }
       ]
     }

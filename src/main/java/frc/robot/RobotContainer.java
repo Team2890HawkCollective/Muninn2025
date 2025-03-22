@@ -66,9 +66,9 @@ public class RobotContainer {
      * by angular velocity.
      */
     SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-            () -> driverXbox.getLeftY() * -1,
-            () -> driverXbox.getLeftX() * -1)
-            .withControllerRotationAxis(() -> driverXbox.getRightX() * -1)
+            () -> driverXbox.getLeftY() * 1,
+            () -> driverXbox.getLeftX() * 1)
+            .withControllerRotationAxis(() -> driverXbox.getRightX() * 1)
             .deadband(OperatorConstants.DEADBAND)
             .scaleTranslation(0.8)
             .allianceRelativeControl(true);
@@ -135,7 +135,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("Coral_Level_4_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(4)
                 .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
                 .andThen(m_CoralSubsystem.coralOutputCommand()));
+        NamedCommands.registerCommand("homeElevator", m_ElevatorSubsystem.goToHomeCommand());
         NamedCommands.registerCommand("openCoralServo", m_CoralSubsystem.servoRotateToOpen());
+        NamedCommands.registerCommand("coralIntake", m_CoralSubsystem.coralIntakeCommand());
     }
 
   /**
@@ -179,6 +181,7 @@ public class RobotContainer {
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     assistantDriverXbox.rightBumper()
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+    assistantDriverXbox.x().whileTrue(m_TargetingSubsystem.autoAlignmentBasic());
     //assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand())
         //.onFalse(m_LiftSubsystem.stopLiftMotorCommand());
     //assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())
@@ -197,6 +200,7 @@ public class RobotContainer {
             .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
     leftButtons.button(3)
         .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4)
+            .andThen(m_AlgaeSubsystem.AlgaeStartCommand())
             .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
             .andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L4
     leftButtons.button(4)
@@ -205,6 +209,7 @@ public class RobotContainer {
             .andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L3
     leftButtons.button(5)
         .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(2)
+            .andThen(m_AlgaeSubsystem.AlgaeStartCommand())
             .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
             .andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L2; Skips Coral L1
     leftButtons.button(6)
@@ -282,7 +287,7 @@ public class RobotContainer {
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
     } else {
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+      drivebase.setDefaultCommand(driveRobotOrientedAngularVelocity);
     }
 
     if (Robot.isSimulation()) {
@@ -301,6 +306,7 @@ public class RobotContainer {
       driverXbox.leftBumper().onTrue(Commands.none());
       driverXbox.rightBumper().onTrue(Commands.none());
     } else {
+        driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       /*
        * driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
        * driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));

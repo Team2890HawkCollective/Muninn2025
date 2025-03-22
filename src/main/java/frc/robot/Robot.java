@@ -169,7 +169,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_robotContainer.setMotorBrake(true);
-    m_robotContainer.getHomingCommand().schedule();
+    //m_robotContainer.getHomingCommand().schedule();
     Command choosenAutoMode = m_shuffleboardDisplay.getAutonomousChoice();
     SmartDashboard.putData("Selected Auto Mode", choosenAutoMode);
     m_autonomousCommand = choosenAutoMode;

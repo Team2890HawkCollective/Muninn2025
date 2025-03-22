@@ -35,9 +35,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Backup"
+            "name": "coralIntake"
           }
         }
       ]

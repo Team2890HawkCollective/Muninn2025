@@ -116,7 +116,7 @@ public class TargetingSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        updatePoseEstimation();
+        // updatePoseEstimation();
     }
 
     public Command updatePoseEstimationCommand() {
@@ -479,9 +479,9 @@ public class TargetingSubsystem extends SubsystemBase {
     }
 
     public Command autoAlignmentBasic() {
-        DoubleSupplier xSpeed = ()->limelight_aim_proportional();
+        DoubleSupplier xSpeed = ()->limelight_range_proportional();
         DoubleSupplier ySpeed = ()->0;
-        DoubleSupplier rot = ()->limelight_range_proportional();
+        DoubleSupplier rot = ()->limelight_aim_proportional();
         return swerveSub.driveCommand(xSpeed,ySpeed, rot, false);
     }
 
