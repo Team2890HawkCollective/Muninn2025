@@ -209,9 +209,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(DriverStation.getMatchTime() <= 20)
-    {
-      Led.setColorBlink(Color.kPink);
+    if(DriverStation.isFMSAttached()){ // The timer acts differently depending on if FMS is controlling it
+      if(DriverStation.getMatchTime() <= 20)
+      {
+        Led.setColorBlink(Color.kPink);
+      }
+    } else {
+      if(DriverStation.getMatchTime() >= 115) // In teleop & auto (NO FMS) the timer counts UP.
+      {
+        Led.setColorBlink(Color.kPink);
+      }
     }
   }
 
