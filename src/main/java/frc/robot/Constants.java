@@ -36,7 +36,7 @@ public final class Constants {
   public static final double ROBOT_MASS = 48.1442941; // 106.14 Lbs
   public static final Matter CHASSIS = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
-  public static final double MAX_SPEED = Units.feetToMeters(14.5);
+  public static final double MAX_SPEED = Units.feetToMeters(18);
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
   // public static final class AutonConstants
@@ -89,8 +89,8 @@ public final class Constants {
     public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
     public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -28.199; //-25.505441665649414; // Old Number  4.2342
-    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -43.363; //-46.79143524169922; // Old Number 6.352
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -63.032; // Old Number 10.1144
+    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -43.363; //-46.79143524169922; // Old Number 6.3520
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -61.232; // Old Number 10.1144
     public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
     public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
 
