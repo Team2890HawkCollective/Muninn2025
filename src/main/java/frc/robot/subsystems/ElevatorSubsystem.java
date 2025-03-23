@@ -21,20 +21,22 @@ import com.revrobotics.spark.*;//SparkClosedLoopController;
 import com.revrobotics.spark.config.*;
 
 public class ElevatorSubsystem extends SubsystemBase {
-    private static SparkFlex elevatorMotor1 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR1_ID, MotorType.kBrushless);
+    private static SparkFlex elevatorMotor1 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR1_ID,
+            MotorType.kBrushless);
     private static RelativeEncoder elevator1Encoder;
     private static SparkClosedLoopController elevator1PIDController;
     public static SparkFlexConfig elevator1PIDConfig = new SparkFlexConfig();
 
     private static SparkFlex elevatorMotor2;
     public static SparkFlexConfig elevator2PIDConfig = new SparkFlexConfig();
-    //private static SparkClosedLoopController elevator2PIDController;
+    // private static SparkClosedLoopController elevator2PIDController;
 
-    //private static SparkFlex elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
+    // private static SparkFlex elevatorMotor2 = new
+    // SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
     public DigitalInput bottomlimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_PWM_PORT);
-   // elevatorMotor2.SparkFlexConfig.Follower
-        //elevatorMotor2.SparkF;
-    //public elevatorMotor2
+    // elevatorMotor2.SparkFlexConfig.Follower
+    // elevatorMotor2.SparkF;
+    // public elevatorMotor2
 
     public ElevatorSubsystem() {
 
@@ -58,12 +60,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevator1Encoder = elevatorMotor1.getEncoder();
 
         elevatorMotor2 = new SparkFlex(Constants.Elevator.ELEVATOR_MOTOR2_ID, MotorType.kBrushless);
-        //elevator2PIDController = elevatorMotor1.getClosedLoopController();
+        // elevator2PIDController = elevatorMotor1.getClosedLoopController();
         elevatorMotor2.configure(
-            elevator2PIDConfig.follow(elevatorMotor1),
-            ResetMode.kResetSafeParameters,
-            PersistMode.kPersistParameters);
-        
+                elevator2PIDConfig.follow(elevatorMotor1),
+                ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+
     }
 
     @Override
@@ -95,6 +97,13 @@ public class ElevatorSubsystem extends SubsystemBase {
                 .andThen(() -> zeroEncoder());
     }
 
+    public Command holdPositionCommand() {
+        double position = elevatorMotor1.getEncoder().getPosition();
+        return runOnce(() -> elevator1PIDController.setReference(
+                position,
+                SparkFlex.ControlType.kPosition));
+    }
+
     public Command moveElevatorUpCommand() {
         return run(() -> moveElevatorUp());
     }
@@ -113,22 +122,22 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void moveElevatorUp() {
         elevatorMotor1.set(Constants.Elevator.ELEVATOR_UP_SPEED);
-        //elevatorMotor2.set(Constants.Elevator.ELEVATOR_UP_SPEED);
+        // elevatorMotor2.set(Constants.Elevator.ELEVATOR_UP_SPEED);
     }
 
     public void joysticMoveElevatorUp(double speed) {
         elevatorMotor1.set(speed);
-        //elevatorMotor2.set(speed);
+        // elevatorMotor2.set(speed);
     }
 
     public void moveElevatorDown() {
         elevatorMotor1.set(Constants.Elevator.HOMING_SPEED);
-        //elevatorMotor2.set(Constants.Elevator.HOMING_SPEED);
+        // elevatorMotor2.set(Constants.Elevator.HOMING_SPEED);
     }
 
     public void stopElevatorMotor() {
         elevatorMotor1.set(0);
-        //elevatorMotor2.set(0);
+        // elevatorMotor2.set(0);
     }
 
     public Command stopElevatorMotorCommand() {
