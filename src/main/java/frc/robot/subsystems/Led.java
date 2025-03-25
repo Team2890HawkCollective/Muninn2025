@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.AddressableLEDBufferView;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.LEDPattern.GradientType;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
 
@@ -27,7 +28,13 @@ public class Led {
     static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
     static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
-    //static final AddressableLEDBufferView alignmentLEDS = new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
+    static final AddressableLEDBufferView alignmentLEDS = new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
+
+    
+    private static final LEDPattern rainbow = LEDPattern.rainbow(255, 125);
+    private static final Distance ledSpacing = Meters.of(1 / 60.0);
+    private static final LEDPattern scrollingRainbow = rainbow.scrollAtAbsoluteSpeed(InchesPerSecond.of(1), ledSpacing);
+
     
     public static void initLED(){
         signalLights.setLength(signalLightsBuffer.getLength());
@@ -40,12 +47,18 @@ public class Led {
     }
 
     public static void setColorRainbow() {
-        LEDPattern rainbow = LEDPattern.rainbow(255, 125);
-        Distance ledSpacing = Meters.of(1 / 60.0);
-        LEDPattern scrollingRainbow = rainbow.scrollAtAbsoluteSpeed(InchesPerSecond.of(1), ledSpacing);
+        //LEDPattern rainbow = LEDPattern.rainbow(255, 125);
+        //LEDPattern scrollingRainbow = rainbow.scrollAtAbsoluteSpeed(InchesPerSecond.of(1), ledSpacing);
         scrollingRainbow.applyTo(signalLightsBuffer);
+        signalLights.setData(signalLightsBuffer);
     }
 
+    public static void setColorBreathe(Color firstColor, Color secondColor)
+    {
+        LEDPattern gradiant = LEDPattern.gradient(GradientType.kDiscontinuous, firstColor, secondColor);
+        LEDPattern breathe = gradiant.breathe(Seconds.of(2));
+        breathe.applyTo(signalLightsBuffer);
+    }
     /**
      * Set Color (With Blink)
      * @param color
@@ -73,7 +86,7 @@ public class Led {
     public static void setColorAlignment(Color color){
         LEDPattern blinker = LEDPattern.solid(color);
         //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-        //blinker.applyTo(alignmentLEDS);
+        blinker.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
     }
 
@@ -84,7 +97,7 @@ public class Led {
     public static void setColorAlignmentBlink(Color color){
         LEDPattern blinker = LEDPattern.solid(color);
         blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-        //blinker.applyTo(alignmentLEDS);
+        blinker.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
     }
 
@@ -95,7 +108,7 @@ public class Led {
     public static void turnOffAlignmentLights(){
         LEDPattern blinker = LEDPattern.kOff;
         //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-        //blinker.applyTo(alignmentLEDS);
+        blinker.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
     }
 

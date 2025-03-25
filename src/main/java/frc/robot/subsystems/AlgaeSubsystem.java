@@ -17,6 +17,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.util.Color;
+
 
 public class AlgaeSubsystem extends SubsystemBase {
     private static SparkMax algaeRotationMotor = new SparkMax(Constants.Algae.Rotation.ALGAE_ROTATION_MOTOR_ID,
@@ -105,7 +107,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public Command moveInputAlgaeWheelsCommand() {
-        return runOnce(() -> moveInputAlgaeWheels());
+        return runOnce(() -> moveInputAlgaeWheels()).andThen(() -> Led.setColorBlink(Color.kLimeGreen));
     }
 
     public Command moveOutputAlgaeWheelsCommand() {
