@@ -5,8 +5,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
 import org.dyn4j.dynamics.joint.RevoluteJoint;
+
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.InchesPerSecond;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Percent;
+import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.AddressableLEDBufferView;
@@ -19,7 +27,7 @@ public class Led {
     static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
     static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
-    static final AddressableLEDBufferView alignmentLEDS = new AddressableLEDBufferView(signalLightsBuffer, 200, 255);
+    //static final AddressableLEDBufferView alignmentLEDS = new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
     
     public static void initLED(){
         signalLights.setLength(signalLightsBuffer.getLength());
@@ -31,8 +39,11 @@ public class Led {
         return buffer.getLength();
     }
 
-    public Command setColorCommand(Color color) {
-        return Commands.runOnce(() -> setColor(color));
+    public static void setColorRainbow() {
+        LEDPattern rainbow = LEDPattern.rainbow(255, 125);
+        Distance ledSpacing = Meters.of(1 / 60.0);
+        LEDPattern scrollingRainbow = rainbow.scrollAtAbsoluteSpeed(InchesPerSecond.of(1), ledSpacing);
+        scrollingRainbow.applyTo(signalLightsBuffer);
     }
 
     /**
@@ -41,9 +52,8 @@ public class Led {
      */
     public static void setColorBlink(Color color) {
         LEDPattern blinker = LEDPattern.solid(color);
-        blinker.blink(Seconds.of(.25));
+        blinker.blink(Seconds.of(1.5));
         blinker.applyTo(signalLightsBuffer);
-        signalLights.setData(signalLightsBuffer);
     }
 
     /**
@@ -54,7 +64,6 @@ public class Led {
         LEDPattern blinker = LEDPattern.solid(color);
         //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
         blinker.applyTo(signalLightsBuffer);
-        signalLights.setData(signalLightsBuffer);
     }
 
     /**
@@ -64,7 +73,7 @@ public class Led {
     public static void setColorAlignment(Color color){
         LEDPattern blinker = LEDPattern.solid(color);
         //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-        blinker.applyTo(alignmentLEDS);
+        //blinker.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
     }
 
@@ -75,7 +84,7 @@ public class Led {
     public static void setColorAlignmentBlink(Color color){
         LEDPattern blinker = LEDPattern.solid(color);
         blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-        blinker.applyTo(alignmentLEDS);
+        //blinker.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
     }
 
@@ -86,11 +95,16 @@ public class Led {
     public static void turnOffAlignmentLights(){
         LEDPattern blinker = LEDPattern.kOff;
         //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-        blinker.applyTo(alignmentLEDS);
+        //blinker.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
     }
 
     public static double getMatchTime() {
         return DriverStation.getMatchTime();
+    }
+
+    public static void updatePeriodically() {
+        // Periodically send the latest LED color data to the LED strip for it to display
+        signalLights.setData(signalLightsBuffer);
     }
 }

@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
   private String m_choosenAutoMode;
 
   private Timer disabledTimer;
-  
+
   public Robot() {
     instance = this;
   };
@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    
+
     m_shuffleboardDisplay = new ShuffleboardDisplay();
     m_shuffleboardDisplay.initiateDisplay();
     m_shuffleboardDisplay.initializeAutoChooser();
@@ -81,7 +81,6 @@ public class Robot extends TimedRobot {
     // close servo on startup
     m_CoralSubsystem = new CoralSubsystem();
     m_CoralSubsystem.servoRotateToClosed();
-    
 
     // Create a timer to disable motor brake a few seconds after disable. This will
     // let the robot stop
@@ -90,33 +89,32 @@ public class Robot extends TimedRobot {
 
     // Turn On LEDs
     Led.initLED();
-    Led.setColor(Color.kTeal);
-
+    Led.setColorRainbow();
 
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
-    
-      new Thread(() -> {
+
+    new Thread(() -> {
       UsbCamera camera = CameraServer.startAutomaticCapture();
       camera.setResolution(640, 480);
-      
+
       CvSink cvSink = CameraServer.getVideo();
       CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
-     
+
       Mat source = new Mat();
       Mat output = new Mat();
-      
-      while (!Thread.interrupted()) {
-      if (cvSink.grabFrame(source) == 0) {
-      continue;
-      }
-      Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-      outputStream.putFrame(output);
-      }
-      }).start();
 
-      PathfindingCommand.warmupCommand().schedule();
+      while (!Thread.interrupted()) {
+        if (cvSink.grabFrame(source) == 0) {
+          continue;
+        }
+        Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+        outputStream.putFrame(output);
+      }
+    }).start();
+
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   /**
@@ -138,8 +136,9 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
+    Led.updatePeriodically();
     CommandScheduler.getInstance().run();
-    //m_CoralSubsystem.updateLED();
+    // m_CoralSubsystem.updateLED();
   }
 
   /**
@@ -170,10 +169,10 @@ public class Robot extends TimedRobot {
     m_robotContainer.setMotorBrake(true);
 
     // Zero Encoders
-    m_robotContainer.m_CoralSubsystem.zeroEncoder(); // Coralp  OP\
+    m_robotContainer.m_CoralSubsystem.zeroEncoder(); // Coralp OP\
     m_robotContainer.m_AlgaeSubsystem.zeroEncoder(); // Algae
-    
-    //m_robotContainer.getHomingCommand().schedule();
+
+    // m_robotContainer.getHomingCommand().schedule();
     Command choosenAutoMode = m_shuffleboardDisplay.getAutonomousChoice();
     SmartDashboard.putData("Selected Auto Mode", choosenAutoMode);
     m_autonomousCommand = choosenAutoMode;
@@ -209,15 +208,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(DriverStation.isFMSAttached()){ // The timer acts differently depending on if FMS is controlling it
-      if(DriverStation.getMatchTime() <= 20)
-      {
-        Led.setColorBlink(Color.kPink);
+    if (DriverStation.isFMSAttached()) { // The timer acts differently depending on if FMS is controlling it
+      if (DriverStation.getMatchTime() <= 20) {
+        Led.setColorRainbow();
       }
     } else {
-      if(DriverStation.getMatchTime() >= 115) // In teleop & auto (NO FMS) the timer counts UP.
+      if (DriverStation.getMatchTime() >= 115) // In teleop & auto (NO FMS) the timer counts UP.
       {
-        Led.setColorBlink(Color.kPink);
+        Led.setColorRainbow();
       }
     }
   }
