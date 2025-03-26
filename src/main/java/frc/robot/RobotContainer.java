@@ -29,6 +29,7 @@ import frc.robot.subsystems.TargetingSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import java.security.CodeSigner;
+import java.util.Set;
 import java.util.function.DoubleSupplier;
 
 import org.ejml.dense.block.MatrixOps_MT_DDRB;
@@ -181,7 +182,7 @@ public class RobotContainer {
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     assistantDriverXbox.rightBumper()
         .onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-    assistantDriverXbox.x().whileTrue(m_TargetingSubsystem.autoAlignmentBasic());
+    assistantDriverXbox.x().whileTrue(Commands.defer(()->m_TargetingSubsystem.autoAlignmentBasic(), Set.of(drivebase)));
     //assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand())
         //.onFalse(m_LiftSubsystem.stopLiftMotorCommand());
     //assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())

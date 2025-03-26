@@ -28,7 +28,7 @@ public class Led {
     static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
     static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
-    static final AddressableLEDBufferView alignmentLEDS = new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
+    static final AddressableLEDBufferView alignmentLEDS = signalLightsBuffer.createView(200, 225);//new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
 
     
     private static final LEDPattern rainbow = LEDPattern.rainbow(255, 125);
