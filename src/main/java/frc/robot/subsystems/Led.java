@@ -28,13 +28,7 @@ public class Led {
     static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
     static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
-    static final AddressableLEDBufferView alignmentLEDS = new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
-
-    
-    private static final LEDPattern rainbow = LEDPattern.rainbow(255, 125);
-    private static final Distance ledSpacing = Meters.of(1 / 60.0);
-    private static final LEDPattern scrollingRainbow = rainbow.scrollAtAbsoluteSpeed(InchesPerSecond.of(1), ledSpacing);
-
+    static final AddressableLEDBufferView alignmentLEDS = signalLightsBuffer.createView(200, 225);
     
     public static void initLED(){
         signalLights.setLength(signalLightsBuffer.getLength());
@@ -47,15 +41,16 @@ public class Led {
     }
 
     public static void setColorRainbow() {
-        //LEDPattern rainbow = LEDPattern.rainbow(255, 125);
-        //LEDPattern scrollingRainbow = rainbow.scrollAtAbsoluteSpeed(InchesPerSecond.of(1), ledSpacing);
+        LEDPattern rainbow = LEDPattern.rainbow(255, 125);        
+        Distance ledSpacing = Meters.of(1 / 60.0);
+        LEDPattern scrollingRainbow = rainbow.scrollAtAbsoluteSpeed(InchesPerSecond.of(1), ledSpacing);
         scrollingRainbow.applyTo(signalLightsBuffer);
         signalLights.setData(signalLightsBuffer);
     }
 
     public static void setColorBreathe(Color firstColor, Color secondColor)
     {
-        LEDPattern gradiant = LEDPattern.gradient(GradientType.kDiscontinuous, firstColor, secondColor);
+        LEDPattern gradiant = LEDPattern.gradient(GradientType.kContinuous, firstColor, secondColor);
         LEDPattern breathe = gradiant.breathe(Seconds.of(2));
         breathe.applyTo(signalLightsBuffer);
     }
@@ -65,8 +60,12 @@ public class Led {
      */
     public static void setColorBlink(Color color) {
         LEDPattern blinker = LEDPattern.solid(color);
-        blinker.blink(Seconds.of(1.5));
         blinker.applyTo(signalLightsBuffer);
+        for(int i = 0; i < 10; i++)
+        {
+            signalLights.stop();
+            signalLights.start();
+        }
     }
 
     /**
@@ -74,9 +73,8 @@ public class Led {
      * @param color
      */
     public static void setColor(Color color) {
-        LEDPattern blinker = LEDPattern.solid(color);
-        //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-        blinker.applyTo(signalLightsBuffer);
+        LEDPattern solid = LEDPattern.solid(color);
+        solid.applyTo(signalLightsBuffer);
     }
 
     /**

@@ -89,8 +89,7 @@ public class Robot extends TimedRobot {
 
     // Turn On LEDs
     Led.initLED();
-    Led.setColorBreathe(Color.kTeal, Color.kPink);
-
+    Led.setColorRainbow();
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
     }

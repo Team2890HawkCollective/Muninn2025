@@ -162,9 +162,11 @@ public final class Constants {
       public static final double DOOR_OPEN_ANGLE = 100.0;
       public static final long OUTPUT_DELAY = 3000;
     }
-
-    public static final int TOF_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
-                                             // and then go to http://10.28.90.2:5812/ in a browser.
+    
+    public static final double INTAKE_WHEEL_SPEED = .2;
+    public static final double OUTPUT_WHEEL_SPEED = -1;
+    public static final int INBOARD_SENSOR = 62; // To change the ID for the TOF Sensor, drop the code and enable the bot,
+    public static final int OUTBOARD_SENSORY = 63; // and then go to http://10.28.90.2:5812/ in a browser.
     public static final int TOF_TRIGGER_DIST = 10; // In Millimeters
 
   }
