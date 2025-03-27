@@ -422,6 +422,8 @@ public class TargetingSubsystem extends SubsystemBase {
     }
 
     public Command autoAlignmentOffset(String location) {
+
+        autoBuilderPose.set(AutoBuilder.getCurrentPose());
         // We don't pathfind UNLESS we can see a tag (For now at least). Otherwise, we
         // could hit an allied bots or opponent defense bots.
         if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
