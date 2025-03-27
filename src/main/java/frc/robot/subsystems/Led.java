@@ -28,7 +28,7 @@ public class Led {
     static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
     static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
-    static final AddressableLEDBufferView alignmentLEDS = signalLightsBuffer.createView(200, 225);//new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
+    static final AddressableLEDBufferView alignmentLEDS = signalLightsBuffer.createView(200, 256);//new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
 
     
     private static final LEDPattern rainbow = LEDPattern.rainbow(255, 125);
@@ -58,6 +58,7 @@ public class Led {
         LEDPattern gradiant = LEDPattern.gradient(GradientType.kDiscontinuous, firstColor, secondColor);
         LEDPattern breathe = gradiant.breathe(Seconds.of(2));
         breathe.applyTo(signalLightsBuffer);
+        signalLights.setData(signalLightsBuffer);
     }
     /**
      * Set Color (With Blink)
@@ -67,6 +68,7 @@ public class Led {
         LEDPattern blinker = LEDPattern.solid(color);
         blinker.blink(Seconds.of(1.5));
         blinker.applyTo(signalLightsBuffer);
+        signalLights.setData(signalLightsBuffer);
     }
 
     /**
@@ -77,6 +79,7 @@ public class Led {
         LEDPattern blinker = LEDPattern.solid(color);
         //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
         blinker.applyTo(signalLightsBuffer);
+        signalLights.setData(signalLightsBuffer);
     }
 
     /**

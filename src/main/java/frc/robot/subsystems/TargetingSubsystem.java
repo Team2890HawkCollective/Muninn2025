@@ -61,6 +61,8 @@ public class TargetingSubsystem extends SubsystemBase {
             .getStructTopic("StartingPose", Pose2d.struct).publish();
     StructPublisher<Pose2d> targetPosePublisher = NetworkTableInstance.getDefault()
             .getStructTopic("TargetPose", Pose2d.struct).publish();
+    StructPublisher<Pose2d> myPoseEstimatorPublisher = NetworkTableInstance.getDefault()
+            .getStructTopic("myPoseEstimator", Pose2d.struct).publish();
     StructArrayPublisher<Pose2d> arrayPublisher = NetworkTableInstance.getDefault()
             .getStructArrayTopic("MyPoseArray", Pose2d.struct).publish();
     StructPublisher<Pose2d> currentSwervePose = NetworkTableInstance.getDefault()
@@ -274,6 +276,7 @@ public class TargetingSubsystem extends SubsystemBase {
                     m_field.setRobotPose(poseToUse.pose);
                     SmartDashboard.putData(m_field);
 
+                    myPoseEstimatorPublisher.set(m_poseEstimator.getEstimatedPosition());
                     arrayPublisher.set(new Pose2d[] { drivebase.getPose(), finalPose });
                 } else {
                     // Led.setColorAlignment(Color.kDarkRed);
