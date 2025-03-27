@@ -84,10 +84,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void goToElevatorStage(int elevatorStageValue) {
-        elevator1PIDController.setReference(
-                Constants.Elevator.STAGE_ENCODER_DIFFERENCES[elevatorStageValue]
-                        + Constants.Elevator.BASE_STAGE_ENCODER_VALUE,
-                SparkFlex.ControlType.kPosition);
+        elevator1PIDController.setReference(Constants.Elevator.STAGE_ENCODER_DIFFERENCES[elevatorStageValue] + Constants.Elevator.BASE_STAGE_ENCODER_VALUE, SparkFlex.ControlType.kPosition,ClosedLoopSlot.kSlot0);
     }
 
     public Command goToHomeCommand() {
@@ -99,9 +96,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public Command holdPositionCommand() {
         double position = elevatorMotor1.getEncoder().getPosition();
-        return runOnce(() -> elevator1PIDController.setReference(
-                position,
-                SparkFlex.ControlType.kPosition));
+        return runOnce(() -> elevator1PIDController.setReference(position,SparkFlex.ControlType.kPosition));
     }
 
     public Command moveElevatorUpCommand() {

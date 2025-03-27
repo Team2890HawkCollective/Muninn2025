@@ -224,7 +224,7 @@ public class RobotContainer {
     leftButtons.axisLessThan(1, -0.3).toggleOnTrue(//m_AlgaeSubsystem.AlgaeStartCommand().andThen(
         m_ElevatorSubsystem.moveElevatorDownCommand())//)
         .toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
-    rightButtons.button(7).onTrue(m_ElevatorSubsystem.holdPositionCommand()); // Holds current position
+    rightButtons.button(7).onTrue(Commands.defer(()->m_ElevatorSubsystem.holdPositionCommand(),Set.of(m_ElevatorSubsystem))); // Holds current position
 
     // Manual Coral Tilt
     rightButtons.button(8).onTrue(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
