@@ -57,6 +57,8 @@ public class TargetingSubsystem extends SubsystemBase {
     private SwerveSubsystem swerveSub;
     private SwerveDrive drivebase;
 
+    private Pose2d lastPose;
+
     StructPublisher<Pose2d> startPosePublisher = NetworkTableInstance.getDefault()
             .getStructTopic("StartingPose", Pose2d.struct).publish();
     StructPublisher<Pose2d> targetPosePublisher = NetworkTableInstance.getDefault()
@@ -105,6 +107,8 @@ public class TargetingSubsystem extends SubsystemBase {
                 Pose2d.kZero,
                 VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
                 VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
+        
+        lastPose = drivebase.getPose();
 
         // Set initial bot orientation
         // Params: Limelight Name, Yaw, Yaw Rate, Pitch, Pitch Rate, Roll, Roll Rate
@@ -289,6 +293,12 @@ public class TargetingSubsystem extends SubsystemBase {
                                                                                                   // estimated bot X
                 SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY()); // Display the
                                                                                                   // estimated bot Y
+            } else {
+                SmartDashboard.putNumber("Visible AprilTag TID", -1); // If no tag, set to an arbitrary -1
+                SmartDashboard.putBoolean("Tracking AprilTag?", false); // If no tag, set the bool widget to red
+                                                                        // (false)
+                SmartDashboard.putNumber("Tag Pose X", -1); // If no tag, set to an arbitrary -1
+                SmartDashboard.putNumber("Tag Pose Y", -1); // If no tag, set to an arbitrary -1
             }
         } catch (Exception e) {
 
@@ -445,7 +455,7 @@ public class TargetingSubsystem extends SubsystemBase {
             if (location.toLowerCase().equalsIgnoreCase("left")) {
                 // Left Coral Alignment
                 offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0 + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
+                        (Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0) + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
                                                                                                         // Offset
                         Constants.Coral.LEFT_BRANCH_OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
@@ -456,7 +466,7 @@ public class TargetingSubsystem extends SubsystemBase {
             } else if (location.toLowerCase().equalsIgnoreCase("center")) {
                 // Center/Algae Alignment
                 offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0 + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
+                        (Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0) + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
                                                                                                         // Offset
                         Constants.Algae.OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
@@ -467,7 +477,7 @@ public class TargetingSubsystem extends SubsystemBase {
             } else if (location.toLowerCase().equalsIgnoreCase("right")) {
                 // Right Coral Alignment
                 offsetTransformation = new Transform2d(
-                        Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0 + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
+                        (Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0) + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
                                                                                                         // Offset
                         Constants.Coral.RIGHT_BRANCH_OFFSET, // Horizontal Offset
                         Rotation2d.kZero // Rotation here doesn't matter
@@ -489,8 +499,103 @@ public class TargetingSubsystem extends SubsystemBase {
                     targetPose);
 
             PathConstraints constraints = new PathConstraints(
-                    1.0, // Max Velocity Per Second (Linear) (3 Default)
-                    1.0, // Max Acceleration Per Second (Linear) (3 Default)
+                    3.0, // Max Velocity Per Second (Linear) (3 Default)
+                    3.0, // Max Acceleration Per Second (Linear) (3 Default)
+                    2 * Math.PI, // Max Angular Velocity Per Second (Rotational)
+                    4 * Math.PI // Max Angular Acceleration Per Second (Rotational)
+            );
+            PathPlannerPath path = new PathPlannerPath(
+                    waypoints,
+                    constraints,
+                    new IdealStartingState(
+                            averageVelocity(drivebase.getFieldVelocity().vxMetersPerSecond,
+                                    drivebase.getFieldVelocity().vyMetersPerSecond),
+                            drivebase.getGyroRotation3d().toRotation2d()), // Start with the current velocity and
+                                                                           // heading, keeps the transition smoother
+                    new GoalEndState(0.0, targetPose.getRotation()));
+
+            path.preventFlipping = true; // If the coords are correct, don't flip it. This keeps us from accidentally
+                                         // going to the other side
+
+            // Signal Pathfinding Is Now Controlling Drive
+            // Led.setColorAlignmentBlink(Color.kSkyBlue);
+
+            lastPose = targetPose; // This is for transiting between locations.
+
+            startPosePublisher.set(startingPose);
+            targetPosePublisher.set(targetPose);
+
+            // return Commands.none();
+            return AutoBuilder.followPath(path);
+        } else {
+            // If we don't see a tag, don't have the free will to pathfind.
+            return Commands.none();
+        }
+    }
+
+    public Command transitToTag(String location, int goalTag) {
+        // Transit between scoring locations
+
+        autoBuilderPose.set(AutoBuilder.getCurrentPose());
+        // We don't pathfind UNLESS we can see a tag (For now at least). Otherwise, we
+        // could hit an allied bots or opponent defense bots.
+        //if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
+            Pose2d tagPose = Constants.LimeLight.APRILTAG_FIELD_LAYOUT
+                    .getTagPose((int) goalTag).get()
+                    .toPose2d(); // Pose for visible tag
+            Transform2d offsetTransformation;
+            //Pose2d startingPose = lastPose; // Assum
+            Pose2d startingPose = drivebase.getPose(); // This is the current pose of the bot, estimated by the drivebase
+            Pose2d targetPose; // This will be decided below
+            if (location.toLowerCase().equalsIgnoreCase("left")) {
+                // Left Coral Alignment
+                offsetTransformation = new Transform2d(
+                        (Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0) + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
+                                                                                                        // Offset
+                        Constants.Coral.LEFT_BRANCH_OFFSET, // Horizontal Offset
+                        Rotation2d.kZero // Rotation here doesn't matter
+                );
+                targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert
+                                                                         // so we face towards the tag, not the
+                                                                         // direcetion the tag faces
+            } else if (location.toLowerCase().equalsIgnoreCase("center")) {
+                // Center/Algae Alignment
+                offsetTransformation = new Transform2d(
+                        (Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0) + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
+                                                                                                        // Offset
+                        Constants.Algae.OFFSET, // Horizontal Offset
+                        Rotation2d.kZero // Rotation here doesn't matter
+                );
+                targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert
+                                                                         // so we face towards the tag, not the
+                                                                         // direcetion the tag faces
+            } else if (location.toLowerCase().equalsIgnoreCase("right")) {
+                // Right Coral Alignment
+                offsetTransformation = new Transform2d(
+                        (Constants.LimeLight.ROBOT_SIDE_LENGTH / 2.0) + Constants.LimeLight.BUMPER_WIDTH, // Forward/Backwards
+                                                                                                        // Offset
+                        Constants.Coral.RIGHT_BRANCH_OFFSET, // Horizontal Offset
+                        Rotation2d.kZero // Rotation here doesn't matter
+                );
+                targetPose = invert(tagPose.plus(offsetTransformation)); // Add the offset to the tag's pose and invert
+                                                                         // so we face towards the tag, not the
+                                                                         // direcetion the tag faces
+            } else {
+                targetPose = new Pose2d();
+            }
+
+            SmartDashboard.putNumber("Target Pose X", targetPose.getX());
+            SmartDashboard.putNumber("Target Pose Y", targetPose.getY());
+
+            List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses( // Generate a path given our starting
+                                                                           // (current) and target poses. We won't be
+                                                                           // far enough away to need much more
+                    startingPose,
+                    targetPose);
+
+            PathConstraints constraints = new PathConstraints(
+                    3.0, // Max Velocity Per Second (Linear) (3 Default)
+                    3.0, // Max Acceleration Per Second (Linear) (3 Default)
                     2 * Math.PI, // Max Angular Velocity Per Second (Rotational)
                     4 * Math.PI // Max Angular Acceleration Per Second (Rotational)
             );
@@ -515,10 +620,10 @@ public class TargetingSubsystem extends SubsystemBase {
 
             // return Commands.none();
             return AutoBuilder.followPath(path);
-        } else {
+        //} else {
             // If we don't see a tag, don't have the free will to pathfind.
-            return Commands.none();
-        }
+         //   return Commands.none();
+        //}
     }
 
     public Command autoAlignmentBasic() {
