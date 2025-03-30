@@ -56,9 +56,9 @@ public final class Constants {
   public static class OperatorConstants {
 
     // Joystick Deadband
-    public static final double DEADBAND = 0.1;
-    public static final double LEFT_Y_DEADBAND = 0.1;
-    public static final double RIGHT_X_DEADBAND = 0.1;
+    public static final double DEADBAND = 0.3;
+    public static final double LEFT_Y_DEADBAND = 0.3;
+    public static final double RIGHT_X_DEADBAND = 0.3;
     public static final double TURN_CONSTANT = 6;
 
     public static final int JOYSTICK_X_CHANNEL = 0;
@@ -89,8 +89,8 @@ public final class Constants {
 
     public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
-    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -31.11; //-25.505441665649414; // Old Number  4.2342
-    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -47.140; //-46.79143524169922; // Old Number 6.3520
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -29.5; //-25.505441665649414; // Old Number  4.2342
+    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -42.540; //-46.79143524169922; // Old Number 6.3520
     public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -63.65; // Old Number 10.1144
     public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
     public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
@@ -207,8 +207,8 @@ public final class Constants {
 
     public final class CoralServo {
       public static final int SERVO_PWM_PORT = 9;
-      public static final double DOOR_CLOSED_ANGLE = 40.0;
-      public static final double DOOR_OPEN_ANGLE = 120.0;
+      public static final double DOOR_OPEN_ANGLE = 40.0;
+      public static final double DOOR_CLOSED_ANGLE = 120.0;
       public static final long OUTPUT_DELAY = 3000;
     }
 

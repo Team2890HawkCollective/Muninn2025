@@ -293,8 +293,8 @@ public class RobotContainer {
 
         // rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
         // Driver Controls
-        driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToOpen()); // Close Coral Servo
-        driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToClosed());// .andThen(new
+        driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Close Coral Servo
+        driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen());// .andThen(new
                                                                                 // WaitCommand(1)).andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)));
                                                                                 // // Open Coral Servo
 
