@@ -113,8 +113,6 @@ public class Robot extends TimedRobot {
         outputStream.putFrame(output);
       }
     }).start();
-
-    PathfindingCommand.warmupCommand().schedule();
   }
 
   /**

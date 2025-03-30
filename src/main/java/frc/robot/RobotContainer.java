@@ -139,9 +139,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("homeElevator", m_ElevatorSubsystem.goToHomeCommand());
         NamedCommands.registerCommand("openCoralServo", m_CoralSubsystem.servoRotateToOpen());
         NamedCommands.registerCommand("coralIntake", m_CoralSubsystem.coralIntakeCommand());
-        NamedCommands.registerCommand("alignLeftCoral", m_TargetingSubsystem.autoAlignmentCommand("left"));
-        NamedCommands.registerCommand("alignCenterAlgae", m_TargetingSubsystem.autoAlignmentCommand("center"));
-        NamedCommands.registerCommand("alignRightCoral", m_TargetingSubsystem.autoAlignmentCommand("right"));
     }
 
     /**
@@ -188,8 +185,6 @@ public class RobotContainer {
         assistantDriverXbox.rightBumper()
                 .onTrue(m_CoralSubsystem
                         .rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
-        assistantDriverXbox.x()
-                .whileTrue(Commands.defer(() -> m_TargetingSubsystem.autoAlignmentBasic(), Set.of(drivebase)));
         // assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand())
         // .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
         // assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())

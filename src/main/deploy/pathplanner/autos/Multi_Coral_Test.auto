@@ -9,18 +9,6 @@
           "data": {
             "pathName": "Station_1_FaceTag"
           }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "alignLeftCoral"
-          }
         }
       ]
     }
