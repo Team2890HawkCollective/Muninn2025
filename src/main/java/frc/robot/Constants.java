@@ -77,6 +77,7 @@ public final class Constants {
 
     public static final double ELEVATOR_UP_SPEED = -0.45;
     public static final double HOMING_SPEED = 0.35;
+    public static final double kDt = 0.02;
 
    public static final int CORAL_STAGE_BASE = 0;
     public static final int CORAL_STAGE_L1 = 1;
@@ -88,9 +89,9 @@ public final class Constants {
 
     public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
-    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -35.199; //-25.505441665649414; // Old Number  4.2342
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -31.11; //-25.505441665649414; // Old Number  4.2342
     public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -47.140; //-46.79143524169922; // Old Number 6.3520
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -68.471; // Old Number 10.1144
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -64; // Old Number 10.1144
     public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
     public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
 
@@ -111,6 +112,54 @@ public final class Constants {
     public static final double PID_F = 0;
     public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;
     public static final int LIMIT_SWITCH_PWM_PORT = 1;
+
+    public final class TrapezoidProfile{
+      public static final double kRelativeEncoderScaleRevToMeters = 0.0315;
+      public static final double kAbsoluteEncoderScaleVoltsToMeters = 0.498;
+      public static final double kAbsoluteEncoderOffsetVoltsToMeters = 0.43;
+      
+      public static final double kP = 6;
+      public static final double kI = 0;
+      public static final double kD = 0.46;
+
+      //get from SYSID
+      public static final double kS = 0.04435;
+      public static final double kG = 0.117;
+      public static final double kV = 0.117;
+      public static final double kA = 0.00803;
+
+      public static final double elevatorHomeHeightMeters = Units.inchesToMeters(0);  // only valid when elevator is homed;
+
+      public static final double kToleranceMeters = Units.inchesToMeters(1.0);
+
+      public static final int kElevatorCurrentLimit = 60;
+
+      public static final double kElevatorMaxHeightMeters = Units.inchesToMeters(73);
+      public static final double kElevatorSpeedSafeHeightMeters = Units.inchesToMeters(40);
+      public static final double kElevatorMinHeightMeters = Units.inchesToMeters(17.5);
+
+      public static final double kL1CoralHeightMeters = Units.inchesToMeters(21);
+      public static final double kL2CoralHeightMeters = Units.inchesToMeters(31);
+      public static final double kL3CoralHeightMeters = Units.inchesToMeters(46);
+      public static final double kL4CoralHeightMeters = Units.inchesToMeters(70);
+      
+      public static final double kL1AlgaeHeightMeters = Units.inchesToMeters(24);
+      public static final double kL2AlgaeHeightMeters = Units.inchesToMeters(39);
+      public static final double kL3AlgaeHeightMeters = Units.inchesToMeters(54);  
+
+      public static final double kL4AlgaeWindupHeightMeters = Units.inchesToMeters(70.5);  
+
+      public static final double kSafeHomeHeightMeters = Units.inchesToMeters(0);
+
+      //public static final double kElevatorMaxVelocityMPS = 2.0;  // MPS
+		  public static final double kElevatorMaxAccelerationMPSPS = 4.0; // MPSS  was 6
+
+      public static final double kElevatorEncoderPositionConversionFactor = kRelativeEncoderScaleRevToMeters; 
+      public static final double kElevatorEncoderVelocityConversionFactor = kRelativeEncoderScaleRevToMeters; 
+      
+      
+    }
+
 
   }
 
@@ -143,9 +192,9 @@ public final class Constants {
     public static final double RIGHT_BRANCH_OFFSET = Units.inchesToMeters(4.5); // In Inches
 
     public final class RotationMotor {
-      public static final int CORAL_MOTOR_ID = 60;
+      public static final int CORAL_MOTOR_ID = 61;
       public static final double START_POSITION_ENCODER_VALUE = 0.0; //-1.023809194564819; // This tries to not kill the ramp
-      public static final double SCORE_POSITION_ENCODER_VALUE = -19.618974685668945;
+      public static final double SCORE_POSITION_ENCODER_VALUE = -15.00000286102295;
       // public static final double SCORE_POSITION_ENCODER_VALUE =
       // -17.214284896850586;
       public static final double PID_P = 0.075;
@@ -175,7 +224,7 @@ public final class Constants {
 
     public final class Rotation {
       public static final double MANUAL_SPEED = .7;
-      public static final int ALGAE_ROTATION_MOTOR_ID = 61;
+      public static final int ALGAE_ROTATION_MOTOR_ID = 60;
       public static final double START_POSITION_ENCODER_VALUE = 0;
       public static final double COLLECT_ENCODER_VALUE_POS = 73.09744262695312;
       public static final double CARRY_ENCODER_VALUE = 24.571;
@@ -193,8 +242,8 @@ public final class Constants {
 
     public final class Wheel {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
-      public static final double WHEEL_INTAKE_SPEED = -0.75;
-      public static final double WHEEL_OUTPUT_SPEED = 1.0;
+      public static final double WHEEL_INTAKE_SPEED = 0.3;
+      public static final double WHEEL_OUTPUT_SPEED = -0.45;
 
       // public static final int LIMIT_SWITCH_PORT = 3;
       //public static final int TOF_SENSOR = 61;
@@ -221,7 +270,7 @@ public final class Constants {
     public static  final AprilTagFieldLayout APRILTAG_FIELD_LAYOUT = AprilTagFieldLayout
       .loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
-    public static final double BUMPER_WIDTH = Units.inchesToMeters(2.75); // Get This Value
+    public static final double BUMPER_WIDTH = Units.inchesToMeters(2); // Get This Value // Original: 2.75
     //public static final double ROBOT_WIDTH = Units.inchesToMeters(30 + BUMPER_WIDTH); // Tis a square, don't need this
     public static final double ROBOT_SIDE_LENGTH = Units.inchesToMeters(29);
     public static final Transform2d HALF_ROBOT = new Transform2d(ROBOT_SIDE_LENGTH / 3.0, 0, new Rotation2d());

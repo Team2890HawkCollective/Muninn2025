@@ -69,6 +69,8 @@ public class TargetingSubsystem extends SubsystemBase {
             .getStructTopic("currentSwervePose", Pose2d.struct).publish();
     StructPublisher<Pose2d> autoBuilderPose = NetworkTableInstance.getDefault()
             .getStructTopic("autoBuilderPose", Pose2d.struct).publish();
+    StructPublisher<Pose2d> limelightPosePublisher = NetworkTableInstance.getDefault()
+            .getStructTopic("limelightPose", Pose2d.struct).publish();
 
     private final Field2d m_field = new Field2d();
 
@@ -125,7 +127,7 @@ public class TargetingSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        //updatePoseEstimation();
+        updatePoseEstimation();
     }
 
     public Command updatePoseEstimationCommand() {
@@ -271,11 +273,12 @@ public class TargetingSubsystem extends SubsystemBase {
                                                                                            // timestamp from the
                                                                                            // MegaTag2 Pose.
                     m_poseEstimator.addVisionMeasurement(finalPose, poseToUse.timestampSeconds);
-                    // drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose,
-                    // limelightBotPoseEstimateMT2.timestampSeconds);
+                    //drivebase.addVisionMeasurement(limelightBotPoseEstimateMT2.pose,
+                        //limelightBotPoseEstimateMT2.timestampSeconds);
                     m_field.setRobotPose(poseToUse.pose);
                     SmartDashboard.putData(m_field);
 
+                    limelightPosePublisher.set(poseToUse.pose);
                     myPoseEstimatorPublisher.set(m_poseEstimator.getEstimatedPosition());
                     arrayPublisher.set(new Pose2d[] { drivebase.getPose(), finalPose });
                 } else {

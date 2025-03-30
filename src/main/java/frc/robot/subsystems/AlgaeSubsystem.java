@@ -107,7 +107,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public Command moveInputAlgaeWheelsCommand() {
-        return runOnce(() -> moveInputAlgaeWheels()).andThen(() -> Led.setColorBlink(Color.kLimeGreen));
+        return runOnce(() -> moveInputAlgaeWheels());//.andThen(() -> Led.setColorBlink(Color.kLimeGreen));
     }
 
     public Command moveOutputAlgaeWheelsCommand() {
@@ -153,11 +153,11 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public Command manualAlgaeUpCommand(){
-        return runOnce(()->algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*-1));
+        return runOnce(()->algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*1));
     }
 
     public Command manualAlgaeDownCommand(){
-        return runOnce(()->algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*1));
+        return runOnce(()->algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*-1));
     }
 
     public void zeroEncoder(){
