@@ -164,7 +164,7 @@ public class TargetingSubsystem extends SubsystemBase {
             if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
 
                 // Signal Tag Visible
-                // Led.setColorAlignmentBlink(Color.kLimeGreen);
+                Led.setColorAlignmentBlink(Color.kLimeGreen);
                 Pose2d tagPose = new Pose2d();
                 Optional<Pose3d> tagPosePre = Optional.of(Constants.LimeLight.APRILTAG_FIELD_LAYOUT
                         .getTagPose((int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get());
@@ -220,7 +220,7 @@ public class TargetingSubsystem extends SubsystemBase {
                     limelightPosePublisher.set(poseToUse.pose);
                     visionPoseEstimatorPublisher.set(visionPoseEstimator.getEstimatedPosition());
                 } else {
-                    // Led.setColorAlignment(Color.kDarkRed);
+                    Led.setColorAlignment(Color.kDarkRed);
                 }
                 Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
                 SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX()); // Display the
@@ -320,7 +320,7 @@ public class TargetingSubsystem extends SubsystemBase {
                                          // going to the other side
 
             // Signal Pathfinding Is Now Controlling Drive
-            // Led.setColorAlignmentBlink(Color.kSkyBlue);
+            Led.setColorAlignmentBlink(Color.kSkyBlue);
 
             lastPose = targetPose; // This is for transiting between locations.
 

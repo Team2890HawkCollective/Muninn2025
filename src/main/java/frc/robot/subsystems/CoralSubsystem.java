@@ -102,19 +102,20 @@ public class CoralSubsystem extends SubsystemBase {
     }
 
     public Command coralOutputCommand() {
-        return Commands.none();
-       // return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE);
-                //.andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)));
+        //return Commands.none();
+        return rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE);
+        //.andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)))
+        //.andThen(runOnce(()->Led.setColorCoralServoLights(Color.kTeal)));
                 //.wait(3000)
                 //.andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     }
 
     public Command servoRotateToOpen() {
-        return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE));
+        return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)).andThen(()->Led.setColorCoralServoLights(Color.kTeal));
     }
 
     public Command servoRotateToClosed() {
-        return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE));
+        return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE)).andThen(()->Led.setColorCoralServoLights(Color.kDeepPink));
     }
 
     public void rotateToPosition(double encoderValue) {

@@ -28,7 +28,8 @@ public class Led {
     static final AddressableLED signalLights = new AddressableLED(Constants.LED.SIGNAL_LIGHTS_PORT);
     static final AddressableLEDBuffer signalLightsBuffer = new AddressableLEDBuffer(
             Constants.LED.SIGNAL_LIGHTS_LENGTH);
-    static final AddressableLEDBufferView alignmentLEDS = signalLightsBuffer.createView(200, 256);//new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
+    static final AddressableLEDBufferView alignmentLEDS = signalLightsBuffer.createView(127, 256);//new AddressableLEDBufferView(signalLightsBuffer, 200, 225);
+    static final AddressableLEDBufferView coralServoLeds = signalLightsBuffer.createView(1, 126);
 
     
     private static final LEDPattern rainbow = LEDPattern.rainbow(255, 125);
@@ -112,6 +113,39 @@ public class Led {
         LEDPattern blinker = LEDPattern.kOff;
         //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
         blinker.applyTo(alignmentLEDS);
+        signalLights.setData(signalLightsBuffer);
+    }
+
+    /**
+     * Set Coral Servo Light Chunk (Solid)
+     * @param color
+     */
+    public static void setColorCoralServoLights(Color color){
+        LEDPattern blinker = LEDPattern.solid(color);
+        //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
+        blinker.applyTo(coralServoLeds);
+        signalLights.setData(signalLightsBuffer);
+    }
+
+    /**
+     * Set Coral Servo Light Chunk (Blink)
+     * @param color
+     */
+    public static void setColorCoralServoBlink(Color color){
+        LEDPattern blinker = LEDPattern.solid(color);
+        blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
+        blinker.applyTo(coralServoLeds);
+        signalLights.setData(signalLightsBuffer);
+    }
+
+    /**
+     * Turns Off Coral Servo LEDs
+     * @param color
+     */
+    public static void turnOffCoralServoLights(){
+        LEDPattern blinker = LEDPattern.kOff;
+        //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
+        blinker.applyTo(coralServoLeds);
         signalLights.setData(signalLightsBuffer);
     }
 
