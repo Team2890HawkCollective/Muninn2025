@@ -28,27 +28,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class ShuffleboardDisplay {
 
-    private ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
+    //private ShuffleboardTab mainTab = Shuffleboard.getTab("Main"); // Example: Making more tabs pn the dashboard
     //private ShuffleboardTab PID_Tab = Shuffleboard.getTab("PID_Tab");
     private final SendableChooser<String> universalModeChooser = new SendableChooser<>();
     private final static SendableChooser<String> controlChooser = new SendableChooser<>();
         private SendableChooser<Command> autoChooser;
-        private GenericEntry genericEntryTest = mainTab.add("Generic",0).getEntry();
+        //private GenericEntry genericEntryTest = mainTab.add("Generic",0).getEntry(); // Example: Putting Data on other tabs
     
     
         public void initiateDisplay(){
-            
-            //controlChooser.setDefaultOption("Button Board Control","buttonBoard");
-            //controlChooser.addOption("Manual Control", "manual");
-            //SmartDashboard.putData("Control Mode Chooser", controlChooser);
-    
             universalModeChooser.setDefaultOption("Competition Autos","competiton");
             universalModeChooser.addOption("Testing: Test Autos", "testing");
             universalModeChooser.addOption("Testing: All Autos", "allAutos");
             SmartDashboard.putData("Universal Mode Chooser", universalModeChooser);
-            genericEntryTest.setDouble(12.3);
-    
-            //SmartDashboard.putNumber("Test",1);
+            //genericEntryTest.setDouble(12.3);
         }
     
     
@@ -67,34 +60,9 @@ public class ShuffleboardDisplay {
     
         public Command getAutonomousChoice() {
             return autoChooser.getSelected();
-            //String choosenAuto = universalModeChooser.getSelected();
         }
     
         public static String getControlModeChoice() {
             return controlChooser.getSelected();
-        //String choosenAuto = universalModeChooser.getSelected();
     }
-
-    public void testingPIDTab(SwerveDrive swerveDrive){
-        SwerveModule[] modules = swerveDrive.getModules();
-
-        // Module Configuration
-        SwerveModuleConfiguration frontLeftConfig = modules[0].configuration;
-        SwerveModuleConfiguration frontRightConfig = modules[1].configuration;
-        SwerveModuleConfiguration backLeftConfig = modules[2].configuration;
-        SwerveModuleConfiguration backRightConfig = modules[3].configuration;
-
-        //SmartDashboard.putData("Front Left Drive", frontLeftConfig.velocityPIDF.createPIDController());
-        //SmartDashboard.putData("Front Left Angle", frontLeftConfig.anglePIDF.createPIDController());
-
-        //SmartDashboard.putData("Front Right Drive", frontRightConfig.velocityPIDF.createPIDController());
-        //SmartDashboard.putData("Front Right Angle", frontRightConfig.anglePIDF.createPIDController());
-
-        //SmartDashboard.putData("Back Left Drive", backLeftConfig.velocityPIDF.createPIDController());
-        //SmartDashboard.putData("Back Left Angle", backLeftConfig.anglePIDF.createPIDController());
-
-        //SmartDashboard.putData("Back Right Drive", backRightConfig.velocityPIDF.createPIDController());
-        //SmartDashboard.putData("Back Right Angle", backRightConfig.anglePIDF.createPIDController());
-    }
-
 }

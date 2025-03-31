@@ -189,6 +189,9 @@
         "open": true
       },
       "SmartDashboard": {
+        "Autonomous Choices": {
+          "open": true
+        },
         "Field": {
           "open": true
         },

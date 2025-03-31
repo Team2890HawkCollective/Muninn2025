@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
 import frc.robot.subsystems.swervedrive.Vision.Cameras;
@@ -119,6 +120,7 @@ public class SwerveSubsystem extends SubsystemBase {
       swerveDrive.stopOdometryThread();
     }
     setupPathPlanner();
+    RobotModeTriggers.autonomous().onTrue(Commands.runOnce(this::zeroGyroWithAlliance));
   }
 
   /**
@@ -189,9 +191,9 @@ public class SwerveSubsystem extends SubsystemBase {
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic
               // drive trains
-              new PIDConstants(5.0, 0.0, 0.0),    //Tune this for autonomous drive forward
+              new PIDConstants(1.0, 0.0, 0.0),    //Tune this for autonomous drive forward
               // Translation PID constants      
-              new PIDConstants(5.0, 0.0, 0.0)     //Tune this for autonomous rotation
+              new PIDConstants(1.0, 0.0, 0.0)     //Tune this for autonomous rotation
           // Rotation PID constants
           ),
           config,

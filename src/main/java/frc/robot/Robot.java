@@ -88,8 +88,9 @@ public class Robot extends TimedRobot {
     disabledTimer = new Timer();
 
     // Turn On LEDs
-    Led.initLED();
-    Led.setColorRainbow();
+    //Led.initLED();
+    //Led.setColorBreathe(Color.kTeal, Color.kPink);
+
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
@@ -112,8 +113,6 @@ public class Robot extends TimedRobot {
         outputStream.putFrame(output);
       }
     }).start();
-
-    PathfindingCommand.warmupCommand().schedule();
   }
 
   /**
@@ -135,7 +134,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
-    Led.updatePeriodically();
+    //Led.updatePeriodically();
     CommandScheduler.getInstance().run();
     // m_CoralSubsystem.updateLED();
   }
@@ -145,6 +144,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    CommandScheduler.getInstance().cancelAll(); // Kills all commands when disabled.
     m_robotContainer.setMotorBrake(true);
     disabledTimer.reset();
     disabledTimer.start();
@@ -209,12 +209,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     if (DriverStation.isFMSAttached()) { // The timer acts differently depending on if FMS is controlling it
       if (DriverStation.getMatchTime() <= 20) {
-        Led.setColorRainbow();
+       // Led.setColorRainbow();
       }
     } else {
       if (DriverStation.getMatchTime() >= 115) // In teleop & auto (NO FMS) the timer counts UP.
       {
-        Led.setColorRainbow();
+        //Led.setColorRainbow();
       }
     }
   }

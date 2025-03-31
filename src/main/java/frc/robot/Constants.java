@@ -56,9 +56,9 @@ public final class Constants {
   public static class OperatorConstants {
 
     // Joystick Deadband
-    public static final double DEADBAND = 0.1;
-    public static final double LEFT_Y_DEADBAND = 0.1;
-    public static final double RIGHT_X_DEADBAND = 0.1;
+    public static final double DEADBAND = 0.3;
+    public static final double LEFT_Y_DEADBAND = 0.3;
+    public static final double RIGHT_X_DEADBAND = 0.3;
     public static final double TURN_CONSTANT = 6;
 
     public static final int JOYSTICK_X_CHANNEL = 0;
@@ -77,6 +77,7 @@ public final class Constants {
 
     public static final double ELEVATOR_UP_SPEED = -0.45;
     public static final double HOMING_SPEED = 0.35;
+    public static final double kDt = 0.02;
 
    public static final int CORAL_STAGE_BASE = 0;
     public static final int CORAL_STAGE_L1 = 1;
@@ -88,9 +89,9 @@ public final class Constants {
 
     public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
-    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -35.199; //-25.505441665649414; // Old Number  4.2342
-    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -47.140; //-46.79143524169922; // Old Number 6.3520
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -68.471; // Old Number 10.1144
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -29.5; //-25.505441665649414; // Old Number  4.2342
+    public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -42.540; //-46.79143524169922; // Old Number 6.3520
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -63.65; // Old Number 10.1144
     public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
     public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
 
@@ -111,6 +112,54 @@ public final class Constants {
     public static final double PID_F = 0;
     public static final double POTENTIOMETER_MOVEMENT_SPEED = 0.2;
     public static final int LIMIT_SWITCH_PWM_PORT = 1;
+
+    public final class TrapezoidProfile{
+      public static final double kRelativeEncoderScaleRevToMeters = 0.0315;
+      public static final double kAbsoluteEncoderScaleVoltsToMeters = 0.498;
+      public static final double kAbsoluteEncoderOffsetVoltsToMeters = 0.43;
+      
+      public static final double kP = 6;
+      public static final double kI = 0;
+      public static final double kD = 0.46;
+
+      //get from SYSID
+      public static final double kS = 0.04435;
+      public static final double kG = 0.117;
+      public static final double kV = 0.117;
+      public static final double kA = 0.00803;
+
+      public static final double elevatorHomeHeightMeters = Units.inchesToMeters(0);  // only valid when elevator is homed;
+
+      public static final double kToleranceMeters = Units.inchesToMeters(1.0);
+
+      public static final int kElevatorCurrentLimit = 60;
+
+      public static final double kElevatorMaxHeightMeters = Units.inchesToMeters(73);
+      public static final double kElevatorSpeedSafeHeightMeters = Units.inchesToMeters(40);
+      public static final double kElevatorMinHeightMeters = Units.inchesToMeters(17.5);
+
+      public static final double kL1CoralHeightMeters = Units.inchesToMeters(21);
+      public static final double kL2CoralHeightMeters = Units.inchesToMeters(31);
+      public static final double kL3CoralHeightMeters = Units.inchesToMeters(46);
+      public static final double kL4CoralHeightMeters = Units.inchesToMeters(70);
+      
+      public static final double kL1AlgaeHeightMeters = Units.inchesToMeters(24);
+      public static final double kL2AlgaeHeightMeters = Units.inchesToMeters(39);
+      public static final double kL3AlgaeHeightMeters = Units.inchesToMeters(54);  
+
+      public static final double kL4AlgaeWindupHeightMeters = Units.inchesToMeters(70.5);  
+
+      public static final double kSafeHomeHeightMeters = Units.inchesToMeters(0);
+
+      //public static final double kElevatorMaxVelocityMPS = 2.0;  // MPS
+		  public static final double kElevatorMaxAccelerationMPSPS = 4.0; // MPSS  was 6
+
+      public static final double kElevatorEncoderPositionConversionFactor = kRelativeEncoderScaleRevToMeters; 
+      public static final double kElevatorEncoderVelocityConversionFactor = kRelativeEncoderScaleRevToMeters; 
+      
+      
+    }
+
 
   }
 
@@ -140,17 +189,17 @@ public final class Constants {
 
     // Branches are 13 Inches apart, so 6.5 each from the center.
     public static final double LEFT_BRANCH_OFFSET = Units.inchesToMeters(-17.5); // In Inches
-    public static final double RIGHT_BRANCH_OFFSET = Units.inchesToMeters(4.5); // In Inches
+    public static final double RIGHT_BRANCH_OFFSET = Units.inchesToMeters(-4.25); // In Inches
 
     public final class RotationMotor {
-      public static final int CORAL_MOTOR_ID = 60;
+      public static final int CORAL_MOTOR_ID = 61;
       public static final double START_POSITION_ENCODER_VALUE = 0.0; //-1.023809194564819; // This tries to not kill the ramp
-      public static final double SCORE_POSITION_ENCODER_VALUE = -19.618974685668945;
+      public static final double SCORE_POSITION_ENCODER_VALUE = -15.00000286102295;
       // public static final double SCORE_POSITION_ENCODER_VALUE =
       // -17.214284896850586;
-      public static final double PID_P = 0.075;
+      public static final double PID_P = 0.05;
       public static final double PID_I = 0;
-      public static final double PID_D = 0.01;
+      public static final double PID_D = 0.03;
       public static final double PID_IZ = 0;
       public static final double PID_F = 0;
       public static final double ROTATE_DELAY = 1.25;
@@ -158,8 +207,8 @@ public final class Constants {
 
     public final class CoralServo {
       public static final int SERVO_PWM_PORT = 9;
-      public static final double DOOR_CLOSED_ANGLE = 40.0;
-      public static final double DOOR_OPEN_ANGLE = 100.0;
+      public static final double DOOR_OPEN_ANGLE = 40.0;
+      public static final double DOOR_CLOSED_ANGLE = 120.0;
       public static final long OUTPUT_DELAY = 3000;
     }
     
@@ -177,7 +226,7 @@ public final class Constants {
 
     public final class Rotation {
       public static final double MANUAL_SPEED = .7;
-      public static final int ALGAE_ROTATION_MOTOR_ID = 61;
+      public static final int ALGAE_ROTATION_MOTOR_ID = 60;
       public static final double START_POSITION_ENCODER_VALUE = 0;
       public static final double COLLECT_ENCODER_VALUE_POS = 73.09744262695312;
       public static final double CARRY_ENCODER_VALUE = 24.571;
@@ -195,8 +244,8 @@ public final class Constants {
 
     public final class Wheel {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
-      public static final double WHEEL_INTAKE_SPEED = -0.75;
-      public static final double WHEEL_OUTPUT_SPEED = 1.0;
+      public static final double WHEEL_INTAKE_SPEED = 0.3;
+      public static final double WHEEL_OUTPUT_SPEED = -0.45;
 
       // public static final int LIMIT_SWITCH_PORT = 3;
       //public static final int TOF_SENSOR = 61;
@@ -223,129 +272,10 @@ public final class Constants {
     public static  final AprilTagFieldLayout APRILTAG_FIELD_LAYOUT = AprilTagFieldLayout
       .loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
-    public static final double BUMPER_WIDTH = Units.inchesToMeters(2.75); // Get This Value
+    public static final double BUMPER_WIDTH = Units.inchesToMeters(0.0); // Get This Value // Original: 2.75
     //public static final double ROBOT_WIDTH = Units.inchesToMeters(30 + BUMPER_WIDTH); // Tis a square, don't need this
     public static final double ROBOT_SIDE_LENGTH = Units.inchesToMeters(29);
     public static final Transform2d HALF_ROBOT = new Transform2d(ROBOT_SIDE_LENGTH / 3.0, 0, new Rotation2d());
-
-    // Tag Relative Alignment Constants
-    public static class TagRelative{
-    	public static final double X_REEF_ALIGNMENT_P = 3.3;
-    	public static final double Y_REEF_ALIGNMENT_P = 3.3;
-    	public static final double ROT_REEF_ALIGNMENT_P = 0.058;
-    
-    	public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
-    	public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
-    	public static final double X_SETPOINT_REEF_ALIGNMENT = -0.34;  // Vertical pose
-    	public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
-    	public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.16;  // Horizontal pose
-    	public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.02;
-    
-    	public static final double DONT_SEE_TAG_WAIT_TIME = 1;
-    	public static final double POSE_VALIDATION_TIME = 0.3;
-    }
-    
-    // View For AprilTag Labeling: Red Barge Is On Bottom
-    public static class BlueAprilTags {
-      // Coral Stations Tags
-      public static final int UPPER_CORAL_STATION = 13;
-      public static final int LOWER_CORAL_STATION = 12;
-
-      // Reef Tags, Labled As Clock Positions
-      public static final int REEF_ONE_POSITION = 20; // Branches J & I
-      public static final int REEF_THREE_POSITION = 21; // Branches H & G
-      public static final int REEF_FIVE_POSITION = 22; // Branches F & E
-      public static final int REEF_SEVEN_POSITION = 17; // Branches D & C
-      public static final int REEF_NINE_POSITION = 18; // Branches B & A
-      public static final int REEF_ELEVEN_POSITION = 19; // Branches L & K
-      public static final Integer[] REEF_APRILTAGS = { 17, 18, 19, 20, 21, 22 };
-
-      // Barge Tags
-      public static final int BLUE_BARGE = 14;
-      public static final int RED_BARGE = 15;
-
-      // Processor Tags
-      public static final int PROCESSOR = 16;
-    }
-
-    // View For AprilTag Labeling: Red Barge Is On Bottom
-    public static class RedAprilTags {
-      // Coral Stations Tags
-      public static final int UPPER_CORAL_STATION = 2;
-      public static final int LOWER_CORAL_STATION = 1;
-
-      // Reef Tags, Labled As Clock Positions
-      public static final int REEF_ONE_POSITION = 8; // Branches D & C
-      public static final int REEF_THREE_POSITION = 7; // Branches B & A
-      public static final int REEF_FIVE_POSITION = 6; // Branches L & K
-      public static final int REEF_SEVEN_POSITION = 11; // Branches J & I
-      public static final int REEF_NINE_POSITION = 10; // Branches H & G
-      public static final int REEF_ELEVEN_POSITION = 9; // Branches F & E
-      public static final Integer[] REEF_APRILTAGS = { 6, 7, 8, 9, 10, 11 };
-
-      // Barge Tags
-      public static final int BLUE_BARGE = 4;
-      public static final int RED_BARGE = 5;
-
-      // Processor Tags
-      public static final int PROCESSOR = 3;
-    }
-
-    public static class BlueReefPositions {
-      public static class CoralPoses {
-        // FMS Branch Names
-        public static final Pose2d A = new Pose2d(3.215, 4.472, Rotation2d.fromDegrees(0));
-        public static final Pose2d B = new Pose2d(3.215, 4.160, Rotation2d.fromDegrees(0));
-        public static final Pose2d C = new Pose2d(3.471, 3.148, Rotation2d.fromDegrees(60));
-        public static final Pose2d D = new Pose2d(3.749, 2.989, Rotation2d.fromDegrees(60));
-        public static final Pose2d E = new Pose2d(4.716, 2.695, Rotation2d.fromDegrees(120));
-        public static final Pose2d F = new Pose2d(5.001, 2.858, Rotation2d.fromDegrees(120));
-        public static final Pose2d G = new Pose2d(5.748, 3.556, Rotation2d.fromDegrees(180));
-        public static final Pose2d H = new Pose2d(5.748, 3.886, Rotation2d.fromDegrees(180));
-        public static final Pose2d I = new Pose2d(5.517, 4.890, Rotation2d.fromDegrees(240));
-        public static final Pose2d J = new Pose2d(5.253, 5.045, Rotation2d.fromDegrees(240));
-        public static final Pose2d K = new Pose2d(4.255, 5.337, Rotation2d.fromDegrees(300));
-        public static final Pose2d L = new Pose2d(3.971, 5.191, Rotation2d.fromDegrees(300));
-      }
-
-      public static class AlgaePoses {
-        // Clock Positions Relative To Scoring Table (6 o'clock)
-        public static final Pose2d ONE = new Pose2d();
-        public static final Pose2d THREE = new Pose2d();
-        public static final Pose2d FIVE = new Pose2d();
-        public static final Pose2d SEVEN = new Pose2d();
-        public static final Pose2d NINE = new Pose2d();
-        public static final Pose2d ELEVEN = new Pose2d();
-      }
-    }
-
-    public static class RedReefPositions {
-      public static class CoralPoses {
-        // FMS Branch Names
-        public static final Pose2d A = new Pose2d(14.337, 3.571, Rotation2d.fromDegrees(180));
-        public static final Pose2d B = new Pose2d(14.337, 3.872, Rotation2d.fromDegrees(180));
-        public static final Pose2d C = new Pose2d(14.109, 4.912, Rotation2d.fromDegrees(240));
-        public static final Pose2d D = new Pose2d(13.817, 5.068, Rotation2d.fromDegrees(240));
-        public static final Pose2d E = new Pose2d(12.813, 5.360, Rotation2d.fromDegrees(300));
-        public static final Pose2d F = new Pose2d(12.521, 5.195, Rotation2d.fromDegrees(300));
-        public static final Pose2d G = new Pose2d(11.791, 4.465, Rotation2d.fromDegrees(0));
-        public static final Pose2d H = new Pose2d(11.791, 4.146, Rotation2d.fromDegrees(0));
-        public static final Pose2d I = new Pose2d(12.037, 3.142, Rotation2d.fromDegrees(60));
-        public static final Pose2d J = new Pose2d(12.320, 2.978, Rotation2d.fromDegrees(60));
-        public static final Pose2d K = new Pose2d(13.306, 2.686, Rotation2d.fromDegrees(120));
-        public static final Pose2d L = new Pose2d(13.580, 2.850, Rotation2d.fromDegrees(120));
-      }
-
-      public static class AlgaePoses {
-        // Clock Positions Relative To Scoring Table (6 o'clock)
-        public static final Pose2d ONE = new Pose2d();
-        public static final Pose2d THREE = new Pose2d();
-        public static final Pose2d FIVE = new Pose2d();
-        public static final Pose2d SEVEN = new Pose2d();
-        public static final Pose2d NINE = new Pose2d();
-        public static final Pose2d ELEVEN = new Pose2d();
-      }
-    }
   }
 
   public static class LED {
