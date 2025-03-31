@@ -42,7 +42,7 @@ public class Led {
 
     public static void setColorRainbow() {
         LEDPattern rainbow = LEDPattern.rainbow(255, 125);        
-        Distance ledSpacing = Meters.of(1 / 60.0);
+        Distance ledSpacing = Meters.of(1 / 120.0);
         LEDPattern scrollingRainbow = rainbow.scrollAtAbsoluteSpeed(InchesPerSecond.of(1), ledSpacing);
         scrollingRainbow.applyTo(signalLightsBuffer);
         signalLights.setData(signalLightsBuffer);
