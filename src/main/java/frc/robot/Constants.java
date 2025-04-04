@@ -280,7 +280,7 @@ public final class Constants {
 
     public static final int[] ALL_REEF_APRILTAGS = { 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22 };
 
-    public static  final AprilTagFieldLayout APRILTAG_FIELD_LAYOUT = AprilTagFieldLayout
+    public static final AprilTagFieldLayout APRILTAG_FIELD_LAYOUT = AprilTagFieldLayout
       .loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
     public static final double BUMPER_WIDTH = Units.inchesToMeters(0.0); // Get This Value // Original: 2.75

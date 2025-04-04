@@ -173,7 +173,7 @@ public class TargetingSubsystem extends SubsystemBase {
             if (visionUpdates && LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
 
                 // Signal Tag Visible
-                Led.setColorAlignment(Color.kLawnGreen);
+                Led.setColorAlignmentBlink(Color.kLawnGreen);
                 Pose2d tagPose = new Pose2d();
                 Optional<Pose3d> tagPosePre = Optional.of(Constants.LimeLight.APRILTAG_FIELD_LAYOUT
                         .getTagPose((int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get());
@@ -229,7 +229,7 @@ public class TargetingSubsystem extends SubsystemBase {
                     limelightPosePublisher.set(poseToUse.pose);
                     visionPoseEstimatorPublisher.set(visionPoseEstimator.getEstimatedPosition());
                 } else {
-                        Led.setColorAlignment(Color.kDarkRed);
+                        Led.setColorAlignment(Color.kWhite);
                 }
                 Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
                 SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX()); // Display the

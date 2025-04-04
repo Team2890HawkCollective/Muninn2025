@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
 
     // Turn On LEDs
     Led.initLED();
-    Led.setColor(Color.kGold);
+    //Led.setColor(Color.kGold);
     //Led.setColorBreathe(Color.kTeal, Color.kPink);
 
     if (isSimulation()) {
