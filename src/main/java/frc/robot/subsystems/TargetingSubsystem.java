@@ -58,6 +58,7 @@ public class TargetingSubsystem extends SubsystemBase {
     private SwerveDrive drivebase;
 
     private Pose2d lastPose;
+    private boolean visionUpdates = false;
 
     StructPublisher<Pose2d> startPosePublisher = NetworkTableInstance.getDefault()
             .getStructTopic("StartingPose", Pose2d.struct).publish();
@@ -136,6 +137,14 @@ public class TargetingSubsystem extends SubsystemBase {
         }
     }
 
+    public void enableVisionUpdates(){
+        visionUpdates = true;
+    }
+
+    public void disableVisionUpdates(){
+        visionUpdates = false;
+    }
+
     public Command updatePoseEstimationCommand() {
         return runOnce(() -> updatePoseEstimation());
     }
@@ -161,10 +170,10 @@ public class TargetingSubsystem extends SubsystemBase {
 
         try {
 
-            if (LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
+            if (visionUpdates && LimelightHelpers.getTV(Constants.LimeLight.LIMELIGHT_NAME)) {
 
                 // Signal Tag Visible
-                Led.setColorAlignmentBlink(Color.kLimeGreen);
+                Led.setColorAlignment(Color.kLawnGreen);
                 Pose2d tagPose = new Pose2d();
                 Optional<Pose3d> tagPosePre = Optional.of(Constants.LimeLight.APRILTAG_FIELD_LAYOUT
                         .getTagPose((int) LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME)).get());
@@ -220,7 +229,7 @@ public class TargetingSubsystem extends SubsystemBase {
                     limelightPosePublisher.set(poseToUse.pose);
                     visionPoseEstimatorPublisher.set(visionPoseEstimator.getEstimatedPosition());
                 } else {
-                    Led.setColorAlignment(Color.kDarkRed);
+                        Led.setColorAlignment(Color.kDarkRed);
                 }
                 Pose2d drivebaseEstimatedPose = this.drivebase.getPose();
                 SmartDashboard.putNumber("Bot Pose Estimation X", drivebaseEstimatedPose.getX()); // Display the
@@ -228,6 +237,7 @@ public class TargetingSubsystem extends SubsystemBase {
                 SmartDashboard.putNumber("Bot Pose Estimation Y", drivebaseEstimatedPose.getY()); // Display the
                                                                                                   // estimated bot Y
             } else {
+                Led.setColorAlignment(Color.kWhite);
                 SmartDashboard.putNumber("Visible AprilTag TID", -1); // If no tag, set to an arbitrary -1
                 SmartDashboard.putBoolean("Tracking AprilTag?", false); // If no tag, set the bool widget to red
                                                                         // (false)

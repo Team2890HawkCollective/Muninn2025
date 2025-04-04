@@ -115,7 +115,7 @@ public class CoralSubsystem extends SubsystemBase {
     }
 
     public Command servoRotateToClosed() {
-        return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE)).andThen(()->Led.setColorCoralServoLights(Color.kDeepPink));
+        return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_CLOSED_ANGLE)).andThen(()->Led.setColorCoralServoLights(Color.kPurple));
     }
 
     public void rotateToPosition(double encoderValue) {

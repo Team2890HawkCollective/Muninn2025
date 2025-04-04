@@ -28,6 +28,8 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     private static SparkMax algaeWheelMotor = new SparkMax(Constants.Algae.Wheel.ALGAE_WHEEL_MOTOR_ID,
             MotorType.kBrushless);
+    private static SparkMaxConfig algaeWheelPIDConfig = new SparkMaxConfig();
+    private static SparkClosedLoopController algaeWheelPIDController;
 
    // public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Algae.Wheel.TOF_SENSOR);
 
@@ -47,9 +49,13 @@ public class AlgaeSubsystem extends SubsystemBase {
                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
         algaeRotationPIDConfig.smartCurrentLimit(80);
-        algaeRotationMotor.configure(algaeRotationPIDConfig, ResetMode.kResetSafeParameters,
-                PersistMode.kPersistParameters);
+        algaeRotationMotor.configure(algaeRotationPIDConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         algaeRotationPIDController = algaeRotationMotor.getClosedLoopController();
+
+        algaeWheelPIDConfig.closedLoop.pid(.05, 0, 0);
+        algaeWheelMotor.configure(algaeWheelPIDConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        algaeWheelPIDController = algaeWheelMotor.getClosedLoopController();
+
     }
 
     @Override
@@ -60,6 +66,26 @@ public class AlgaeSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("Algae TOF Distance", TOFSensor.getRange());
         //manualAlgaeRotation();
     }
+
+    public void testManualAlgaeRotateUp()
+    {
+        algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED);
+    }
+    public void testManualAlgaeRotateDown()
+    {
+        algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*-1);
+    }
+
+    public Command testManualAlgaeRotateUpCommand()
+    {
+        return runOnce(() -> testManualAlgaeRotateUp());
+    }
+
+    public Command testManualAlgaeRotateDownCommand()
+    {
+        return runOnce(() -> testManualAlgaeRotateDown());
+    }
+
 
     public void manualAlgaeRotation() {
         if (Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")) {
@@ -95,7 +121,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public Command AlgaeOutputCommand() {
-        return rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ENCODER_VALUE_POS);
+        return rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ALGAE_ENCODER_VALUE);
     }
 
     public Command AlgaeStartCommand() {
@@ -107,7 +133,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public Command moveInputAlgaeWheelsCommand() {
-        return runOnce(() -> moveInputAlgaeWheels());//.andThen(() -> Led.setColorBlink(Color.kLimeGreen));
+        return run(() -> moveInputAlgaeWheels()).until(() -> algaeWheelMotor.getOutputCurrent() >= Constants.Algae.Wheel.INTAKEN_ALGAE_WHEEL_CURRENT).andThen(holdAlgaeCommand());//.andThen(() -> Led.setColorBlink(Color.kLimeGreen));
     }
 
     public Command moveOutputAlgaeWheelsCommand() {
@@ -162,6 +188,19 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     public void zeroEncoder(){
         algaeRotationMotor.getEncoder().setPosition(0);
+    }
+
+
+    //hold wheel positions
+    public void holdAlgaeIntake()
+    {
+       
+        algaeWheelPIDController.setReference(algaeWheelMotor.getEncoder().getPosition(), SparkMax.ControlType.kPosition);
+    }
+
+    public Command holdAlgaeCommand()
+    {
+        return runOnce(() -> holdAlgaeIntake());
     }
 
 }

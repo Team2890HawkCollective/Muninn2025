@@ -88,7 +88,8 @@ public class Robot extends TimedRobot {
     disabledTimer = new Timer();
 
     // Turn On LEDs
-    //Led.initLED();
+    Led.initLED();
+    Led.setColor(Color.kGold);
     //Led.setColorBreathe(Color.kTeal, Color.kPink);
 
     if (isSimulation()) {
@@ -170,12 +171,15 @@ public class Robot extends TimedRobot {
     // Zero Encoders
     m_robotContainer.m_CoralSubsystem.zeroEncoder(); // Coralp OP\
     m_robotContainer.m_AlgaeSubsystem.zeroEncoder(); // Algae
+    m_robotContainer.drivebase.zeroGyroWithAlliance();
+
+    m_robotContainer.m_TargetingSubsystem.disableVisionUpdates();
 
     // m_robotContainer.getHomingCommand().schedule();
     Command choosenAutoMode = m_shuffleboardDisplay.getAutonomousChoice();
     SmartDashboard.putData("Selected Auto Mode", choosenAutoMode);
     m_autonomousCommand = choosenAutoMode;
-    // m_autonomousCommand = m_shuffleboardDisplay.getAutonomousCommand();
+    //m_autonomousCommand = m_shuffleboardDisplay.getAutonomousCommand();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -195,6 +199,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.m_TargetingSubsystem.enableVisionUpdates();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     } else {

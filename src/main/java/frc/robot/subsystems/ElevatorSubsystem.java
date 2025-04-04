@@ -134,8 +134,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public Command holdPositionCommand() {
+        return runOnce(()->holdPosition());
+    }
+
+    public void holdPosition(){
         double position = elevatorMotor1.getEncoder().getPosition();
-        return runOnce(() -> elevator1PIDController.setReference(position,SparkFlex.ControlType.kPosition));
+        elevator1PIDController.setReference(position,SparkFlex.ControlType.kPosition);
     }
 
     public Command moveElevatorUpCommand() {

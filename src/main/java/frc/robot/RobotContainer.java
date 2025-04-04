@@ -60,7 +60,7 @@ public class RobotContainer {
     public final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve"));
 
-    private final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase);
+    public final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase);
     // m_TargetingSubsystem.initializeLimeLight();
     /**
      * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -136,9 +136,16 @@ public class RobotContainer {
         NamedCommands.registerCommand("Coral_Level_4_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(4)
                 .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
                 .andThen(m_CoralSubsystem.coralOutputCommand()));
+        NamedCommands.registerCommand("Algae_Level_1_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(5));
+        NamedCommands.registerCommand("Algae_Level_2_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(6));
+
+        NamedCommands.registerCommand("CollectAlgaePos", m_AlgaeSubsystem.AlgaeOutputCommand());
+        NamedCommands.registerCommand("CarryAlgaePos", m_AlgaeSubsystem.AlgaeStartCommand());
+
         NamedCommands.registerCommand("homeElevator", m_ElevatorSubsystem.goToHomeCommand());
         NamedCommands.registerCommand("openCoralServo", m_CoralSubsystem.servoRotateToOpen());
         NamedCommands.registerCommand("coralIntake", m_CoralSubsystem.coralIntakeCommand());
+        NamedCommands.registerCommand("intakeAlgae", m_AlgaeSubsystem.moveInputAlgaeWheelsCommand());
     }
 
     /**
@@ -169,10 +176,12 @@ public class RobotContainer {
         // if(Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")){
         // if(ShuffleboardDisplay.getControlModeChoice().equalsIgnoreCase("manual")){
         // Assistant Driver Manual Control
-        assistantDriverXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand())
-                .onFalse(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Up
-        assistantDriverXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand())
-                .onFalse(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Down
+        //assistantDriverXbox.y().whileTrue(m_ElevatorSubsystem.moveElevatorUpCommand())
+                //.onFalse(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Up
+        //assistantDriverXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand())
+                //.onFalse(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Down
+        assistantDriverXbox.y().whileTrue(m_AlgaeSubsystem.testManualAlgaeRotateUpCommand()).onFalse(m_AlgaeSubsystem.stopRotationMotorCommand());
+        assistantDriverXbox.a().whileTrue(m_AlgaeSubsystem.testManualAlgaeRotateDownCommand()).onFalse(m_AlgaeSubsystem.stopRotationMotorCommand());
         assistantDriverXbox.b().onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
         assistantDriverXbox.povLeft().onTrue(m_AlgaeSubsystem.AlgaeStartCommand()); // Algae Start Position
         assistantDriverXbox.povUp().onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()); // Algae Carry Position
@@ -193,13 +202,13 @@ public class RobotContainer {
         // } else {
         // Elevator Stage Buttons
         leftButtons.button(1)
-                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
-                        .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                        .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
+                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6));
+                        //.andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                        //.andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
         leftButtons.button(2)
-                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5)
-                        .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                        .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
+                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5));
+                       // .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                       // .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
         leftButtons.button(3)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4)
                         .andThen(m_AlgaeSubsystem.AlgaeStartCommand())
@@ -241,7 +250,7 @@ public class RobotContainer {
 
         // Algae
         rightButtons.axisGreaterThan(0, 0.3).onTrue(m_AlgaeSubsystem.AlgaeStartCommand()); // Start Position
-        rightButtons.axisLessThan(0, -0.3).onTrue(m_AlgaeSubsystem.AlgaeCarryCommand()); // Carry Position
+        rightButtons.axisLessThan(0, -0.3).onTrue(m_AlgaeSubsystem.AlgaeOutputCommand()); // Carry Position
         rightButtons.axisGreaterThan(1, 0.3).toggleOnTrue(m_AlgaeSubsystem.manualAlgaeUpCommand())
                 .toggleOnFalse(m_AlgaeSubsystem.stopRotationMotorCommand()); // Manual Up
         rightButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.manualAlgaeDownCommand())
@@ -293,8 +302,8 @@ public class RobotContainer {
                                                                                 // WaitCommand(1)).andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)));
                                                                                 // // Open Coral Servo
 
-        driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand())
-                .onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
+        driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand());
+                //.onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
         driverXbox.rightTrigger().whileTrue(m_AlgaeSubsystem.moveOutputAlgaeWheelsCommand())
                 .onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Output Algae
 

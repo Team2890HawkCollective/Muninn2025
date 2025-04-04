@@ -99,11 +99,11 @@ public class LiftSubsystem extends SubsystemBase {
   }
 
   public void moveLiftUp() { // In
-    liftMotor.set(0.7);
+    liftMotor.set(0.5);
   }
 
   public void moveLiftDown() { // Out
-    liftMotor.set(-0.5);
+    liftMotor.set(-0.2);
   }
 
   public static void toggleRatchet(boolean toggle) {

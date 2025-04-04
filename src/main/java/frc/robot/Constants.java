@@ -92,8 +92,8 @@ public final class Constants {
     public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -29.5; //-25.505441665649414; // Old Number  4.2342
     public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -42.540; //-46.79143524169922; // Old Number 6.3520
     public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -63.65; // Old Number 10.1144
-    public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = 5.139; // Get Values
-    public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = 3.217; // Get Values
+    public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = -6.1; // Get Values
+    public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = -22.7; // Get Values
 
     public static final double[] STAGE_ENCODER_DIFFERENCES = {
         BASE_STAGE_ENCODER_VALUE,
@@ -232,7 +232,16 @@ public final class Constants {
       public static final double CARRY_ENCODER_VALUE = 24.571;
       public static final double PROCESSOR_ENCODER_VALUE = 57.50067901611328;
       public static final double LIFT_POSITION_ENCODER_VALUE = 19.952302932739258;
-      public static final double PID_P = 0.45;
+
+      //new algae encoders for new arm
+      public static final double GROUND_PICKUP_ALGAE_ENCODER_VALUE = -21.38085174560547;
+      public static final double PROCESSOR_ALGAE_ENCODER_VALUE = -16.59521484375;
+      public static final double COLLECT_ALGAE_ENCODER_VALUE = -3.738091468811035;
+
+
+
+
+      public static final double PID_P = 0.05;
       public static final double PID_I = 0;
       public static final double PID_D = 0.1;
       public static final double PID_IZ = 0;
@@ -244,8 +253,10 @@ public final class Constants {
 
     public final class Wheel {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
-      public static final double WHEEL_INTAKE_SPEED = 0.3;
-      public static final double WHEEL_OUTPUT_SPEED = -0.45;
+      public static final double WHEEL_INTAKE_SPEED = -0.5;
+      public static final double WHEEL_OUTPUT_SPEED = 1.0;
+      public static final double INTAKEN_ALGAE_WHEEL_CURRENT = 80;
+
 
       // public static final int LIMIT_SWITCH_PORT = 3;
       //public static final int TOF_SENSOR = 61;
@@ -258,7 +269,7 @@ public final class Constants {
   public static class ShuffleboardConstants {
 
     // Shuffleboard Constants
-    public static final String UNIVERSAL_MODE_CHOICE = "competition"; // Choices for what Autos to load. Valid Choices:
+    public static final String UNIVERSAL_MODE_CHOICE = "allAutos"; // Choices for what Autos to load. Valid Choices:
                                                                    // competiton, testing, allAutos
     public static final String CONTROL_MODE = "manual"; // manual or buttonboard
   }

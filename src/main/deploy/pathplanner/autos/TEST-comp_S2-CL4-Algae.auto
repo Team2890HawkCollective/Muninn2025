@@ -1,0 +1,91 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stationary"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral_Level_4_HalfCycle"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "openCoralServo"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "homeElevator"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Algae_Level_1_HalfCycle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectAlgaePos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeAlgae"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CarryAlgaePos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "homeElevator"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Test_Autos",
+  "choreoAuto": false
+}
