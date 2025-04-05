@@ -55,7 +55,7 @@ public class AlgaeSubsystem extends SubsystemBase {
         algaeRotationPIDController = algaeRotationMotor.getClosedLoopController();
 
         algaeWheelPIDConfig.closedLoop.pid(.05, 0, 0);
-        algaeWheelPIDConfig.smartCurrentLimit(40);
+        algaeWheelPIDConfig.smartCurrentLimit(60);
         algaeWheelMotor.configure(algaeWheelPIDConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         algaeWheelPIDController = algaeWheelMotor.getClosedLoopController();
 

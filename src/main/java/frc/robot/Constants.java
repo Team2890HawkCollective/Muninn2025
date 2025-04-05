@@ -56,7 +56,7 @@ public final class Constants {
   public static class OperatorConstants {
 
     // Joystick Deadband
-    public static final double DEADBAND = 0.2;
+    public static final double DEADBAND = 0.08;
     public static final double LEFT_Y_DEADBAND = 0.3;
     public static final double RIGHT_X_DEADBAND = 0.3;
     public static final double TURN_CONSTANT = 6;
@@ -255,7 +255,7 @@ public final class Constants {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
       public static final double WHEEL_INTAKE_SPEED = -1.0;
       public static final double WHEEL_OUTPUT_SPEED = 1.0;
-      public static final double INTAKEN_ALGAE_WHEEL_CURRENT = 40;
+      public static final double INTAKEN_ALGAE_WHEEL_CURRENT = 60;
 
 
       // public static final int LIMIT_SWITCH_PORT = 3;

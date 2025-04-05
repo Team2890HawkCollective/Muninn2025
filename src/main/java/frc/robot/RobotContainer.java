@@ -61,6 +61,8 @@ public class RobotContainer {
             "swerve"));
 
     public final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase);
+
+    public Command defaultCommand = Commands.none();
     // m_TargetingSubsystem.initializeLimeLight();
     /**
      * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -173,6 +175,8 @@ public class RobotContainer {
         Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
                 driveDirectAngleKeyboard);
 
+        defaultCommand = driveRobotOrientedAngularVelocity;
+
         // if(Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")){
         // if(ShuffleboardDisplay.getControlModeChoice().equalsIgnoreCase("manual")){
         // Assistant Driver Manual Control
@@ -203,11 +207,11 @@ public class RobotContainer {
         // Elevator Stage Buttons
         leftButtons.button(1)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
-                .andThen(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                .andThen(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).andThen(new WaitCommand(1.5))
                         .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
         leftButtons.button(2)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5)
-                .andThen(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                .andThen(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).andThen(new WaitCommand(1.5))
                         .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
         leftButtons.button(3)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4)
@@ -300,8 +304,8 @@ public class RobotContainer {
 
         // rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
         // Driver Controls
-        driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Close Coral Servo
-        driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen());// .andThen(new
+        //driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Close Coral Servo
+        //driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen());// .andThen(new
                                                                                 // WaitCommand(1)).andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)));
                                                                                 // // Open Coral Servo
 
@@ -414,5 +418,13 @@ public class RobotContainer {
         m_LiftSubsystem.stopLiftMotor();
         m_AlgaeSubsystem.stopWheels();
         m_AlgaeSubsystem.stopRotationMotor();
+    }
+
+    public Command enableDriverControlOverride(){
+        return Commands.runOnce(()->drivebase.setDefaultCommand(Commands.none()));
+    }
+
+    public Command disableDriverControlOverride(){
+        return Commands.runOnce(()->drivebase.setDefaultCommand(defaultCommand));
     }
 }

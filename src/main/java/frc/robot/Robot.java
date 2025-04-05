@@ -98,6 +98,7 @@ public class Robot extends TimedRobot {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
 
+    /* 
     new Thread(() -> {
       UsbCamera camera = CameraServer.startAutomaticCapture();
       camera.setResolution(640, 480);
@@ -116,6 +117,7 @@ public class Robot extends TimedRobot {
         outputStream.putFrame(output);
       }
     }).start();
+    */
   }
 
   /**
