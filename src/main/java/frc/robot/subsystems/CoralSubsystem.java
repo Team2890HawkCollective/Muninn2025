@@ -110,6 +110,10 @@ public class CoralSubsystem extends SubsystemBase {
                 //.andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     }
 
+    public Command coralL4OutputCommand(){
+        return rotateToPositionCommand(Constants.Coral.RotationMotor.L4_CORAL_ENCODER_VALUE);
+    }
+
     public Command servoRotateToOpen() {
         return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)).andThen(()->Led.setColorCoralServoLights(Color.kTeal));
     }

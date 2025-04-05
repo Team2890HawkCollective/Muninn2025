@@ -82,6 +82,8 @@ public class Robot extends TimedRobot {
     m_CoralSubsystem = new CoralSubsystem();
     m_CoralSubsystem.servoRotateToClosed();
 
+    m_robotContainer.m_TargetingSubsystem.disableVisionUpdates(); // Disable Vision on initialization
+
     // Create a timer to disable motor brake a few seconds after disable. This will
     // let the robot stop
     // immediately when disabled, but then also let it be pushed more

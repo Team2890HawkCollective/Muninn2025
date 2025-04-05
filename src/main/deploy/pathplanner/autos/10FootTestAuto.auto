@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Station_2_DriveToReef_Coral_Upper"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Coral_Level_4_HalfCycle"
+            "pathName": "10FootTestPath"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Comp_Autos",
+  "folder": "Test_Autos",
   "choreoAuto": false
 }

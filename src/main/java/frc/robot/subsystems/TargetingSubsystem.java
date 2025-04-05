@@ -25,6 +25,7 @@ import com.pathplanner.lib.path.IdealStartingState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.Waypoint;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -125,6 +126,7 @@ public class TargetingSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Visible AprilTag TID", -1);
         SmartDashboard.putBoolean("Tracking AprilTag?", false);
         SmartDashboard.putBoolean("MegaTag2?", false);
+        SmartDashboard.putBoolean("Vision Updates?", false); // Indicator for when vision is/isnt enabled
     }
 
     @Override
@@ -139,10 +141,12 @@ public class TargetingSubsystem extends SubsystemBase {
 
     public void enableVisionUpdates(){
         visionUpdates = true;
+        SmartDashboard.putBoolean("Vision Updates?", true);
     }
 
     public void disableVisionUpdates(){
         visionUpdates = false;
+        SmartDashboard.putBoolean("Vision Updates?", false);
     }
 
     public Command updatePoseEstimationCommand() {
@@ -163,6 +167,8 @@ public class TargetingSubsystem extends SubsystemBase {
         // Publish Original Swerve Pose
         currentSwervePose.set(drivebase.getPose());
         autoBuilderPose.set(AutoBuilder.getCurrentPose());
+
+        SmartDashboard.putBoolean("Vision Updates?", visionUpdates); // Update the vision enable/disable indicator. Just a double check to ensure updates.
 
         double tagId = LimelightHelpers.getFiducialID(Constants.LimeLight.LIMELIGHT_NAME);
         LimelightHelpers.SetRobotOrientation(Constants.LimeLight.LIMELIGHT_NAME, drivebase.getYaw().getDegrees(), 0.0,
@@ -311,8 +317,8 @@ public class TargetingSubsystem extends SubsystemBase {
                     targetPose);
 
             PathConstraints constraints = new PathConstraints(
-                    3.0, // Max Velocity Per Second (Linear) (3 Default)
-                    3.0, // Max Acceleration Per Second (Linear) (3 Default)
+                    5.0, // Max Velocity Per Second (Linear) (3 Default)
+                    5.0, // Max Acceleration Per Second (Linear) (3 Default)
                     2 * Math.PI, // Max Angular Velocity Per Second (Rotational)
                     4 * Math.PI // Max Angular Acceleration Per Second (Rotational)
             );
@@ -332,10 +338,17 @@ public class TargetingSubsystem extends SubsystemBase {
             // Signal Pathfinding Is Now Controlling Drive
             Led.setColorAlignmentBlink(Color.kSkyBlue);
 
+            //Post Path To Field2d Widget
+            PathPlannerLogging.setLogActivePathCallback((poses)->{
+                m_field.getObject("path").setPoses(poses);
+            });
+
             lastPose = targetPose; // This is for transiting between locations.
 
             startPosePublisher.set(startingPose);
             targetPosePublisher.set(targetPose);
+
+            disableVisionUpdates(); // Disable vision during pathfinding, so as to not interfere with PathPlanner
 
             // return Commands.none();
             return AutoBuilder.followPath(path);

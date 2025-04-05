@@ -202,18 +202,18 @@ public class RobotContainer {
         // } else {
         // Elevator Stage Buttons
         leftButtons.button(1)
-                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6));
-                        //.andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                        //.andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
+                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
+                .andThen(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                        .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
         leftButtons.button(2)
-                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5));
-                       // .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                       // .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
+                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5)
+                .andThen(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand()).andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                        .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
         leftButtons.button(3)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4)
                         .andThen(m_AlgaeSubsystem.AlgaeStartCommand())
                         .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                        .andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L4
+                        .andThen(m_CoralSubsystem.coralL4OutputCommand())); // Coral L4
         leftButtons.button(4)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(3)
                         .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
@@ -232,10 +232,11 @@ public class RobotContainer {
 
         // Elevator Manual Control
         leftButtons.axisGreaterThan(1, 0.3).toggleOnTrue(m_ElevatorSubsystem.moveElevatorUpCommand())
-                .toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
+                .toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand().andThen(m_ElevatorSubsystem.holdPositionCommand()));
         leftButtons.axisLessThan(1, -0.3).toggleOnTrue(// m_AlgaeSubsystem.AlgaeStartCommand().andThen(
                 m_CoralSubsystem.servoRotateToClosed()
-                        .andThen(m_ElevatorSubsystem.moveElevatorDownCommand()))// )
+                        .andThen(m_ElevatorSubsystem.moveElevatorDownCommand())
+                        .andThen(m_ElevatorSubsystem.holdPositionCommand()))// )
                 .toggleOnFalse(m_ElevatorSubsystem.stopElevatorMotorCommand());
         rightButtons.button(7)
                 .onTrue(Commands.defer(() -> m_ElevatorSubsystem.holdPositionCommand(), Set.of(m_ElevatorSubsystem))); // Holds
@@ -247,10 +248,12 @@ public class RobotContainer {
                 m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
         rightButtons.button(9).onTrue(
                 m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+        rightButtons.button(3).onTrue(
+                m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.L4_CORAL_ENCODER_VALUE));
 
         // Algae
         rightButtons.axisGreaterThan(0, 0.3).onTrue(m_AlgaeSubsystem.AlgaeStartCommand()); // Start Position
-        rightButtons.axisLessThan(0, -0.3).onTrue(m_AlgaeSubsystem.AlgaeOutputCommand()); // Carry Position
+        rightButtons.axisLessThan(0, -0.3).onTrue(m_AlgaeSubsystem.AlgaeOutputCommand());//.andThen(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand())); // Carry Position
         rightButtons.axisGreaterThan(1, 0.3).toggleOnTrue(m_AlgaeSubsystem.manualAlgaeUpCommand())
                 .toggleOnFalse(m_AlgaeSubsystem.stopRotationMotorCommand()); // Manual Up
         rightButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.manualAlgaeDownCommand())
@@ -272,13 +275,13 @@ public class RobotContainer {
 
         // Assistant Driver Alignment Buttons
         rightButtons.button(10)
-                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
+                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left").andThen(()->m_TargetingSubsystem.enableVisionUpdates())); // Re-enable vision after the pathfind is complete.
         // .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
         rightButtons.button(11)
-                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
+                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center").andThen(()->m_TargetingSubsystem.enableVisionUpdates())); // Re-enable vision after the pathfind is complete.
         // .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
         rightButtons.button(12)
-                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right"));
+                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right").andThen(()->m_TargetingSubsystem.enableVisionUpdates())); // Re-enable vision after the pathfind is complete.
         // .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
 
         // Override
