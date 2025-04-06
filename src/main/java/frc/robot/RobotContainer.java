@@ -62,6 +62,8 @@ public class RobotContainer {
 
     public final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase);
 
+    public ShuffleboardDisplay m_shuffleboardDisplay = new ShuffleboardDisplay();
+
     public Command defaultCommand = Commands.none();
     // m_TargetingSubsystem.initializeLimeLight();
     /**

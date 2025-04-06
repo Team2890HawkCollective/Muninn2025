@@ -49,7 +49,6 @@ public class Robot extends TimedRobot {
   public RobotContainer m_robotContainer;
 
   private CoralSubsystem m_CoralSubsystem;
-  private ShuffleboardDisplay m_shuffleboardDisplay;
   private TargetingSubsystem m_TargetingSubsystem;
   private String m_choosenAutoMode;
 
@@ -74,9 +73,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    m_shuffleboardDisplay = new ShuffleboardDisplay();
-    m_shuffleboardDisplay.initiateDisplay();
-    m_shuffleboardDisplay.initializeAutoChooser();
+    m_robotContainer.m_shuffleboardDisplay.initiateDisplay();
+    m_robotContainer.m_shuffleboardDisplay.initializeAutoChooser();
 
     // close servo on startup
     m_CoralSubsystem = new CoralSubsystem();
@@ -180,7 +178,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_TargetingSubsystem.disableVisionUpdates();
 
     // m_robotContainer.getHomingCommand().schedule();
-    Command choosenAutoMode = m_shuffleboardDisplay.getAutonomousChoice();
+    Command choosenAutoMode = m_robotContainer.m_shuffleboardDisplay.getAutonomousChoice();
     SmartDashboard.putData("Selected Auto Mode", choosenAutoMode);
     m_autonomousCommand = choosenAutoMode;
     //m_autonomousCommand = m_shuffleboardDisplay.getAutonomousCommand();
