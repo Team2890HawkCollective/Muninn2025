@@ -110,6 +110,15 @@ public class CoralSubsystem extends SubsystemBase {
                 //.andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
     }
 
+    public Command coralL4OutputCommand() {
+        //return Commands.none();
+        return rotateToPositionCommand(Constants.Coral.RotationMotor.L4_POSITION_ENCODER_VALUE);
+        //.andThen(runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)))
+        //.andThen(runOnce(()->Led.setColorCoralServoLights(Color.kTeal)));
+                //.wait(3000)
+                //.andThen(() -> rotateToPosition(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE));
+    }
+
     public Command servoRotateToOpen() {
         return runOnce(() -> doorServo.setAngle(Constants.Coral.CoralServo.DOOR_OPEN_ANGLE)).andThen(()->Led.setColorCoralServoLights(Color.kTeal));
     }

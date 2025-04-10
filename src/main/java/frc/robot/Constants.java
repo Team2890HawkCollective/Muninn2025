@@ -89,11 +89,11 @@ public final class Constants {
 
     public static double BASE_STAGE_ENCODER_VALUE = 0.568913459777832;
     public static final double L1_CORAL_STAGE_ENCODER_DIFFERENCE = 10;
-    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -29.5; //-25.505441665649414; // Old Number  4.2342
+    public static final double L2_CORAL_STAGE_ENCODER_DIFFERENCE = -29; //-28.505441665649414; // Old Number  4.2342
     public static final double L3_CORAL_STAGE_ENCODER_DIFFERENCE = -42.540; //-46.79143524169922; // Old Number 6.3520
-    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -63.65; // Old Number 10.1144
-    public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = -6.1; // Get Values
-    public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = -22.7; // Get Values
+    public static final double L4_CORAL_STAGE_ENCODER_DIFFERENCE = -64.5; // Old Number 63.65
+    public static final double L2_ALGAE_STAGE_ENCODER_DIFFERENCE = -12.136439323425293; // Get Values
+    public static final double L3_ALGAE_STAGE_ENCODER_DIFFERENCE = -26.594308853149414; // Get Values
 
     public static final double[] STAGE_ENCODER_DIFFERENCES = {
         BASE_STAGE_ENCODER_VALUE,
@@ -195,6 +195,7 @@ public final class Constants {
       public static final int CORAL_MOTOR_ID = 61;
       public static final double START_POSITION_ENCODER_VALUE = 0.0; //-1.023809194564819; // This tries to not kill the ramp
       public static final double SCORE_POSITION_ENCODER_VALUE = -15.00000286102295;
+      public static final double L4_POSITION_ENCODER_VALUE = -17.0;
       // public static final double SCORE_POSITION_ENCODER_VALUE =
       // -17.214284896850586;
       public static final double PID_P = 0.05;
@@ -225,7 +226,7 @@ public final class Constants {
     public static final double OFFSET = Units.inchesToMeters(0.0); // In Inches
 
     public final class Rotation {
-      public static final double MANUAL_SPEED = .7;
+      public static final double MANUAL_SPEED = .60;
       public static final int ALGAE_ROTATION_MOTOR_ID = 60;
       public static final double START_POSITION_ENCODER_VALUE = 0;
       public static final double COLLECT_ENCODER_VALUE_POS = 73.09744262695312;
@@ -236,7 +237,7 @@ public final class Constants {
       //new algae encoders for new arm
       public static final double GROUND_PICKUP_ALGAE_ENCODER_VALUE = -21.38085174560547;
       public static final double PROCESSOR_ALGAE_ENCODER_VALUE = -16.59521484375;
-      public static final double COLLECT_ALGAE_ENCODER_VALUE = -3.738091468811035;
+      public static final double COLLECT_ALGAE_ENCODER_VALUE = -40.880531311035156;
 
 
 

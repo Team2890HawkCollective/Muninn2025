@@ -135,7 +135,7 @@ public class RobotContainer {
                 .andThen(m_CoralSubsystem.coralOutputCommand()));
         NamedCommands.registerCommand("Coral_Level_4_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(4)
                 .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                .andThen(m_CoralSubsystem.coralOutputCommand()));
+                .andThen(m_CoralSubsystem.coralL4OutputCommand()));
         NamedCommands.registerCommand("Algae_Level_1_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(5));
         NamedCommands.registerCommand("Algae_Level_2_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(6));
 
@@ -202,18 +202,18 @@ public class RobotContainer {
         // } else {
         // Elevator Stage Buttons
         leftButtons.button(1)
-                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6));
-                        //.andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                        //.andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
+                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
+                        .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                        .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L3
         leftButtons.button(2)
-                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5));
-                       // .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                       // .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
+                .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(5)
+                        .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
+                        .andThen(m_AlgaeSubsystem.AlgaeOutputCommand())); // Algae L2
         leftButtons.button(3)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(4)
                         .andThen(m_AlgaeSubsystem.AlgaeStartCommand())
                         .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
-                        .andThen(m_CoralSubsystem.coralOutputCommand())); // Coral L4
+                        .andThen(m_CoralSubsystem.coralL4OutputCommand())); // Coral L4
         leftButtons.button(4)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(3)
                         .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
