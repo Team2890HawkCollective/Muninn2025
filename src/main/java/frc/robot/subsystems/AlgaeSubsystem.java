@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+
 import com.revrobotics.spark.SparkMax;
 import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.spark.ClosedLoopSlot;
@@ -19,6 +21,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.util.Color;
 
 
@@ -204,6 +207,10 @@ public class AlgaeSubsystem extends SubsystemBase {
     public Command holdAlgaeCommand()
     {
         return runOnce(() -> holdAlgaeIntake());
+    }
+
+    public Command algaeFullCommand(){
+        return Commands.sequence(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY).andThen(AlgaeOutputCommand()));
     }
 
 }

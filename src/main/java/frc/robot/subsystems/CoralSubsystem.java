@@ -16,6 +16,8 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import com.playingwithfusion.TimeOfFlight;
 
 public class CoralSubsystem extends SubsystemBase {
@@ -136,5 +138,13 @@ public class CoralSubsystem extends SubsystemBase {
 
     public void zeroEncoder() {
         coralRotationalMotor.getEncoder().setPosition(0);
+    }
+
+    public Command coralFullCommand(int level){
+        if(level == 4){
+            return Commands.sequence(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY).andThen(coralL4OutputCommand()));
+        } else {
+            return Commands.sequence(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY).andThen(coralOutputCommand()));
+        }
     }
 }

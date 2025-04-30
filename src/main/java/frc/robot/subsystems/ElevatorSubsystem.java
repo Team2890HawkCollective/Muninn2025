@@ -123,7 +123,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void goToElevatorStage(int elevatorStageValue) {
-        elevator1PIDController.setReference(Constants.Elevator.STAGE_ENCODER_DIFFERENCES[elevatorStageValue] + Constants.Elevator.BASE_STAGE_ENCODER_VALUE, SparkFlex.ControlType.kPosition,ClosedLoopSlot.kSlot0);
+        if (elevatorStageValue != -1){
+            elevator1PIDController.setReference(Constants.Elevator.STAGE_ENCODER_DIFFERENCES[elevatorStageValue] + Constants.Elevator.BASE_STAGE_ENCODER_VALUE, SparkFlex.ControlType.kPosition,ClosedLoopSlot.kSlot0);
+        }
     }
 
     public Command goToHomeCommand() {

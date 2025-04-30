@@ -46,8 +46,8 @@ import swervelib.SwerveInputStream;
  * trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
-    private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
+    public final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
+    public final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
     public final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
     public final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
 
@@ -60,7 +60,7 @@ public class RobotContainer {
     public final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve"));
 
-    public final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase);
+    public final TargetingSubsystem m_TargetingSubsystem = new TargetingSubsystem(drivebase, this);
 
     public ShuffleboardDisplay m_shuffleboardDisplay = new ShuffleboardDisplay();
 
@@ -204,6 +204,7 @@ public class RobotContainer {
         // .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
         // assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())
         // .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
+        assistantDriverXbox.start().onTrue(Commands.defer(()->m_TargetingSubsystem.stringRunAuton(), Set.of(m_AlgaeSubsystem, m_TargetingSubsystem, m_CoralSubsystem, drivebase, m_ElevatorSubsystem)));
 
         // } else {
         // Elevator Stage Buttons

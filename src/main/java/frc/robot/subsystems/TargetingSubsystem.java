@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -10,11 +11,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.function.DoubleSupplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.ejml.dense.row.linsol.qr.LinearSolverQr_CDRM;
 
@@ -58,6 +63,8 @@ public class TargetingSubsystem extends SubsystemBase {
     private SwerveSubsystem swerveSub;
     private SwerveDrive drivebase;
 
+    private RobotContainer m_robotContainer; // Reference to the container
+
     private Pose2d lastPose; // Last Known Pose; Used for tranisting between locations.
     private boolean visionUpdates = false;
 
@@ -86,7 +93,8 @@ public class TargetingSubsystem extends SubsystemBase {
 
     private final SwerveDrivePoseEstimator visionPoseEstimator; // This is used for the Limelight alone, so it only takes updates from the LL. Required? No. This is for troubleshooting
 
-    public TargetingSubsystem(SwerveSubsystem driveSystem) {
+    public TargetingSubsystem(SwerveSubsystem driveSystem, RobotContainer m_robotContainer) {
+        this.m_robotContainer = m_robotContainer;
         this.drivebase = driveSystem.getSwerveDrive(); // Drivetrain OBJECT
         this.swerveSub = driveSystem; // The Drivetrain CLASS
         LimelightHelpers.SetFiducialIDFiltersOverride(Constants.LimeLight.LIMELIGHT_NAME, Constants.LimeLight.ALL_REEF_APRILTAGS); // Filter Out Non-Reef tags
@@ -461,4 +469,52 @@ public class TargetingSubsystem extends SubsystemBase {
         return finalPose;
     }
 
+    public Command stringRunAuton(){
+        String autonCode = m_robotContainer.m_shuffleboardDisplay.getAutonInputCode();
+        String[] autonCodes = autonCode.split("/");
+        DriverStation.reportError(autonCode, false);
+        for(String code : autonCodes){
+            String[] splitList = splitCode(code);
+            String location = "none";
+            if(splitList[2].equalsIgnoreCase("r")){
+                location = "left";
+            }
+            if(splitList[2].equalsIgnoreCase("r")){
+                location = "right";
+            }
+            if(splitList[2].equalsIgnoreCase("c")){
+                location = "center";
+            }
+            Command transitCommand = transitToTag(location, Integer.valueOf(splitList[0]));
+            Command elevatorCommand = m_robotContainer.m_ElevatorSubsystem.goToElevatorStageCommand(Integer.valueOf(splitList[3]));
+            Command manipulatorCommand = Commands.none();
+            if(splitList[1].equalsIgnoreCase("r")){ // R/r == REEF
+                if(Integer.valueOf(splitList[3]) >= 1 && Integer.valueOf(splitList[3]) <= 4){
+                    manipulatorCommand = m_robotContainer.m_CoralSubsystem.coralFullCommand(Integer.valueOf(splitList[3]));
+                } else if(Integer.valueOf(splitList[3]) >= 5 && Integer.valueOf(splitList[3]) <= 6){
+                    manipulatorCommand = m_robotContainer.m_AlgaeSubsystem.algaeFullCommand();
+                } else {
+                    manipulatorCommand = Commands.none();
+                }
+            }
+            Command fullCommand = Commands.sequence(transitCommand, elevatorCommand, manipulatorCommand);
+            CommandScheduler.getInstance().schedule(fullCommand);
+        }
+        return Commands.none();
+    }
+
+    private static String[] splitCode(String code){
+        String[] splitList = new String[4];
+        String regex = "(\\d{2})([A-Za-z])([A-Za-z])(\\d)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(code);
+        if(matcher.matches()){
+            splitList[0] = matcher.group(1); // April Tag (2 Digits!!! Ex. 06, 17, etc...)
+            splitList[1] = matcher.group(2); // Goal (Reef (R), Coral Station (C), Barge (B), Processor (P))
+            splitList[2] = matcher.group(3); // Reef ONLY!! L = Left, R = Right, C = Center
+            splitList[3] = matcher.group(4); // Reef ONLY!! Level: 1-4 are Coral, 5-6 are Algae, -1 is NO movement, 7 is Algae in Barge
+        }
+        return splitList;
+    }
 }
+
