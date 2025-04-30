@@ -188,7 +188,7 @@ public final class Constants {
     public static final double DISTANCE_FROM_CENTER = 0.2794; // In Meters (11 Inches)
 
     // Branches are 13 Inches apart, so 6.5 each from the center.
-    public static final double LEFT_BRANCH_OFFSET = Units.inchesToMeters(-19.5); // In Inches
+    public static final double LEFT_BRANCH_OFFSET = Units.inchesToMeters(-19.0); // In Inches
     public static final double RIGHT_BRANCH_OFFSET = Units.inchesToMeters(-1.25); // In Inches
 
     public final class RotationMotor {

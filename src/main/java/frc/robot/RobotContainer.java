@@ -291,11 +291,26 @@ public class RobotContainer {
                 .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right").andThen(()->m_TargetingSubsystem.enableVisionUpdates())); // Re-enable vision after the pathfind is complete.
         // .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
 
+        // Driver Alignment Buttons
+        driverXbox.povLeft()
+                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("left").andThen(()->m_TargetingSubsystem.enableVisionUpdates())); // Re-enable vision after the pathfind is complete.
+        // .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
+        driverXbox.povUp()
+                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("center").andThen(()->m_TargetingSubsystem.enableVisionUpdates())); // Re-enable vision after the pathfind is complete.
+        // .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
+        driverXbox.povRight()
+                .onTrue(m_TargetingSubsystem.autoAlignmentCommand("right").andThen(()->m_TargetingSubsystem.enableVisionUpdates())); // Re-enable vision after the pathfind is complete.
+        // .andThen(Commands.runOnce(()->Led.turnOffAlignmentLights())));
+
         // Override
         rightButtons.button(6).onTrue(manualOverrideCommand());
+        driverXbox.povDown().onTrue(manualOverrideCommand());
 
         rightButtons.button(4).onTrue(m_CoralSubsystem.servoRotateToOpen()); // Assist Driver Open Coral Servo
         rightButtons.button(5).onTrue(m_CoralSubsystem.servoRotateToClosed()); // Asist Driver Close Coral Servo
+
+        // Driver - String Auto
+        driverXbox.start().onTrue(Commands.defer(()->m_TargetingSubsystem.stringRunAuton(),Set.of(m_TargetingSubsystem)));
 
         // Lift Position Buttons
         // rightButtons.button(6).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.catchPosition));

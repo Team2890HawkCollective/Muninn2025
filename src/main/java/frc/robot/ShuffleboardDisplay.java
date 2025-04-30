@@ -40,7 +40,7 @@ public class ShuffleboardDisplay {
         universalModeChooser.addOption("Testing: Test Autos", "testing");
         universalModeChooser.addOption("Testing: All Autos", "allAutos");
         SmartDashboard.putData("Universal Mode Chooser", universalModeChooser);
-        SmartDashboard.putString("Auton Input Code", "None");
+        SmartDashboard.putString("Auton_Input_Code", "None");
         //genericEntryTest.setDouble(12.3);
     }
 
@@ -67,6 +67,6 @@ public class ShuffleboardDisplay {
     }
 
     public String getAutonInputCode() {
-        return SmartDashboard.getString("Auton Input Code", "None"); // Gets the Auton Input Code for pre-set movements
+        return SmartDashboard.getString("Auton_Input_Code", "None"); // Gets the Auton Input Code for pre-set movements
     }
 }
