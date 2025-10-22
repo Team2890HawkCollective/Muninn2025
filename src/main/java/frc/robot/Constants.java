@@ -56,7 +56,7 @@ public final class Constants {
   public static class OperatorConstants {
 
     // Joystick Deadband
-    public static final double DEADBAND = 0.3;
+    public static final double DEADBAND = 0.08;
     public static final double LEFT_Y_DEADBAND = 0.3;
     public static final double RIGHT_X_DEADBAND = 0.3;
     public static final double TURN_CONSTANT = 6;
@@ -257,9 +257,9 @@ public final class Constants {
 
     public final class Wheel {
       public static final int ALGAE_WHEEL_MOTOR_ID = 62;
-      public static final double WHEEL_INTAKE_SPEED = -0.5;
+      public static final double WHEEL_INTAKE_SPEED = -1.0;
       public static final double WHEEL_OUTPUT_SPEED = 1.0;
-      public static final double INTAKEN_ALGAE_WHEEL_CURRENT = 80;
+      public static final double INTAKEN_ALGAE_WHEEL_CURRENT = 60;
 
 
       // public static final int LIMIT_SWITCH_PORT = 3;
@@ -284,7 +284,7 @@ public final class Constants {
 
     public static final int[] ALL_REEF_APRILTAGS = { 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22 };
 
-    public static  final AprilTagFieldLayout APRILTAG_FIELD_LAYOUT = AprilTagFieldLayout
+    public static final AprilTagFieldLayout APRILTAG_FIELD_LAYOUT = AprilTagFieldLayout
       .loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
     public static final double BUMPER_WIDTH = Units.inchesToMeters(0.0); // Get This Value // Original: 2.75

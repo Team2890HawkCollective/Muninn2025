@@ -74,9 +74,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    m_shuffleboardDisplay = new ShuffleboardDisplay();
-    m_shuffleboardDisplay.initiateDisplay();
-    m_shuffleboardDisplay.initializeAutoChooser();
+    m_robotContainer.m_shuffleboardDisplay.initiateDisplay();
+    m_robotContainer.m_shuffleboardDisplay.initializeAutoChooser();
 
     // close servo on startup
     //m_CoralSubsystem = new CoralSubsystem();
@@ -89,13 +88,14 @@ public class Robot extends TimedRobot {
 
     // Turn On LEDs
     Led.initLED();
-    Led.setColor(Color.kGold);
+    //Led.setColor(Color.kGold);
     //Led.setColorBreathe(Color.kTeal, Color.kPink);
 
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
 
+    /* 
     new Thread(() -> {
       /*UsbCamera camera = CameraServer.startAutomaticCapture();
       camera.setResolution(640, 480);
@@ -112,8 +112,9 @@ public class Robot extends TimedRobot {
         }
         Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
         outputStream.putFrame(output);
-      }*/
+      }
     }).start();
+    */
   }
 
   /**
@@ -176,7 +177,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_TargetingSubsystem.disableVisionUpdates();
 
     // m_robotContainer.getHomingCommand().schedule();
-    Command choosenAutoMode = m_shuffleboardDisplay.getAutonomousChoice();
+    Command choosenAutoMode = m_robotContainer.m_shuffleboardDisplay.getAutonomousChoice();
     SmartDashboard.putData("Selected Auto Mode", choosenAutoMode);
     m_autonomousCommand = choosenAutoMode;
     //m_autonomousCommand = m_shuffleboardDisplay.getAutonomousCommand();

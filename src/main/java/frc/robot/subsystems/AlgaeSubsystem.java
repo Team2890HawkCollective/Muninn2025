@@ -7,16 +7,21 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+
 import com.revrobotics.spark.SparkMax;
 import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.util.Color;
 
 
@@ -26,9 +31,9 @@ public class AlgaeSubsystem extends SubsystemBase {
     private static SparkMaxConfig algaeRotationPIDConfig = new SparkMaxConfig();
     private static SparkClosedLoopController algaeRotationPIDController;
 
-    private static SparkMax algaeWheelMotor = new SparkMax(Constants.Algae.Wheel.ALGAE_WHEEL_MOTOR_ID,
+    private static SparkFlex algaeWheelMotor = new SparkFlex(Constants.Algae.Wheel.ALGAE_WHEEL_MOTOR_ID,
             MotorType.kBrushless);
-    private static SparkMaxConfig algaeWheelPIDConfig = new SparkMaxConfig();
+    private static SparkFlexConfig algaeWheelPIDConfig = new SparkFlexConfig();
     private static SparkClosedLoopController algaeWheelPIDController;
 
    // public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Algae.Wheel.TOF_SENSOR);
@@ -48,11 +53,12 @@ public class AlgaeSubsystem extends SubsystemBase {
                 .d(0, ClosedLoopSlot.kSlot1)
                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
-        algaeRotationPIDConfig.smartCurrentLimit(80);
+        algaeRotationPIDConfig.smartCurrentLimit(40);
         algaeRotationMotor.configure(algaeRotationPIDConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         algaeRotationPIDController = algaeRotationMotor.getClosedLoopController();
 
         algaeWheelPIDConfig.closedLoop.pid(.05, 0, 0);
+        algaeWheelPIDConfig.smartCurrentLimit(60);
         algaeWheelMotor.configure(algaeWheelPIDConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         algaeWheelPIDController = algaeWheelMotor.getClosedLoopController();
 
@@ -201,6 +207,10 @@ public class AlgaeSubsystem extends SubsystemBase {
     public Command holdAlgaeCommand()
     {
         return runOnce(() -> holdAlgaeIntake());
+    }
+
+    public Command algaeFullCommand(){
+        return Commands.sequence(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY).andThen(AlgaeOutputCommand()));
     }
 
 }

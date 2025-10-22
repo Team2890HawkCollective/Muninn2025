@@ -88,7 +88,7 @@ public class Led {
      */
     public static void setColorAlignment(Color color){
         LEDPattern blinker = LEDPattern.solid(color);
-        //blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
+        //blinker.blink(Seconds.of(.25));
         blinker.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
     }
@@ -99,8 +99,8 @@ public class Led {
      */
     public static void setColorAlignmentBlink(Color color){
         LEDPattern blinker = LEDPattern.solid(color);
-        blinker.blink(Seconds.of(1.5), Seconds.of(1.5));
-        blinker.applyTo(alignmentLEDS);
+        LEDPattern pattern = blinker.blink(Seconds.of(0.125));
+        pattern.applyTo(alignmentLEDS);
         signalLights.setData(signalLightsBuffer);
     }
 
