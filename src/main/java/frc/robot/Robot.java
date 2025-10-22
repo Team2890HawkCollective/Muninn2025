@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 
   public RobotContainer m_robotContainer;
 
-  private CoralSubsystem m_CoralSubsystem;
+  //private CoralSubsystem m_CoralSubsystem;
   private ShuffleboardDisplay m_shuffleboardDisplay;
   private TargetingSubsystem m_TargetingSubsystem;
   private String m_choosenAutoMode;
@@ -79,8 +79,8 @@ public class Robot extends TimedRobot {
     m_shuffleboardDisplay.initializeAutoChooser();
 
     // close servo on startup
-    m_CoralSubsystem = new CoralSubsystem();
-    m_CoralSubsystem.servoRotateToClosed();
+    //m_CoralSubsystem = new CoralSubsystem();
+    //m_CoralSubsystem.servoRotateToClosed();
 
     // Create a timer to disable motor brake a few seconds after disable. This will
     // let the robot stop
@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
     }
 
     new Thread(() -> {
-      UsbCamera camera = CameraServer.startAutomaticCapture();
+      /*UsbCamera camera = CameraServer.startAutomaticCapture();
       camera.setResolution(640, 480);
 
       CvSink cvSink = CameraServer.getVideo();
@@ -112,7 +112,7 @@ public class Robot extends TimedRobot {
         }
         Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
         outputStream.putFrame(output);
-      }
+      }*/
     }).start();
   }
 
@@ -169,8 +169,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.setMotorBrake(true);
 
     // Zero Encoders
-    m_robotContainer.m_CoralSubsystem.zeroEncoder(); // Coralp OP\
-    m_robotContainer.m_AlgaeSubsystem.zeroEncoder(); // Algae
+    // m_robotContainer.m_CoralSubsystem.zeroEncoder(); // Coralp OP\
+    // m_robotContainer.m_AlgaeSubsystem.zeroEncoder(); // Algae
     m_robotContainer.drivebase.zeroGyroWithAlliance();
 
     m_robotContainer.m_TargetingSubsystem.disableVisionUpdates();

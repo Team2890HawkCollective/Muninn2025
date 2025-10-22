@@ -46,10 +46,10 @@ import swervelib.SwerveInputStream;
  * trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
-    private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
+    //private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
+    //private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
     public final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
-    public final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
+    //public final AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
 
     private final static CommandJoystick leftButtons = new CommandJoystick(3);
     private final static CommandJoystick rightButtons = new CommandJoystick(2);
@@ -67,13 +67,14 @@ public class RobotContainer {
      * by angular velocity.
      */
     SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-            () -> driverXbox.getLeftY() * -1, // Joystick Forward Is Negative, the -1 Is Required To Flip This
-            () -> driverXbox.getLeftX() * -1)
-            .withControllerRotationAxis(() -> driverXbox.getRightX() * -1)
+            () -> driverXbox.getLeftY(), // Joystick Forward Is Negative, the -1 Is Required To Flip This
+            () -> driverXbox.getLeftX())
+            .withControllerRotationAxis(() -> driverXbox.getRightX() *-1)
             .deadband(OperatorConstants.DEADBAND)
             .scaleTranslation(0.8)
             .allianceRelativeControl(true);
 
+        
     /**
      * Clone's the angular velocity input stream and converts it to a fieldRelative
      * input stream.
@@ -87,8 +88,8 @@ public class RobotContainer {
      * Clone's the angular velocity input stream and converts it to a robotRelative
      * input stream.
      */
-    SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
-            .allianceRelativeControl(false);
+    SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(false)
+            .allianceRelativeControl(true);
 
     SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
             () -> -driverXbox.getLeftY(),
@@ -125,9 +126,10 @@ public class RobotContainer {
         DriverStation.silenceJoystickConnectionWarning(true);
         NamedCommands.registerCommand("test", Commands.print("I EXIST"));
 
+        NamedCommands.registerCommand("Launch_Coral", m_CoralSubsystem.shootCoralCommand(Constants.Coral.LAUNCH_CORAL_SPEED).andThen(new WaitCommand(2)).andThen(m_CoralSubsystem.shootCoralCommand(0)));
         // Autonomous Command Registration
 
-        NamedCommands.registerCommand("Coral_Level_2_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(2)
+        /* NamedCommands.registerCommand("Coral_Level_2_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(2)
                 .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
                 .andThen(m_CoralSubsystem.coralOutputCommand()));
         NamedCommands.registerCommand("Coral_Level_3_HalfCycle", m_ElevatorSubsystem.goToElevatorStageCommand(3)
@@ -146,6 +148,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("openCoralServo", m_CoralSubsystem.servoRotateToOpen());
         NamedCommands.registerCommand("coralIntake", m_CoralSubsystem.coralIntakeCommand());
         NamedCommands.registerCommand("intakeAlgae", m_AlgaeSubsystem.moveInputAlgaeWheelsCommand());
+        */
     }
 
     /**
@@ -173,6 +176,8 @@ public class RobotContainer {
         Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
                 driveDirectAngleKeyboard);
 
+        driverXbox.leftTrigger().whileTrue(m_CoralSubsystem.shootCoralCommand(-.2)).onFalse(m_CoralSubsystem.shootCoralCommand(0));
+        driverXbox.rightTrigger().whileTrue(m_CoralSubsystem.shootCoralCommand(Constants.Coral.LAUNCH_CORAL_SPEED)).onFalse(m_CoralSubsystem.shootCoralCommand(0));
         // if(Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")){
         // if(ShuffleboardDisplay.getControlModeChoice().equalsIgnoreCase("manual")){
         // Assistant Driver Manual Control
@@ -180,7 +185,7 @@ public class RobotContainer {
                 //.onFalse(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Up
         //assistantDriverXbox.a().whileTrue(m_ElevatorSubsystem.moveElevatorDownCommand())
                 //.onFalse(m_ElevatorSubsystem.stopElevatorMotorCommand()); // Manual Elevator Down
-        assistantDriverXbox.y().whileTrue(m_AlgaeSubsystem.testManualAlgaeRotateUpCommand()).onFalse(m_AlgaeSubsystem.stopRotationMotorCommand());
+        /* assistantDriverXbox.y().whileTrue(m_AlgaeSubsystem.testManualAlgaeRotateUpCommand()).onFalse(m_AlgaeSubsystem.stopRotationMotorCommand());
         assistantDriverXbox.a().whileTrue(m_AlgaeSubsystem.testManualAlgaeRotateDownCommand()).onFalse(m_AlgaeSubsystem.stopRotationMotorCommand());
         assistantDriverXbox.b().onTrue(m_ElevatorSubsystem.stopElevatorMotorCommand());
         assistantDriverXbox.povLeft().onTrue(m_AlgaeSubsystem.AlgaeStartCommand()); // Algae Start Position
@@ -194,6 +199,7 @@ public class RobotContainer {
         assistantDriverXbox.rightBumper()
                 .onTrue(m_CoralSubsystem
                         .rotateToPositionCommand(Constants.Coral.RotationMotor.SCORE_POSITION_ENCODER_VALUE));
+                        */
         // assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToCatchPositionCommand())
         // .onFalse(m_LiftSubsystem.stopLiftMotorCommand());
         // assistantDriverXbox.leftTrigger().onTrue(m_LiftSubsystem.moveToStartPositionCommand())
@@ -201,6 +207,7 @@ public class RobotContainer {
 
         // } else {
         // Elevator Stage Buttons
+        /*
         leftButtons.button(1)
                 .onTrue(m_ElevatorSubsystem.goToElevatorStageCommand(6)
                         .andThen(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY))
@@ -255,7 +262,7 @@ public class RobotContainer {
                 .toggleOnFalse(m_AlgaeSubsystem.stopRotationMotorCommand()); // Manual Up
         rightButtons.axisLessThan(1, -0.3).toggleOnTrue(m_AlgaeSubsystem.manualAlgaeDownCommand())
                 .toggleOnFalse(m_AlgaeSubsystem.stopRotationMotorCommand()); // Manual Down
-
+*\
         /*
          * // 4 Direction Joystick
          * rightButtons.axisGreaterThan(1,
@@ -284,8 +291,8 @@ public class RobotContainer {
         // Override
         rightButtons.button(6).onTrue(manualOverrideCommand());
 
-        rightButtons.button(4).onTrue(m_CoralSubsystem.servoRotateToOpen()); // Assist Driver Open Coral Servo
-        rightButtons.button(5).onTrue(m_CoralSubsystem.servoRotateToClosed()); // Asist Driver Close Coral Servo
+       // rightButtons.button(4).onTrue(m_CoralSubsystem.servoRotateToOpen()); // Assist Driver Open Coral Servo
+        //rightButtons.button(5).onTrue(m_CoralSubsystem.servoRotateToClosed()); // Asist Driver Close Coral Servo
 
         // Lift Position Buttons
         // rightButtons.button(6).onTrue(m_LiftSubsystem.moveToPositionCommand(Constants.Lift.catchPosition));
@@ -297,10 +304,10 @@ public class RobotContainer {
 
         // rightButtons.button(6).onTrue(m_TargetingSubsystem.pathfindTest());
         // Driver Controls
-        driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Close Coral Servo
-        driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen());// .andThen(new
+       // driverXbox.leftBumper().onTrue(m_CoralSubsystem.servoRotateToClosed()); // Close Coral Servo
+       // driverXbox.rightBumper().onTrue(m_CoralSubsystem.servoRotateToOpen());// .andThen(new
                                                                                 // WaitCommand(1)).andThen(m_CoralSubsystem.rotateToPositionCommand(Constants.Coral.RotationMotor.START_POSITION_ENCODER_VALUE)));
-                                                                                // // Open Coral Servo
+        /*                                                                // // Open Coral Servo
 
         driverXbox.leftTrigger().whileTrue(m_AlgaeSubsystem.moveInputAlgaeWheelsCommand());
                 //.onFalse(m_AlgaeSubsystem.stopAlgaeWheelsCommand()); // Intake Algae
@@ -320,7 +327,7 @@ public class RobotContainer {
                 ).onFalse(m_LiftSubsystem.stopLiftMotorCommand()
                 // .andThen(m_LiftSubsystem.lockRatchetCommand())
                 );
-
+*/
         // Driver Alignment Controls
         // driverXbox.povLeft().onTrue(m_TargetingSubsystem.autoAlignmentCommand("left"));
         // driverXbox.povUp().onTrue(m_TargetingSubsystem.autoAlignmentCommand("center"));
@@ -329,7 +336,7 @@ public class RobotContainer {
         if (RobotBase.isSimulation()) {
             drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
         } else {
-            drivebase.setDefaultCommand(driveRobotOrientedAngularVelocity);
+            drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
         }
 
         if (Robot.isSimulation()) {
@@ -376,11 +383,11 @@ public class RobotContainer {
         return drivebase.getAutonomousCommand("New Auto");
     }
 
-    public Command getHomingCommand() {
+   /*  public Command getHomingCommand() {
         // An example command will be run in autonomous
         return m_ElevatorSubsystem.goToHomeCommand();
     }
-
+*/
     public void setMotorBrake(boolean brake) {
         drivebase.setMotorBrake(brake);
     }
@@ -407,9 +414,9 @@ public class RobotContainer {
 
     public void manualOverride() {
         CommandScheduler.getInstance().cancelAll();
-        m_ElevatorSubsystem.stopElevatorMotor();
-        m_LiftSubsystem.stopLiftMotor();
-        m_AlgaeSubsystem.stopWheels();
-        m_AlgaeSubsystem.stopRotationMotor();
+       // m_ElevatorSubsystem.stopElevatorMotor();
+       // m_LiftSubsystem.stopLiftMotor();
+       // m_AlgaeSubsystem.stopWheels();
+       // m_AlgaeSubsystem.stopRotationMotor();
     }
 }

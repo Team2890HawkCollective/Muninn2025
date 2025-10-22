@@ -36,7 +36,7 @@ public final class Constants {
   public static final double ROBOT_MASS = 48.1442941; // 106.14 Lbs
   public static final Matter CHASSIS = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
-  public static final double MAX_SPEED = Units.feetToMeters(14.5);
+  public static final double MAX_SPEED = Units.feetToMeters(10);
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
   // public static final class AutonConstants
@@ -70,7 +70,7 @@ public final class Constants {
   }
 
   public final class Elevator {
-    public static final int ELEVATOR_MOTOR1_ID = 40;
+    public static final int ELEVATOR_MOTOR1_ID = 30;
     public static final int ELEVATOR_MOTOR2_ID = 41;
 
     public static final double DEADZONE = 0.1;
@@ -190,9 +190,12 @@ public final class Constants {
     // Branches are 13 Inches apart, so 6.5 each from the center.
     public static final double LEFT_BRANCH_OFFSET = Units.inchesToMeters(-17.5); // In Inches
     public static final double RIGHT_BRANCH_OFFSET = Units.inchesToMeters(-4.25); // In Inches
+    public static final double LAUNCH_CORAL_SPEED = -.65;
+
 
     public final class RotationMotor {
-      public static final int CORAL_MOTOR_ID = 61;
+      public static final int CORAL_MOTOR_ID = 39;
+
       public static final double START_POSITION_ENCODER_VALUE = 0.0; //-1.023809194564819; // This tries to not kill the ramp
       public static final double SCORE_POSITION_ENCODER_VALUE = -15.00000286102295;
       public static final double L4_POSITION_ENCODER_VALUE = -17.0;
@@ -227,7 +230,7 @@ public final class Constants {
 
     public final class Rotation {
       public static final double MANUAL_SPEED = .60;
-      public static final int ALGAE_ROTATION_MOTOR_ID = 60;
+      public static final int ALGAE_ROTATION_MOTOR_ID = 0;
       public static final double START_POSITION_ENCODER_VALUE = 0;
       public static final double COLLECT_ENCODER_VALUE_POS = 73.09744262695312;
       public static final double CARRY_ENCODER_VALUE = 24.571;
