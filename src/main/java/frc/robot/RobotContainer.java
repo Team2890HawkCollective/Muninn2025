@@ -72,8 +72,8 @@ public class RobotContainer {
          * by angular velocity.
          */
         SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                        () -> driverXbox.getLeftY(), // Joystick Forward Is Negative, the -1 Is Required To Flip This
-                        () -> driverXbox.getLeftX())
+                        () -> driverXbox.getLeftY()*-1, // Joystick Forward Is Negative, the -1 Is Required To Flip This
+                        () -> driverXbox.getLeftX()*-1)
                         .withControllerRotationAxis(() -> driverXbox.getRightX() * -1)
                         .deadband(OperatorConstants.DEADBAND)
                         .scaleTranslation(0.8)
@@ -114,7 +114,7 @@ public class RobotContainer {
                                                         2),
                                         () -> Math.cos(
                                                         driverXbox.getRawAxis(
-                                                                        2) *
+                                            2) *
                                                                         Math.PI)
                                                         *
                                                         (Math.PI *
@@ -188,15 +188,11 @@ public class RobotContainer {
                 Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
                 Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
                 Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
-                Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(
-                                driveDirectAngle);
+                Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
                 Command driveFieldOrientedDirectAngleKeyboard = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
-                Command driveFieldOrientedAnglularVelocityKeyboard = drivebase
-                                .driveFieldOriented(driveAngularVelocityKeyboard);
-                Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
-                                driveDirectAngleKeyboard);
+                Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
+                Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleKeyboard);
 
-                defaultCommand = driveRobotOrientedAngularVelocity;
 
                 driverXbox.leftTrigger().whileTrue(m_CoralSubsystem.shootCoralCommand(-.2))
                                 .onFalse(m_CoralSubsystem.shootCoralCommand(0));
