@@ -79,6 +79,8 @@ public class RobotContainer {
                         .scaleTranslation(0.8)
                         .allianceRelativeControl(true);
 
+        
+
         /**
          * Clone's the angular velocity input stream and converts it to a fieldRelative
          * input stream.
@@ -92,8 +94,8 @@ public class RobotContainer {
          * Clone's the angular velocity input stream and converts it to a robotRelative
          * input stream.
          */
-        SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(false)
-                        .allianceRelativeControl(true);
+        //SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(false)
+                        //.allianceRelativeControl(true);
 
         SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
                         () -> -driverXbox.getLeftY(),
@@ -103,6 +105,7 @@ public class RobotContainer {
                         .deadband(OperatorConstants.DEADBAND)
                         .scaleTranslation(0.8)
                         .allianceRelativeControl(true);
+
         // Derive the heading axis with math!
         SwerveInputStream driveDirectAngleKeyboard = driveAngularVelocityKeyboard.copy()
                         .withControllerHeadingAxis(() -> Math.sin(
@@ -132,7 +135,7 @@ public class RobotContainer {
 
                 NamedCommands.registerCommand("Launch_Coral",
                                 m_CoralSubsystem.shootCoralCommand(Constants.Coral.LAUNCH_CORAL_SPEED)
-                                                .andThen(new WaitCommand(2))
+                                                .andThen(new WaitCommand(1))
                                                 .andThen(m_CoralSubsystem.shootCoralCommand(0)));
                 // Autonomous Command Registration
 
@@ -187,7 +190,7 @@ public class RobotContainer {
         private void configureBindings() {
                 Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
                 Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
-                Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
+                //Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
                 Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
                 Command driveFieldOrientedDirectAngleKeyboard = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
                 Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
@@ -199,6 +202,9 @@ public class RobotContainer {
                 driverXbox.rightTrigger()
                                 .whileTrue(m_CoralSubsystem.shootCoralCommand(Constants.Coral.LAUNCH_CORAL_SPEED))
                                 .onFalse(m_CoralSubsystem.shootCoralCommand(0));
+
+
+                driverXbox.x().onTrue(drivebase.ZERO_GYRO());
                 // if(Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")){
                 // if(ShuffleboardDisplay.getControlModeChoice().equalsIgnoreCase("manual")){
                 // Assistant Driver Manual Control

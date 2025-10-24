@@ -555,7 +555,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public void resetOdometry(Pose2d initialHolonomicPose) {
     swerveDrive.resetOdometry(initialHolonomicPose);
   }
-
   /**
    * Gets the current pose (position and rotation) of the robot, as reported by
    * odometry.
@@ -592,6 +591,10 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveDrive.zeroGyro();
   }
 
+  public Command ZERO_GYRO(){
+    return runOnce(()->zeroGyro());
+  }
+
   /**
    * Checks if the alliance is red, defaults to false if alliance isn't available.
    *
@@ -613,10 +616,10 @@ public class SwerveSubsystem extends SubsystemBase {
     if (isRedAlliance()) {
       zeroGyro();
       // Set the pose 180 degrees
-     resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
+     resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
     } else {
       zeroGyro();
-      resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
+      resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
     }
   }
 
