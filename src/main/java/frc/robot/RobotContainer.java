@@ -66,6 +66,7 @@ public class RobotContainer {
         public ShuffleboardDisplay m_shuffleboardDisplay = new ShuffleboardDisplay();
 
         public Command defaultCommand = Commands.none();
+
         // m_TargetingSubsystem.initializeLimeLight();
         /**
          * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -94,8 +95,8 @@ public class RobotContainer {
          * Clone's the angular velocity input stream and converts it to a robotRelative
          * input stream.
          */
-        //SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(false)
-                        //.allianceRelativeControl(true);
+        SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
+                        .allianceRelativeControl(false);
 
         SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
                         () -> -driverXbox.getLeftY(),
@@ -134,7 +135,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("test", Commands.print("I EXIST"));
 
                 NamedCommands.registerCommand("Launch_Coral",
-                                m_CoralSubsystem.shootCoralCommand(Constants.Coral.LAUNCH_CORAL_SPEED)
+                                m_CoralSubsystem.shootCoralCommand(-.35)
                                                 .andThen(new WaitCommand(1))
                                                 .andThen(m_CoralSubsystem.shootCoralCommand(0)));
                 // Autonomous Command Registration
@@ -190,21 +191,21 @@ public class RobotContainer {
         private void configureBindings() {
                 Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
                 Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
-                //Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
+                Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
                 Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
                 Command driveFieldOrientedDirectAngleKeyboard = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
                 Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
                 Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleKeyboard);
 
 
-                driverXbox.leftTrigger().whileTrue(m_CoralSubsystem.shootCoralCommand(-.2))
+                driverXbox.leftTrigger().whileTrue(m_CoralSubsystem.shootCoralCommand(.1))
                                 .onFalse(m_CoralSubsystem.shootCoralCommand(0));
                 driverXbox.rightTrigger()
                                 .whileTrue(m_CoralSubsystem.shootCoralCommand(Constants.Coral.LAUNCH_CORAL_SPEED))
                                 .onFalse(m_CoralSubsystem.shootCoralCommand(0));
 
 
-                driverXbox.x().onTrue(drivebase.ZERO_GYRO());
+                //driverXbox.x().onTrue(drivebase.ZERO_GYRO());
                 // if(Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")){
                 // if(ShuffleboardDisplay.getControlModeChoice().equalsIgnoreCase("manual")){
                 // Assistant Driver Manual Control
@@ -460,7 +461,7 @@ public class RobotContainer {
                 if (RobotBase.isSimulation()) {
                         drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
                 } else {
-                        drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+                        drivebase.setDefaultCommand(driveRobotOrientedAngularVelocity);
                 }
 
                 if (Robot.isSimulation()) {

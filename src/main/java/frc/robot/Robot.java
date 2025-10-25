@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.Led;
 import frc.robot.subsystems.TargetingSubsystem;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   public RobotContainer m_robotContainer;
+  public SwerveSubsystem m_swerve;
 
   //private CoralSubsystem m_CoralSubsystem;
   private ShuffleboardDisplay m_shuffleboardDisplay;
@@ -197,6 +199,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
