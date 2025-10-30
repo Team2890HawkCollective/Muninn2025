@@ -1,0 +1,216 @@
+package frc.robot.subsystems;
+
+import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+
+import com.revrobotics.spark.SparkMax;
+import com.playingwithfusion.TimeOfFlight;
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj.util.Color;
+
+
+public class AlgaeSubsystem extends SubsystemBase {
+    private static SparkMax algaeRotationMotor = new SparkMax(Constants.Algae.Rotation.ALGAE_ROTATION_MOTOR_ID,
+            MotorType.kBrushless);
+    private static SparkMaxConfig algaeRotationPIDConfig = new SparkMaxConfig();
+    private static SparkClosedLoopController algaeRotationPIDController;
+
+    private static SparkFlex algaeWheelMotor = new SparkFlex(Constants.Algae.Wheel.ALGAE_WHEEL_MOTOR_ID,
+            MotorType.kBrushless);
+    private static SparkFlexConfig algaeWheelPIDConfig = new SparkFlexConfig();
+    private static SparkClosedLoopController algaeWheelPIDController;
+
+   // public TimeOfFlight TOFSensor = new TimeOfFlight(Constants.Algae.Wheel.TOF_SENSOR);
+
+    public AlgaeSubsystem() {
+        algaeRotationPIDConfig.closedLoop
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                // Set PID values for position control. We don't need to pass a closed loop
+                // slot, as it will default to slot 0.
+                .p(Constants.Algae.Rotation.PID_P)
+                .i(Constants.Algae.Rotation.PID_I)
+                .d(Constants.Algae.Rotation.PID_D)
+                .outputRange(-1, 1)
+                // Set PID values for velocity control in slot 1
+                .p(0.0001, ClosedLoopSlot.kSlot1)
+                .i(0, ClosedLoopSlot.kSlot1)
+                .d(0, ClosedLoopSlot.kSlot1)
+                .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
+                .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+        algaeRotationPIDConfig.smartCurrentLimit(40);
+        algaeRotationMotor.configure(algaeRotationPIDConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        algaeRotationPIDController = algaeRotationMotor.getClosedLoopController();
+
+        algaeWheelPIDConfig.closedLoop.pid(.05, 0, 0);
+        algaeWheelPIDConfig.smartCurrentLimit(60);
+        algaeWheelMotor.configure(algaeWheelPIDConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        algaeWheelPIDController = algaeWheelMotor.getClosedLoopController();
+
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler
+        // algaeWheelMotor.getOutputCurrent();
+        SmartDashboard.putNumber("Algae Relative Encoder", algaeRotationMotor.getEncoder().getPosition());
+        // SmartDashboard.putNumber("Algae TOF Distance", TOFSensor.getRange());
+        //manualAlgaeRotation();
+    }
+
+    public void testManualAlgaeRotateUp()
+    {
+        algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED);
+    }
+    public void testManualAlgaeRotateDown()
+    {
+        algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*-1);
+    }
+
+    public Command testManualAlgaeRotateUpCommand()
+    {
+        return runOnce(() -> testManualAlgaeRotateUp());
+    }
+
+    public Command testManualAlgaeRotateDownCommand()
+    {
+        return runOnce(() -> testManualAlgaeRotateDown());
+    }
+
+
+    public void manualAlgaeRotation() {
+        if (Constants.ShuffleboardConstants.CONTROL_MODE.equalsIgnoreCase("manual")) {
+            double assistDriverJoystickY = RobotContainer.getAssistantDriverXbox().getLeftY();
+            if (assistDriverJoystickY != 0 && Math.abs(assistDriverJoystickY) > .8) {
+                algaeRotationMotor.set(assistDriverJoystickY);
+            } else {
+                algaeRotationMotor.set(0);
+            }
+        } else {
+            double leftButtonsJoystickY = RobotContainer.getLeftButtons().getY();
+            if (leftButtonsJoystickY == -1.00) {
+                algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED * -1);
+            } else if (leftButtonsJoystickY == 1.00) {
+                algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED);
+            } else {
+                algaeRotationMotor.set(0);
+            }
+        }
+    }
+
+    public Command rotateToPositionCommand(double encoderValue) {
+        return runOnce(() -> rotateToPosition(encoderValue));
+    }
+
+    public void rotateToPosition(double encoderValue) {
+        algaeRotationPIDController.setReference(encoderValue, SparkMax.ControlType.kPosition);
+    }
+
+    public Command AlgaeCarryCommand() {
+        return rotateToPositionCommand(Constants.Algae.Rotation.CARRY_ENCODER_VALUE);
+
+    }
+
+    public Command AlgaeOutputCommand() {
+        return rotateToPositionCommand(Constants.Algae.Rotation.COLLECT_ALGAE_ENCODER_VALUE);
+    }
+
+    public Command AlgaeStartCommand() {
+        return rotateToPositionCommand(Constants.Algae.Rotation.START_POSITION_ENCODER_VALUE);
+    }
+
+    public Command algaeLiftCommand(){
+        return rotateToPositionCommand(Constants.Algae.Rotation.PROCESSOR_ENCODER_VALUE);
+    }
+
+    public Command moveInputAlgaeWheelsCommand() {
+        return run(() -> moveInputAlgaeWheels()).until(() -> algaeWheelMotor.getOutputCurrent() >= Constants.Algae.Wheel.INTAKEN_ALGAE_WHEEL_CURRENT).andThen(holdAlgaeCommand());//.andThen(() -> Led.setColorBlink(Color.kLimeGreen));
+    }
+
+    public Command moveOutputAlgaeWheelsCommand() {
+        return runOnce(() -> moveOutputAlgaeWheels());
+    }
+
+    public Command stopAlgaeWheelsCommand() {
+        return runOnce(() -> stopWheels());
+    }
+
+    public void stopRotationMotor() {
+        algaeRotationMotor.set(0);
+    }
+
+    public Command stopRotationMotorCommand() {
+        return runOnce(() -> stopRotationMotor());
+    }
+
+    public void moveInputAlgaeWheels() {
+        //if (TOFSensor.getRange() > Constants.Algae.Wheel.TOF_DISTANCE) {
+            algaeWheelMotor.set(Constants.Algae.Wheel.WHEEL_INTAKE_SPEED);
+        //} else {
+            //algaeWheelMotor.set(0);
+        //}
+    }
+
+    public void moveOutputAlgaeWheels() {
+        algaeWheelMotor.set(Constants.Algae.Wheel.WHEEL_OUTPUT_SPEED);
+    }
+
+    public void stopWheels() {
+        algaeWheelMotor.set(0);
+    }
+
+    public Command joystickRotateAlgaeCommand(double joystickY) {
+        return run(() -> joystickRotateAlgae(joystickY))
+                .onlyWhile(() -> (Math.abs(joystickY) > Constants.Algae.Rotation.DEADZONE))
+                .andThen(() -> stopRotationMotor());
+    }
+
+    public void joystickRotateAlgae(double speed) {
+        algaeWheelMotor.set(speed);
+    }
+
+    public Command manualAlgaeUpCommand(){
+        return runOnce(()->algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*1));
+    }
+
+    public Command manualAlgaeDownCommand(){
+        return runOnce(()->algaeRotationMotor.set(Constants.Algae.Rotation.MANUAL_SPEED*-1));
+    }
+
+    public void zeroEncoder(){
+        algaeRotationMotor.getEncoder().setPosition(0);
+    }
+
+
+    //hold wheel positions
+    public void holdAlgaeIntake()
+    {
+       
+        algaeWheelPIDController.setReference(algaeWheelMotor.getEncoder().getPosition(), SparkMax.ControlType.kPosition);
+    }
+
+    public Command holdAlgaeCommand()
+    {
+        return runOnce(() -> holdAlgaeIntake());
+    }
+
+    public Command algaeFullCommand(){
+        return Commands.sequence(new WaitCommand(Constants.Coral.RotationMotor.ROTATE_DELAY).andThen(AlgaeOutputCommand()));
+    }
+
+}
