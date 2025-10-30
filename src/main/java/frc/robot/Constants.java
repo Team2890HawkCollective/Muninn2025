@@ -190,7 +190,7 @@ public final class Constants {
     // Branches are 13 Inches apart, so 6.5 each from the center.
     public static final double LEFT_BRANCH_OFFSET = Units.inchesToMeters(-17.5); // In Inches
     public static final double RIGHT_BRANCH_OFFSET = Units.inchesToMeters(-4.25); // In Inches
-    public static final double LAUNCH_CORAL_SPEED = -.7;
+    public static final double LAUNCH_CORAL_SPEED = -.5;
 
 
     public final class RotationMotor {

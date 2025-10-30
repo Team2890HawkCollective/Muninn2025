@@ -95,8 +95,8 @@ public class RobotContainer {
          * Clone's the angular velocity input stream and converts it to a robotRelative
          * input stream.
          */
-        SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
-                        .allianceRelativeControl(false);
+        SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(false)
+                        .allianceRelativeControl(true);
 
         SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
                         () -> -driverXbox.getLeftY(),
@@ -198,7 +198,7 @@ public class RobotContainer {
                 Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleKeyboard);
 
 
-                driverXbox.leftTrigger().whileTrue(m_CoralSubsystem.shootCoralCommand(.1))
+                driverXbox.leftTrigger().whileTrue(m_CoralSubsystem.shootCoralCommand(.3))
                                 .onFalse(m_CoralSubsystem.shootCoralCommand(0));
                 driverXbox.rightTrigger()
                                 .whileTrue(m_CoralSubsystem.shootCoralCommand(Constants.Coral.LAUNCH_CORAL_SPEED))
@@ -461,7 +461,7 @@ public class RobotContainer {
                 if (RobotBase.isSimulation()) {
                         drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
                 } else {
-                        drivebase.setDefaultCommand(driveRobotOrientedAngularVelocity);
+                        drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
                 }
 
                 if (Robot.isSimulation()) {
